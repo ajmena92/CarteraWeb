@@ -4,17 +4,21 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Inspinia_MVC5.Controllers
+namespace WebCartera.Controllers
 {
     public class HomeController : Controller
     {
 
-        public ActionResult Main()
+       
+        public ActionResult Minor()
         {
             return View();
         }
-
-        public ActionResult Minor()
+        public ActionResult Minor1()
+        {
+            return View();
+        }
+        public ActionResult Minor2()
         {
             return View();
         }

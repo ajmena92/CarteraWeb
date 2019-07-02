@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
-namespace Inspinia_MVC5
+namespace WebCartera
 {
     public static class HMTLHelperExtensions
     {

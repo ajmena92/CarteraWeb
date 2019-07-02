@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Inspinia_MVC5
+namespace WebCartera
 {
     public class RouteConfig
     {
@@ -16,7 +16,7 @@ namespace Inspinia_MVC5
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Main", id = UrlParameter.Optional }
+                defaults: new { controller = "Inicio", action = "Index", id = UrlParameter.Optional }
             );
         }
 
