@@ -40,7 +40,8 @@ namespace WebCartera
             bundles.Add(new ScriptBundle("~/bundles/inspinia").Include(
                       "~/Scripts/plugins/metisMenu/jquery.metisMenu.js",
                       "~/Scripts/plugins/pace/pace.min.js",
-                      "~/Scripts/app/inspinia.js"));
+                      "~/Scripts/app/inspinia.js",
+                       "~/Scripts/app/custom.js"));
 
             // SlimScroll
             bundles.Add(new ScriptBundle("~/plugins/slimScroll").Include(
