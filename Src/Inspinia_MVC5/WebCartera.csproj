@@ -53,12 +53,17 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=8.0.16.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data.EntityFramework, Version=8.0.16.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Web, Version=8.0.16.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -113,7 +118,6 @@
     <Folder Include="App_Data\uploads\" />
     <Folder Include="Content\plugins\" />
     <Folder Include="Images\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -128,6 +132,48 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
+    <Compile Include="Models\CarteraModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarteraModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarteraModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarteraModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CarteraModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\seguridadmodulo.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\seguridadrol.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\seguridadrolmodulo.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\seguridadusuario.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tcategoria.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tcuenta.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tmoneda.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tmovimiento.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tparametro.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -193,12 +239,29 @@
     <Content Include="fonts\font-awesome\scss\_stacked.scss" />
     <Content Include="fonts\font-awesome\scss\_variables.scss" />
     <Content Include="Content\bootstrap.min.css.map" />
+    <EntityDeploy Include="Models\CarteraModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CarteraModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\CarteraModel.edmx.diagram">
+      <DependentUpon>CarteraModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Inspinia.pubxml" />
     <Content Include="Content\landing\avatar_all.png" />
     <Content Include="Content\landing\header_one.jpg" />
     <Content Include="Content\landing\header_two.jpg" />
     <Content Include="Content\landing\word_map.png" />
+    <Content Include="Models\CarteraModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CarteraModel.edmx</DependentUpon>
+      <LastGenOutput>CarteraModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\CarteraModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CarteraModel.edmx</DependentUpon>
+      <LastGenOutput>CarteraModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\app\custom.js" />
     <Content Include="Scripts\app\inspinia.js" />
     <Content Include="Scripts\app\skin.config.min.js" />
@@ -256,7 +319,9 @@
     <Content Include="Views\Pages\Register.cshtml" />
     <Content Include="Views\Pages\SearchResults.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
