@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
-namespace Inspinia_MVC5.Controllers
+using WebCartera.Models;
+namespace WebCartera.Controllers
 {
     public class InicioController : Controller
     {
+        public Parametro sesion = Parametro.ObtenerSesionPagina();
+
         // GET: Inicio
         public ActionResult Index()
         {

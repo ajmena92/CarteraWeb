@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inspinia_MVC5.Models
+namespace WebCartera.Models
 {
     using System;
     using System.Collections.Generic;
@@ -29,6 +29,7 @@ namespace Inspinia_MVC5.Models
         public string NomUsuario { get; set; }
         public System.DateTime FechaCreacion { get; set; }
         public bool Activo { get; set; }
+        public string Clave { get; set; }
     
         public virtual seguridadrol seguridadrol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

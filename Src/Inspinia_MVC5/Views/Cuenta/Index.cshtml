@@ -1,0 +1,114 @@
+﻿@using WebCartera.Helpers
+@using PagedList.Mvc;
+@model IEnumerable<WebCartera.Models.seguridadusuario>
+
+@{
+    ViewBag.Title = "Mantenimiento de Usuarios";
+    var pagedlist = (PagedList.IPagedList)Model;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Seguridad</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Inicio")">Home</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Usuarios</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content text-center p-md">
+
+                    <h2>
+                        <span class="text-navy">Lista de Usuarios</span>
+
+                    </h2>
+
+                    @using (Html.BeginForm())
+                    {
+                        <p>
+                            <div class="row">
+                                <div class="col-xs-10 col-sm-10 col-md-5">@Html.TextBox("SearchString", null, new { @class = "form-control", @Placeholder = "Buscar por nombre" })</div>
+                                <div class="col-xs-2 col-sm-2 col-md-1 text-right">
+                                    <input type="submit" value="Buscar" class="btn btn-color" />
+                                </div>
+                            </div>
+                        </p>
+                    }
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.ActionLink("Usuario", "Index", new { sortOrder = ViewBag.NomSortParm, currentFilter = ViewBag.CurrentFilter })
+                            </th>
+                            <th>
+                                @Html.ActionLink("Correo", "Index", new { sortOrder = ViewBag.EmailSortParm, currentFilter = ViewBag.CurrentFilter })
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdRol)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Activo)
+                            </th>
+                            <th>
+                                @{if (ViewBag.Edit)
+                                    {
+                                        @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", "Nuevo", "Create", "Cuenta", htmlAttributes: new { data_modal = "", @class = "btn btn-red pull-right" })
+                                    }
+                                }
+                            </th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NomUsuario)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.seguridadrol.Descripcion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Activo)
+                                </td>
+                                <td>
+                                    <div class="pull-right">
+                                        @{if (ViewBag.Edit)
+                                            {
+                                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-pencil'></span>", "Editar", "Edit", "Cuenta", routeValues: new { id = item.Id }, htmlAttributes: new { data_modal = "", @class = "btn btn-default btn-sm" })
+                                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-trash'></span>", "Eliminar", "Delete", "Cuenta", routeValues: new { id = item.Id }, htmlAttributes: new { data_modal = "", @class = "btn btn-default btn-sm" })
+                                            }
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                    Pagina @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) de @pagedlist.PageCount
+                    @Html.PagedListPager(pagedlist, page => Url.Action("Index",
+                                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, CodCanal = ViewBag.pCodCanal, Pagination = 1 }))
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/Scripts/Pages/ActivaModal.js")
+}
+

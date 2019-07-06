@@ -1,50 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
 using System.Web.Mvc;
+using WebCartera.Models;
+using WebCartera.Helpers;
+using System.Web.Routing;
 
 namespace WebCartera.Controllers
 {
     public class PagesController : Controller
     {
 
-        public ActionResult SearchResults()
-        {
-            return View();
-        }
+        private readonly CarteraEntities db = new CarteraEntities();
+        private readonly Cifrado Security = new Cifrado();
 
-        public ActionResult LockScreen()
-        {
-            return View();
-        }
-
-        public ActionResult Invoice()
-        {
-            return View();
-        }
-
-        public ActionResult InvoicePrint()
-        {
-            return View();
-        }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        public ActionResult Login_2()
-        {
-            return View();
-        }
-
-        public ActionResult Register()
-        {
-            return View();
-        }
-
+     
+     
         public ActionResult NotFoundError()
         {
             return View();
@@ -55,16 +31,8 @@ namespace WebCartera.Controllers
             return View();
         }
 
-        public ActionResult EmptyPage()
-        {
-            return View();
-        }
+  
+   
 
-        public ActionResult ForgotPassword()
-        {
-            return View();
-        }
-
-       
-	}
+    }
 }

@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex" />
 
     <title>Smart Wallet | @ViewBag.Title</title>
 
@@ -21,7 +22,7 @@
     @Styles.Render("~/Content/css")
 
 </head>
-<body class="skin-1">
+<body>
 
     <!-- Wrapper-->
     <!-- PageClass give you ability to specify custom style for specific view based on action -->
@@ -47,7 +48,22 @@
 
 
     </div>
+
     <!-- End wrapper-->
+
+
+    <div id='myModal' class='modal fade in'>
+        <div class="modal-dialog modal-vertical-centered">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="msjaccesserror" class="alert alert-danger" style="display:none">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+        <strong>Acceso Denegado!</strong> Lo sentimos no  tiene permisos para realizar esta acción, comuniquese con el administrador del sistema.
+    </div>
 
     <!-- Section for main scripts render -->
     @Scripts.Render("~/bundles/jquery")
@@ -55,10 +71,11 @@
     @Scripts.Render("~/plugins/slimScroll")
     @Scripts.Render("~/bundles/inspinia")
 
-    <!-- Skin config script - only for demo purpose-->
-    @Scripts.Render("~/bundles/skinConfig")
-
+    <!-- Skin config script - only for demo purpose
+    @Scripts.Render("~/bundles/skinConfig")-->
     <!-- Handler for local scripts -->
     @RenderSection("scripts", required: false)
+
+
 </body>
 </html>

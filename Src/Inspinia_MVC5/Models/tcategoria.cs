@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inspinia_MVC5.Models
+namespace WebCartera.Models
 {
     using System;
     using System.Collections.Generic;

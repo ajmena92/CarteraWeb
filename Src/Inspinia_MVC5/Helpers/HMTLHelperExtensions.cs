@@ -12,7 +12,7 @@ namespace WebCartera
         public static string IsSelected(this HtmlHelper html, string controller = null, string action = null, string cssClass = null)
         {
 
-            if (String.IsNullOrEmpty(cssClass)) 
+            if (String.IsNullOrEmpty(cssClass))
                 cssClass = "active";
 
             string currentAction = (string)html.ViewContext.RouteData.Values["action"];
@@ -30,8 +30,7 @@ namespace WebCartera
 
         public static string PageClass(this HtmlHelper html)
         {
-            string currentAction = (string)html.ViewContext.RouteData.Values["action"];
-            return currentAction;
+            return (string)html.ViewContext.RouteData.Values["action"];
         }
 
 	}

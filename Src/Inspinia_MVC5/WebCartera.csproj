@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Inspinia_MVC5</RootNamespace>
-    <AssemblyName>Inspinia_MVC5</AssemblyName>
+    <RootNamespace>WebCartera</RootNamespace>
+    <AssemblyName>WebCartera</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -58,6 +58,12 @@
     <Reference Include="MySql.Web, Version=8.0.16.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -124,6 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
+    <Compile Include="Controllers\CuentaController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InicioController.cs" />
@@ -131,7 +138,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Cifrado.cs" />
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
+    <Compile Include="Helpers\MyEnumHelpers.cs" />
+    <Compile Include="Helpers\MyHelpers.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CarteraModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -147,6 +158,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CarteraModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\MetaData.cs" />
     <Compile Include="Models\seguridadmodulo.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
@@ -159,6 +171,7 @@
     <Compile Include="Models\seguridadusuario.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Sesion.cs" />
     <Compile Include="Models\tcategoria.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
@@ -174,13 +187,16 @@
     <Compile Include="Models\tparametro.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Custom.css" />
     <Content Include="Content\email.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\patterns\1.png" />
     <Content Include="Content\patterns\2.png" />
     <Content Include="Content\patterns\3.png" />
@@ -268,6 +284,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\Pages\ActivaModal.js" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_444444_256x240.png" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_555555_256x240.png" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_777620_256x240.png" />
@@ -307,17 +324,17 @@
     <Content Include="Views\Inicio\Index.cshtml" />
     <Content Include="Views\Config\Index.cshtml" />
     <None Include="Properties\PublishProfiles\SmartAsp_Test.pubxml" />
-    <Content Include="Views\Pages\EmptyPage.cshtml" />
-    <Content Include="Views\Pages\ForgotPassword.cshtml" />
     <Content Include="Views\Pages\InternalServerError.cshtml" />
-    <Content Include="Views\Pages\Invoice.cshtml" />
-    <Content Include="Views\Pages\InvoicePrint.cshtml" />
-    <Content Include="Views\Pages\LockScreen.cshtml" />
-    <Content Include="Views\Pages\Login.cshtml" />
-    <Content Include="Views\Pages\Login_2.cshtml" />
+    <Content Include="Views\Cuenta\Login.cshtml" />
     <Content Include="Views\Pages\NotFoundError.cshtml" />
     <Content Include="Views\Pages\Register.cshtml" />
-    <Content Include="Views\Pages\SearchResults.cshtml" />
+    <Content Include="Views\Cuenta\Index.cshtml" />
+    <Content Include="Views\Cuenta\ResetPassword.cshtml" />
+    <Content Include="Views\Cuenta\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Cuenta\_Create.cshtml" />
+    <Content Include="Views\Cuenta\_Delete.cshtml" />
+    <Content Include="Views\Cuenta\_Edit.cshtml" />
+    <Content Include="Views\Cuenta\Detalles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

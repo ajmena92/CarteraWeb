@@ -13,7 +13,8 @@ namespace WebCartera
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
                       "~/Content/animate.css",
-                      "~/Content/style.css"));
+                      "~/Content/style.css",
+                      "~/Content/Custom.css"));
 
             // Font Awesome icons
             bundles.Add(new StyleBundle("~/font-awesome/css").Include(
@@ -50,7 +51,6 @@ namespace WebCartera
             // validate 
             bundles.Add(new ScriptBundle("~/plugins/validate").Include(
                       "~/Scripts/plugins/validate/jquery.validate.min.js"));
-
         }
     }
 }
