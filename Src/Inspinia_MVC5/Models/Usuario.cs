@@ -21,7 +21,7 @@ namespace WebCartera.Models
     [MetadataType(typeof(MetaDataUsuarios))]
     public partial class seguridadusuario
     {
-        [DataType(DataType.Password)]
+        //[DataType(DataType.Password)]
         [Display(Name = "Confirme la contraseña")]
         [Compare("Clave", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmarClave { get; set; }
@@ -88,22 +88,22 @@ namespace WebCartera.Models
         #endregion
     }
 
-    public class ChangePasswordViewModel
-    {
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Contraseña actual")]
-        public string OldPassword { get; set; }
+    //public class ChangePasswordViewModel
+    //{
+    //    [Required]
+    //    [DataType(DataType.Password)]
+    //    [Display(Name = "Contraseña actual")]
+    //    public string OldPassword { get; set; }
 
-        [Required]
-        [StringLength(30, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Contraseña nueva")]
-        public string NewPassword { get; set; }
+    //    [Required]
+    //    [StringLength(30, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 6)]
+    //    [DataType(DataType.Password)]
+    //    [Display(Name = "Contraseña nueva")]
+    //    public string NewPassword { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirme la contraseña nueva")]
-        [Compare("NewPassword", ErrorMessage = "La contraseña nueva y la contraseña de confirmación no coinciden.")]
-        public string ConfirmPassword { get; set; }
-    }
+    //    [DataType(DataType.Password)]
+    //    [Display(Name = "Confirme la contraseña nueva")]
+    //    [Compare("NewPassword", ErrorMessage = "La contraseña nueva y la contraseña de confirmación no coinciden.")]
+    //    public string ConfirmPassword { get; set; }
+    //}
 }

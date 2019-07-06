@@ -44,16 +44,16 @@ namespace MenuCenter.Controllers
                 case ResultLogueo.Logueo:
                     return RedirectToLocal(returnUrl);
                 case ResultLogueo.Invalido:
-                    ModelState.AddModelError ("Advertencia", "Intento de inicio de sesión no válido.");
+                    ModelState.AddModelError ("ModelErr", "Intento de inicio de sesión no válido.");
                     return View(model);
                 case ResultLogueo.Desactivado:
-                    ModelState.AddModelError("Info", "Usuario inactivo, sesión cancelada.");
+                    ModelState.AddModelError("ModelErr", "Usuario inactivo, sesión cancelada.");
                     return View(model);
                 case ResultLogueo.Error:
-                    ModelState.AddModelError("Error", "Error al intentar conectar con el repositorio de datos, por favor comuniquese con el departamento de soporte.");
+                    ModelState.AddModelError("ModelErr", "Error al intentar conectar con el repositorio de datos, por favor comuniquese con el departamento de soporte.");
                     return View(model);
                 default:
-                    ModelState.AddModelError("Error", "Intento de inicio de sesión no válido.");
+                    ModelState.AddModelError("ModelErr", "Intento de inicio de sesión no válido.");
                     return View(model);
             }
         }
@@ -95,7 +95,7 @@ namespace MenuCenter.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Intento de inicio de sesión no válido.");
+                ModelState.AddModelError("ModelErr", "Intento de inicio de sesión no válido.");
             }
             return View(model);
         }
@@ -175,7 +175,15 @@ namespace MenuCenter.Controllers
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            if (Request.IsAjaxRequest())
+            {
+                return  PartialView(usuario);
+            }
+            else
+            {
+                return View(usuario);
+            }
+           
         }
 
 
@@ -193,7 +201,7 @@ namespace MenuCenter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CodUsuario,Email,NomUsuario,FechaCreacion,Clave,ConfirmarClave,IdRol,Activo")] seguridadusuario usuario)
+        public ActionResult Create([Bind(Include = "Id,Email,NomUsuario,FechaCreacion,Clave,ConfirmarClave,IdRol,Activo")] seguridadusuario usuario)
         {
             string Olpas = usuario.Clave;
             if (ModelState.IsValid)
@@ -203,10 +211,13 @@ namespace MenuCenter.Controllers
                     bool has = db.seguridadusuarios.Any(p => p.Email == usuario.Email);
                     if (has)
                     {
-                        ModelState.AddModelError(string.Empty, "El correo ingresado ya esta registrado en nuestro sistema. Este dato no se puede duplicar.");
+                        ModelState.AddModelError("ModelErr", "El correo ingresado ya esta registrado en nuestro sistema. Este dato no se puede duplicar.");
                     }
                     else
                     {
+
+                        int dbMaxId = Convert.ToInt32(db.seguridadusuarios.Max(m => (int?)m.Id));
+                        usuario.Id = Val.dbMaxId + 1;
                         usuario.FechaCreacion = DateTime.Now;
                         usuario.NomUsuario = usuario.NomUsuario.ToUpper();
                         usuario.Clave = Security.Encriptar(usuario.Clave);
@@ -219,7 +230,7 @@ namespace MenuCenter.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError(string.Empty, ex.Message);
+                    ModelState.AddModelError("ModelErr", ex.Message);
                 }
                 usuario.Clave = Olpas;
                 usuario.ConfirmarClave = usuario.Clave;
@@ -253,9 +264,8 @@ namespace MenuCenter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CodUsuario,Email,NomUsuario,Clave,FechaCreacion,ConfirmarClave,IdRol,Activo")] seguridadusuario usuario)
-        {
-            string oldPass = usuario.Clave;
+        public ActionResult Edit([Bind(Include = "CodUsuario,Email,NomUsuario,Clave,ConfirmarClave,IdRol")] seguridadusuario usuario)
+        {            
             seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
             if (ModelState.IsValid)
             {
@@ -265,35 +275,33 @@ namespace MenuCenter.Controllers
                     bool has = db.seguridadusuarios.Any(p => p.Email == usuario.Email && p.Id != usuario.Id);
                     if (has)
                     {
-                        ModelState.AddModelError(string.Empty, "El correo ingresado ya esta registrado en nuestro sistema. Este dato no se puede duplicar.");
+                        ModelState.AddModelError("ModelErr", "El correo ingresado ya esta registrado en nuestro sistema. Este dato no se puede duplicar.");
                     }
                     else
                     {
+                        usuario.Activo = true;
                         usuario.NomUsuario = usuario.NomUsuario.ToUpper();
                         usuario.Clave = Security.Encriptar(usuario.Clave);
                         usuario.ConfirmarClave = usuario.Clave;
                         db.Entry(usuario).State = EntityState.Modified;
                         db.SaveChanges();
-                        string url = Url.Action("Index", "Cuenta");
+                        string url = Url.Action("Detalles", "Cuenta", new { id = usuario.Id });
                         return Json(new { success = true, url });
                     }
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-                usuario.Clave = oldPass;
-                usuario.ConfirmarClave = oldPass;
+                    ModelState.AddModelError("ModelErr", ex.Message);
+                }               
             }
             ViewBag.CodRol = new SelectList(db.seguridadrols, "Id", "Descripcion", usuario.IdRol);
             ViewBag.Editar = permiso.ActivaEdicion;
-            return PartialView("_Create", usuario);
+            return PartialView("_Edit", usuario);
         }
 
         public ActionResult Delete(int? id)
         {
-            seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
-            VerificaEdit(permiso);
+            seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -314,14 +322,26 @@ namespace MenuCenter.Controllers
             seguridadusuario usuario = db.seguridadusuarios.Find(id);
             try
             {
-                db.seguridadusuarios.Remove(usuario);
-                db.SaveChanges();
-                string url = Url.Action("Index", "Cuenta");
-                return Json(new { success = true, url });
+                string url;
+                Parametro sesion = Parametro.ObtenerSesionPagina();
+                usuario.Activo = false;
+                usuario.ConfirmarClave = usuario.Clave;
+                db.Entry(usuario).State = EntityState.Modified;
+                db.SaveChanges();                              
+                if (sesion.Usuario.Id == id)
+                {
+                    url = Url.Action("LogOff", "Cuenta");
+                    return Json(new { success = true, update = true, url });
+                }
+                else
+                {
+                     url = Url.Action("Index", "Cuenta");
+                    return Json(new { success = true, url });
+                }                                
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, ex.Message);
+                ModelState.AddModelError("ModelErr", ex.Message);
             }
             return PartialView("_Delete", usuario);
         }
@@ -333,7 +353,7 @@ namespace MenuCenter.Controllers
 
                 Parametro.CerrarSesionPagina();
                 HttpCookie cookie = this.ControllerContext.HttpContext.Request.Cookies["SSLayerUser"];
-                if (!cookie.Equals(null))
+                if (cookie != null)
                 {
                     cookie.Expires = DateTime.Now.AddDays(-1);
                     this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
@@ -373,7 +393,7 @@ namespace MenuCenter.Controllers
         //{
         //    foreach (var error in result.Errors)
         //    {
-        //        ModelState.AddModelError("", error);
+        //        ModelState.AddModelError("ModelErr", error);
         //    }
         //}
 
@@ -383,7 +403,7 @@ namespace MenuCenter.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Inicio");
         }
         #endregion
 

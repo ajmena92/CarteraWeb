@@ -39,18 +39,18 @@ function bindForm(dialog) {
                     }
                     else
                     {
-                        $(result.update).load(result.url); //  Load data from the server and place the returned HTML into the matched element                                           
+                         // $(result.update).load(result.url); Load data from the server and place the returned HTML into the matched element
+                        window.location.href = result.url;
                     }                    
                     $('#myModalContent').empty();
                 } else {
                     $('#myModalContent').empty();
                     $('#myModalContent').html(result);
                     bindForm(dialog);
-                }
-                endWait();
+                }           
             },
             error: function (err) {
-                endWait();
+                console.error(err);
             }         
         });
         return false;
