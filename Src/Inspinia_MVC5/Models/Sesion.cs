@@ -40,7 +40,7 @@ namespace WebCartera.Models
                 this.NomEmpresa = Tparametro[8].Valor; //Valor de mantenimiento
                 this.Usuario = pUsuario;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 Mantenimiento = 1;
                 UrlImgs = "";
@@ -54,7 +54,7 @@ namespace WebCartera.Models
             {
                 HttpContext.Current.Session["MiSession"] = new Parametro(pUsuario);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

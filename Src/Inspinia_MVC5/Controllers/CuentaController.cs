@@ -132,7 +132,7 @@ namespace MenuCenter.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                usuarios = db.seguridadusuarios.Where(p => p.NomUsuario.ToLower().Contains(searchString.ToLower()));
+                usuarios = db.seguridadusuarios.Where(p => p.NomUsuario.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0);
             }
             else
             {
@@ -215,9 +215,8 @@ namespace MenuCenter.Controllers
                     }
                     else
                     {
-
                         int dbMaxId = Convert.ToInt32(db.seguridadusuarios.Max(m => (int?)m.Id));
-                        usuario.Id = Val.dbMaxId + 1;
+                        usuario.Id = dbMaxId + 1;
                         usuario.FechaCreacion = DateTime.Now;
                         usuario.NomUsuario = usuario.NomUsuario.ToUpper();
                         usuario.Clave = Security.Encriptar(usuario.Clave);
