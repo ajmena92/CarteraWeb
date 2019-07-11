@@ -25,7 +25,6 @@ namespace WebCartera.Models
         public string Descripcion { get; set; }
         public System.DateTime FechaCreacion { get; set; }
         public string Codigo { get; set; }
-        public bool Activo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<seguridadrolmodulo> seguridadrolmoduloes { get; set; }

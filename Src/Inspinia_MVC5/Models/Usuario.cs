@@ -28,7 +28,7 @@ namespace WebCartera.Models
 
         #region Metodos y Propiedades   
 
-        public static ResultLogueo Login(string pUsuario, string pClave, Boolean pRecordar)
+        public static ResultLogueo Login(string pUsuario, string pClave, bool pRecordar)
         {
             try
             {

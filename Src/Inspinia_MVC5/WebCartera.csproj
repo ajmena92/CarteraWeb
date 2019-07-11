@@ -125,7 +125,6 @@
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
     <Folder Include="Content\plugins\" />
-    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -142,7 +141,6 @@
     </Compile>
     <Compile Include="Helpers\Cifrado.cs" />
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
-    <Compile Include="Helpers\MyEnumHelpers.cs" />
     <Compile Include="Helpers\MyHelpers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CarteraModel.Context.cs">
@@ -306,6 +304,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CarteraModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\profile_small.jpg" />
     <Content Include="Models\CarteraModel.edmx.diagram">
       <DependentUpon>CarteraModel.edmx</DependentUpon>
     </Content>
@@ -363,7 +362,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\Pages\ActivaModal.js" />
+    <Content Include="Scripts\app\ActivaModal.js" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_444444_256x240.png" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_555555_256x240.png" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_777620_256x240.png" />

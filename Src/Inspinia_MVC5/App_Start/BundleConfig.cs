@@ -23,16 +23,13 @@ namespace WebCartera
             // jQuery
              bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                      "~/Scripts/jquery-{version}.js"));
-            // validate 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                   "~/Scripts/jquery.unobtrusive*",
-                   "~/Scripts/jquery.validate*"));
-            // jQuery Form Plugin
+
+            // jQuery Form Plugin  and Validate 
             bundles.Add(new ScriptBundle("~/bundles/jqueryForm").Include(
                     "~/Scripts/jquery.form.js",
-                    "~/Scripts/Pages/ActivaModal.js"));
+                   "~/Scripts/jquery.unobtrusive*",
+                   "~/Scripts/jquery.validate*"));
            
-
 
             // jQueryUI CSS
             bundles.Add(new ScriptBundle("~/Scripts/plugins/jquery-ui/jqueryuiStyles").Include(

@@ -39,8 +39,11 @@ function bindForm(dialog) {
                     }
                     else
                     {
-                         // $(result.update).load(result.url); Load data from the server and place the returned HTML into the matched element
-                        window.location.href = result.url;
+                        if (result.redirect == null) {
+                            window.location.href = result.url;
+                        } else {
+                            $(result.update).load(result.url); // Load data from the server and place the returned HTML into the matched element
+                        }                                               
                     }                    
                     $('#myModalContent').empty();
                 } else {

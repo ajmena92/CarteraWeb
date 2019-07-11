@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using WebCartera.Models;
 using WebCartera.Helpers;
 using System.Web.Routing;
+
 using PagedList;
 
 namespace MenuCenter.Controllers
@@ -108,12 +109,12 @@ namespace MenuCenter.Controllers
         }
 
         // GET: Cuenta
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page, bool? Pagination)
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             seguridadrolmodulo permiso = Parametro.VerificaPermiso("ADM");
             ViewBag.Edit = permiso.ActivaEdicion;
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.EmailSortParm = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
+            ViewBag.EmailSortParm = string.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
             ViewBag.NomSortParm = sortOrder == "nom" ? "nom_desc" : "nom";
 
             if (searchString != null)
@@ -130,9 +131,9 @@ namespace MenuCenter.Controllers
             IQueryable<seguridadusuario> usuarios;
 
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
-                usuarios = db.seguridadusuarios.Where(p => p.NomUsuario.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0);
+                usuarios = db.seguridadusuarios.Where(p => p.NomUsuario.ToLower().Contains(searchString.ToLower()));
             }
             else
             {
@@ -192,7 +193,7 @@ namespace MenuCenter.Controllers
         {
             seguridadrolmodulo permiso = Parametro.VerificaPermiso("ADM");
             VerificaEdit(permiso);
-            ViewBag.CodRol = new SelectList(db.seguridadrols, "Id", "Descripcion");
+            ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion");
             return PartialView("_Create");
         }
 
@@ -234,7 +235,7 @@ namespace MenuCenter.Controllers
                 usuario.Clave = Olpas;
                 usuario.ConfirmarClave = usuario.Clave;
             }
-            ViewBag.CodRol = new SelectList(db.seguridadrols, "Id", "Descripcion", usuario.IdRol);
+            ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion", usuario.IdRol);
             return PartialView("_Create", usuario);
         }
 
@@ -251,7 +252,7 @@ namespace MenuCenter.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CodRol = new SelectList(db.seguridadrols, "Id", "Descripcion", seguridadUsuario.IdRol);
+            ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion", seguridadUsuario.IdRol);
             ViewBag.Editar = permiso.ActivaEdicion;
             seguridadUsuario.Clave = Security.Desencriptar(seguridadUsuario.Clave);
             seguridadUsuario.ConfirmarClave = seguridadUsuario.Clave;
@@ -263,7 +264,7 @@ namespace MenuCenter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CodUsuario,Email,NomUsuario,Clave,ConfirmarClave,IdRol")] seguridadusuario usuario)
+        public ActionResult Edit([Bind(Include = "Id,Email,NomUsuario,Clave,ConfirmarClave,IdRol")] seguridadusuario usuario)
         {            
             seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
             if (ModelState.IsValid)
@@ -293,7 +294,7 @@ namespace MenuCenter.Controllers
                     ModelState.AddModelError("ModelErr", ex.Message);
                 }               
             }
-            ViewBag.CodRol = new SelectList(db.seguridadrols, "Id", "Descripcion", usuario.IdRol);
+            ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion", usuario.IdRol);
             ViewBag.Editar = permiso.ActivaEdicion;
             return PartialView("_Edit", usuario);
         }
@@ -330,7 +331,7 @@ namespace MenuCenter.Controllers
                 if (sesion.Usuario.Id == id)
                 {
                     url = Url.Action("LogOff", "Cuenta");
-                    return Json(new { success = true, update = true, url });
+                    return Json(new { success = true, redirect = true, url });
                 }
                 else
                 {

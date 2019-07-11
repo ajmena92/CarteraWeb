@@ -95,14 +95,14 @@ namespace WebCartera.Helpers
             {
                 const string inputFormat = @"<input type='hidden' name='{0}' value='{1}' />";
 
-                var input = String.Format(inputFormat, key, html.Encode(inputDict[key]));
+                var input = string.Format(inputFormat, key, html.Encode(inputDict[key]));
                 inputs.Add(input);
             }
 
             var submitBtn = "<input type='submit' value='{0}'>";
-            inputs.Add(String.Format(submitBtn, text));
+            inputs.Add(string.Format(submitBtn, text));
 
-            tbForm.InnerHtml = String.Join("\n", inputs.ToArray());
+            tbForm.InnerHtml = string.Join("\n", inputs.ToArray());
 
             // return self closing
             return new MvcHtmlString(tbForm.ToString());

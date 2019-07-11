@@ -1,8 +1,9 @@
 ﻿@model WebCartera.Models.seguridadusuario
-
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">Editar Cuenta de Usuario </h4>
+    <h4 class="modal-title">Editar Cuenta de Usuario</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 @using (Html.BeginForm())
@@ -44,13 +45,13 @@
                     @Html.EditorFor(model => model.ConfirmarClave, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.ConfirmarClave, "", new { @class = "text-danger" })
                 </div>
-            </div>            
+            </div>
             @{ if (ViewBag.Editar)
                 {
                     <div class="form-group">
                         @Html.LabelFor(model => model.IdRol, "Tipo Cuenta", htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-8">
-                            @Html.DropDownList("CodRol", null, "--Seleccione--", htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownList("IdRol", null, "--Seleccione--", htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.IdRol, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -59,7 +60,9 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn" type="button" data-dismiss="modal">Cancelar</button>
         <input class="btn btn-primary" type="submit" value="Guardar" />
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
     </div>
 }
+
+@Scripts.Render("~/bundles/jqueryForm")   

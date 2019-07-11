@@ -14,7 +14,6 @@
           <Property Name="Descripcion" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="FechaCreacion" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Codigo" Type="char" MaxLength="3" Nullable="false" />
-          <Property Name="Activo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="seguridadrol">
           <Key>
@@ -23,7 +22,6 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="FechaCraeacion" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Activo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="seguridadrolmodulo">
           <Key>
@@ -40,7 +38,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="IdRol" Type="int" Nullable="false" />
-          <Property Name="Clave" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Clave" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="150" Nullable="false" />
           <Property Name="NomUsuario" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="FechaCreacion" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
@@ -280,29 +278,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CarteraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="seguridadmodulo">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Codigo" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Activo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="seguridadrolmoduloes" Relationship="Self.FkModuloxRol" FromRole="seguridadmodulo" ToRole="seguridadrolmodulo" />
-        </EntityType>
-        <EntityType Name="seguridadrol">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FechaCraeacion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Activo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="seguridadrolmoduloes" Relationship="Self.FkRolxModulo" FromRole="seguridadrol" ToRole="seguridadrolmodulo" />
-          <NavigationProperty Name="seguridadusuarios" Relationship="Self.FkRolxUsuario" FromRole="seguridadrol" ToRole="seguridadusuario" />
-        </EntityType>
         <EntityType Name="seguridadrolmodulo">
           <Key>
             <PropertyRef Name="IdRol" />
@@ -311,8 +286,8 @@
           <Property Name="IdRol" Type="Int32" Nullable="false" />
           <Property Name="IdModulo" Type="Int32" Nullable="false" />
           <Property Name="ActivaEdicion" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="seguridadmodulo" Relationship="Self.FkModuloxRol" FromRole="seguridadrolmodulo" ToRole="seguridadmodulo" />
-          <NavigationProperty Name="seguridadrol" Relationship="Self.FkRolxModulo" FromRole="seguridadrolmodulo" ToRole="seguridadrol" />
+          <NavigationProperty Name="seguridadmodulo" Relationship="CarteraModel.FkModuloxRol" FromRole="seguridadrolmodulo" ToRole="seguridadmodulo" />
+          <NavigationProperty Name="seguridadrol" Relationship="CarteraModel.FkRolxModulo" FromRole="seguridadrolmodulo" ToRole="seguridadrol" />
         </EntityType>
         <EntityType Name="seguridadusuario">
           <Key>
@@ -324,12 +299,12 @@
           <Property Name="NomUsuario" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FechaCreacion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="seguridadrol" Relationship="Self.FkRolxUsuario" FromRole="seguridadusuario" ToRole="seguridadrol" />
           <NavigationProperty Name="tmonedas" Relationship="Self.FkUsarioxMoneda" FromRole="seguridadusuario" ToRole="tmoneda" />
           <NavigationProperty Name="tmovimientoes" Relationship="Self.FkUsarioxMov" FromRole="seguridadusuario" ToRole="tmovimiento" />
           <NavigationProperty Name="tcategorias" Relationship="Self.FkUsuarioxCategoria" FromRole="seguridadusuario" ToRole="tcategoria" />
           <NavigationProperty Name="tcuentas" Relationship="Self.FkUsuarioxCuenta" FromRole="seguridadusuario" ToRole="tcuenta" />
           <Property Name="Clave" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="seguridadrol" Relationship="CarteraModel.FkRolxUsuario" FromRole="seguridadusuario" ToRole="seguridadrol" />
         </EntityType>
         <EntityType Name="tcategoria">
           <Key>
@@ -400,42 +375,6 @@
           <Property Name="Valor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Visible" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <Association Name="FkModuloxRol">
-          <End Role="seguridadmodulo" Type="Self.seguridadmodulo" Multiplicity="1" />
-          <End Role="seguridadrolmodulo" Type="Self.seguridadrolmodulo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="seguridadmodulo">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="seguridadrolmodulo">
-              <PropertyRef Name="IdModulo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FkRolxModulo">
-          <End Role="seguridadrol" Type="Self.seguridadrol" Multiplicity="1" />
-          <End Role="seguridadrolmodulo" Type="Self.seguridadrolmodulo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="seguridadrol">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="seguridadrolmodulo">
-              <PropertyRef Name="IdRol" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FkRolxUsuario">
-          <End Role="seguridadrol" Type="Self.seguridadrol" Multiplicity="1" />
-          <End Role="seguridadusuario" Type="Self.seguridadusuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="seguridadrol">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="seguridadusuario">
-              <PropertyRef Name="IdRol" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FkUsarioxMoneda">
           <End Role="seguridadusuario" Type="Self.seguridadusuario" Multiplicity="1" />
           <End Role="tmoneda" Type="Self.tmoneda" Multiplicity="*" />
@@ -521,8 +460,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CarteraEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="seguridadmoduloes" EntityType="Self.seguridadmodulo" />
-          <EntitySet Name="seguridadrols" EntityType="Self.seguridadrol" />
           <EntitySet Name="seguridadrolmoduloes" EntityType="Self.seguridadrolmodulo" />
           <EntitySet Name="seguridadusuarios" EntityType="Self.seguridadusuario" />
           <EntitySet Name="tcategorias" EntityType="Self.tcategoria" />
@@ -530,18 +467,6 @@
           <EntitySet Name="tmonedas" EntityType="Self.tmoneda" />
           <EntitySet Name="tmovimientoes" EntityType="Self.tmovimiento" />
           <EntitySet Name="tparametros" EntityType="Self.tparametro" />
-          <AssociationSet Name="FkModuloxRol" Association="Self.FkModuloxRol">
-            <End Role="seguridadmodulo" EntitySet="seguridadmoduloes" />
-            <End Role="seguridadrolmodulo" EntitySet="seguridadrolmoduloes" />
-          </AssociationSet>
-          <AssociationSet Name="FkRolxModulo" Association="Self.FkRolxModulo">
-            <End Role="seguridadrol" EntitySet="seguridadrols" />
-            <End Role="seguridadrolmodulo" EntitySet="seguridadrolmoduloes" />
-          </AssociationSet>
-          <AssociationSet Name="FkRolxUsuario" Association="Self.FkRolxUsuario">
-            <End Role="seguridadrol" EntitySet="seguridadrols" />
-            <End Role="seguridadusuario" EntitySet="seguridadusuarios" />
-          </AssociationSet>
           <AssociationSet Name="FkUsarioxMoneda" Association="Self.FkUsarioxMoneda">
             <End Role="seguridadusuario" EntitySet="seguridadusuarios" />
             <End Role="tmoneda" EntitySet="tmonedas" />
@@ -570,35 +495,84 @@
             <End Role="tmoneda" EntitySet="tmonedas" />
             <End Role="tcuenta" EntitySet="tcuentas" />
           </AssociationSet>
+          <EntitySet Name="seguridadmoduloes" EntityType="CarteraModel.seguridadmodulo" />
+          <EntitySet Name="seguridadrols" EntityType="CarteraModel.seguridadrol" />
+          <AssociationSet Name="FkModuloxRol" Association="CarteraModel.FkModuloxRol">
+            <End Role="seguridadmodulo" EntitySet="seguridadmoduloes" />
+            <End Role="seguridadrolmodulo" EntitySet="seguridadrolmoduloes" />
+          </AssociationSet>
+          <AssociationSet Name="FkRolxModulo" Association="CarteraModel.FkRolxModulo">
+            <End Role="seguridadrol" EntitySet="seguridadrols" />
+            <End Role="seguridadrolmodulo" EntitySet="seguridadrolmoduloes" />
+          </AssociationSet>
+          <AssociationSet Name="FkRolxUsuario" Association="CarteraModel.FkRolxUsuario">
+            <End Role="seguridadrol" EntitySet="seguridadrols" />
+            <End Role="seguridadusuario" EntitySet="seguridadusuarios" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="seguridadmodulo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="seguridadrolmoduloes" Relationship="CarteraModel.FkModuloxRol" FromRole="seguridadmodulo" ToRole="seguridadrolmodulo" />
+        </EntityType>
+        <EntityType Name="seguridadrol">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCraeacion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="seguridadrolmoduloes" Relationship="CarteraModel.FkRolxModulo" FromRole="seguridadrol" ToRole="seguridadrolmodulo" />
+          <NavigationProperty Name="seguridadusuarios" Relationship="CarteraModel.FkRolxUsuario" FromRole="seguridadrol" ToRole="seguridadusuario" />
+        </EntityType>
+        <Association Name="FkModuloxRol">
+          <End Type="CarteraModel.seguridadmodulo" Role="seguridadmodulo" Multiplicity="1" />
+          <End Type="CarteraModel.seguridadrolmodulo" Role="seguridadrolmodulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seguridadmodulo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="seguridadrolmodulo">
+              <PropertyRef Name="IdModulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkRolxModulo">
+          <End Type="CarteraModel.seguridadrol" Role="seguridadrol" Multiplicity="1" />
+          <End Type="CarteraModel.seguridadrolmodulo" Role="seguridadrolmodulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seguridadrol">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="seguridadrolmodulo">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkRolxUsuario">
+          <End Type="CarteraModel.seguridadrol" Role="seguridadrol" Multiplicity="1" />
+          <End Type="CarteraModel.seguridadusuario" Role="seguridadusuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seguridadrol">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="seguridadusuario">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CarteraModelStoreContainer" CdmEntityContainer="CarteraEntities">
-          <EntitySetMapping Name="seguridadmoduloes">
-            <EntityTypeMapping TypeName="CarteraModel.seguridadmodulo">
-              <MappingFragment StoreEntitySet="seguridadmodulo">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="seguridadrols">
-            <EntityTypeMapping TypeName="CarteraModel.seguridadrol">
-              <MappingFragment StoreEntitySet="seguridadrol">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="FechaCraeacion" ColumnName="FechaCraeacion" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="seguridadrolmoduloes">
             <EntityTypeMapping TypeName="CarteraModel.seguridadrolmodulo">
               <MappingFragment StoreEntitySet="seguridadrolmodulo">
@@ -682,6 +656,26 @@
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Valor" ColumnName="Valor" />
                 <ScalarProperty Name="Visible" ColumnName="Visible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="seguridadmoduloes">
+            <EntityTypeMapping TypeName="CarteraModel.seguridadmodulo">
+              <MappingFragment StoreEntitySet="seguridadmodulo">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="seguridadrols">
+            <EntityTypeMapping TypeName="CarteraModel.seguridadrol">
+              <MappingFragment StoreEntitySet="seguridadrol">
+                <ScalarProperty Name="FechaCraeacion" ColumnName="FechaCraeacion" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

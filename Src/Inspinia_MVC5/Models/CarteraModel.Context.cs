@@ -25,8 +25,6 @@ namespace WebCartera.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<seguridadmodulo> seguridadmoduloes { get; set; }
-        public virtual DbSet<seguridadrol> seguridadrols { get; set; }
         public virtual DbSet<seguridadrolmodulo> seguridadrolmoduloes { get; set; }
         public virtual DbSet<seguridadusuario> seguridadusuarios { get; set; }
         public virtual DbSet<tcategoria> tcategorias { get; set; }
@@ -34,5 +32,7 @@ namespace WebCartera.Models
         public virtual DbSet<tmoneda> tmonedas { get; set; }
         public virtual DbSet<tmovimiento> tmovimientoes { get; set; }
         public virtual DbSet<tparametro> tparametros { get; set; }
+        public virtual DbSet<seguridadmodulo> seguridadmoduloes { get; set; }
+        public virtual DbSet<seguridadrol> seguridadrols { get; set; }
     }
 }

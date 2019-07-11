@@ -33,7 +33,7 @@ namespace WebCartera.Models
             {
                 
                 List<tparametro> Tparametro = db.tparametros.ToList();
-                this.Modulos = db.seguridadmoduloes.Where(p => p.Activo).ToList() ;
+                this.Modulos = db.seguridadmoduloes.ToList() ;
                 UrlImgs = "~/img/";
                 this.Usuario = null;
                 this.Mantenimiento = Convert.ToInt16( Tparametro[7].Valor); //Valor de mantenimiento

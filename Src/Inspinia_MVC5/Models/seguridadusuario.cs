@@ -31,7 +31,6 @@ namespace WebCartera.Models
         public bool Activo { get; set; }
         public string Clave { get; set; }
     
-        public virtual seguridadrol seguridadrol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tmoneda> tmonedas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -40,5 +39,6 @@ namespace WebCartera.Models
         public virtual ICollection<tcategoria> tcategorias { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tcuenta> tcuentas { get; set; }
+        public virtual seguridadrol seguridadrol { get; set; }
     }
 }
