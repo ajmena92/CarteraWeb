@@ -21,7 +21,7 @@ namespace WebCartera.Models
     [MetadataType(typeof(MetaDataUsuarios))]
     public partial class seguridadusuario
     {
-        //[DataType(DataType.Password)]
+        [DataType(DataType.Password)]
         [Display(Name = "Confirme la contraseña")]
         [Compare("Clave", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmarClave { get; set; }

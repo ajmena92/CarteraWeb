@@ -22,7 +22,7 @@ namespace WebCartera.Models
         public string NomUsuario;
 
         [Required]
-        //[DataType(DataType.Password)]
+        [DataType(DataType.Password)]
         [StringLength(30, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 8)]       
         [Display(Name = "Contraseña")]
         public string Clave;

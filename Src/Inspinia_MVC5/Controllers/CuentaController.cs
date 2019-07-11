@@ -5,11 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+
+
 using WebCartera.Models;
 using WebCartera.Helpers;
 using System.Web.Routing;
-
 using PagedList;
+using EntityState = System.Data.Entity.EntityState;
 
 namespace MenuCenter.Controllers
 {
@@ -254,7 +256,7 @@ namespace MenuCenter.Controllers
             }
             ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion", seguridadUsuario.IdRol);
             ViewBag.Editar = permiso.ActivaEdicion;
-            seguridadUsuario.Clave = Security.Desencriptar(seguridadUsuario.Clave);
+            seguridadUsuario.Clave = seguridadUsuario.Clave;
             seguridadUsuario.ConfirmarClave = seguridadUsuario.Clave;
             return PartialView("_Edit", seguridadUsuario);
         }
@@ -281,8 +283,10 @@ namespace MenuCenter.Controllers
                     {
                         usuario.Activo = true;
                         usuario.NomUsuario = usuario.NomUsuario.ToUpper();
-                        usuario.Clave = Security.Encriptar(usuario.Clave);
-                        usuario.ConfirmarClave = usuario.Clave;
+                        if (usuario.Clave != "secret") {
+                            usuario.Clave = Security.Encriptar(usuario.Clave);
+                            usuario.ConfirmarClave = usuario.Clave;
+                        }                                                
                         db.Entry(usuario).State = EntityState.Modified;
                         db.SaveChanges();
                         string url = Url.Action("Detalles", "Cuenta", new { id = usuario.Id });
