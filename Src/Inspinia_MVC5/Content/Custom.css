@@ -10,3 +10,25 @@
     z-index: 1001;
     right: 5%;
 }
+.list-group-item > a {
+    color: #d3d5d5;
+}
+
+.list-group-item.active {
+    z-index: 2;
+    color: #fff;
+    background-color: #1ab394;
+    border-color: #0e8970;
+}
+.list-group-item.active > a {
+    color: #fff;
+}
+
+
+a:hover {
+    color: #0e8970;
+}
+
+a {
+    color: #1ab394;
+}

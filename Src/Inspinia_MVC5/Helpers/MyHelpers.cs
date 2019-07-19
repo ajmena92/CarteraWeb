@@ -99,7 +99,7 @@ namespace WebCartera.Helpers
                 inputs.Add(input);
             }
 
-            var submitBtn = "<input type='submit' value='{0}'>";
+            const string submitBtn = "<input type='submit' value='{0}'>";
             inputs.Add(string.Format(submitBtn, text));
 
             tbForm.InnerHtml = string.Join("\n", inputs.ToArray());

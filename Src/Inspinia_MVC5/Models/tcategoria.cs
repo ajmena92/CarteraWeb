@@ -18,18 +18,20 @@ namespace WebCartera.Models
         public tcategoria()
         {
             this.tmovimientoes = new HashSet<tmovimiento>();
+            this.tsaldoxcategorias = new HashSet<tsaldoxcategoria>();
         }
     
         public int Id { get; set; }
-        public int Id_Usuario { get; set; }
+        public int IdUsuario { get; set; }
         public string Nombre { get; set; }
         public int Tipo { get; set; }
         public string Imagen { get; set; }
-        public decimal Saldo { get; set; }
         public bool Activo { get; set; }
     
         public virtual seguridadusuario seguridadusuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tmovimiento> tmovimientoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tsaldoxcategoria> tsaldoxcategorias { get; set; }
     }
 }

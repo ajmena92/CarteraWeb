@@ -55,7 +55,13 @@ namespace WebCartera
             bundles.Add(new ScriptBundle("~/plugins/slimScroll").Include(
                       "~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"));
 
-           
+            // Footable Styless
+            bundles.Add(new StyleBundle("~/plugins/dynatableStyles").Include(
+                      "~/Scripts/plugins/dynatable/jquery.dynatable.css", new CssRewriteUrlTransform()));
+
+            // Footable alert
+            bundles.Add(new ScriptBundle("~/plugins/dynatable").Include(
+                      "~/Scripts/plugins/dynatable/jquery.dynatable.js"));
         }
     }
 }

@@ -34,7 +34,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Clave, htmlAttributes: new { @class = "control-label col-md-4" })
                 <div class="col-md-8">
-                    @Html.EditorFor(model => model.Clave, new { htmlAttributes = new { @class = "form-control", @value = "secret" } })
+                    @Html.EditorFor(model => model.Clave, new { htmlAttributes = new { @class = "form-control", @value = "secret123" } })
                     @Html.ValidationMessageFor(model => model.Clave, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ConfirmarClave, htmlAttributes: new { @class = "control-label col-md-5" })
                 <div class="col-md-7">
-                    @Html.EditorFor(model => model.ConfirmarClave, new { htmlAttributes = new { @class = "form-control", @value = "secret" } })
+                    @Html.EditorFor(model => model.ConfirmarClave, new { htmlAttributes = new { @class = "form-control", @value = "secret123" } })
                     @Html.ValidationMessageFor(model => model.ConfirmarClave, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -55,8 +55,24 @@
                             @Html.ValidationMessageFor(model => model.IdRol, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.Activo)
+                                @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @Html.HiddenFor(model => model.Activo)
+                    @Html.HiddenFor(model => model.IdRol)
                 }
             }
+            @Html.HiddenFor(model => model.Activo)
+            @Html.HiddenFor(model => model.ClaveAnterior)
         </div>
     </div>
     <div class="modal-footer">

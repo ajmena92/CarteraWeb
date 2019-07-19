@@ -25,6 +25,8 @@ namespace WebCartera.Models
         [Display(Name = "Confirme la contraseña")]
         [Compare("Clave", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmarClave { get; set; }
+      
+        public string ClaveAnterior { get; set; }
 
         #region Metodos y Propiedades   
 

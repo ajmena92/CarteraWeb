@@ -18,6 +18,7 @@ namespace WebCartera.Models
         public tmoneda()
         {
             this.tcuentas = new HashSet<tcuenta>();
+            this.tsaldoxcategorias = new HashSet<tsaldoxcategoria>();
         }
     
         public int Id { get; set; }
@@ -29,5 +30,7 @@ namespace WebCartera.Models
         public virtual seguridadusuario seguridadusuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tcuenta> tcuentas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tsaldoxcategoria> tsaldoxcategorias { get; set; }
     }
 }

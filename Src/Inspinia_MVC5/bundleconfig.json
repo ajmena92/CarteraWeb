@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "Scripts/plugins/iconpicker/css/icos.min.css",
+    "inputFiles": [
+      "Scripts/plugins/iconpicker/css/icos.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/plugins/iconpicker/icos.min.js",
+    "inputFiles": [
+      "Scripts/plugins/iconpicker/icos.js"
+    ]
+  }
+]

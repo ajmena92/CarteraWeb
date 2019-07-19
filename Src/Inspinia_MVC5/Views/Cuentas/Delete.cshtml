@@ -1,0 +1,88 @@
+﻿@model WebCartera.Models.tcuenta
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tcuenta</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Imagen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Imagen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SaldoActual)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SaldoActual)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SaldoAnterior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SaldoAnterior)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.seguridadusuario.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.seguridadusuario.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tmoneda.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tmoneda.Descripcion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,80 @@
+﻿@model WebCartera.Models.tmoneda
+
+@{
+    ViewBag.Title = "Crear Moneda";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Categorias</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Inicio")">Inicio</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <a href="@Url.Action("Index", "Monedas")">Monedas</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Crear</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content text-left p-md">
+                    <h2>
+                        <span class="text-navy">Crear Moneda</span>
+
+                    </h2>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationMessage("ModelErr", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id_Usuario)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Simbolo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Simbolo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Simbolo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.Activo)
+                                    @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input class="btn btn-primary" type="submit" value="Guardar" />
+                                <button class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Monedas")';return false;">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                    }                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

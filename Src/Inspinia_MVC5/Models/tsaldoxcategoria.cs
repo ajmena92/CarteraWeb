@@ -12,19 +12,15 @@ namespace WebCartera.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tmovimiento
+    public partial class tsaldoxcategoria
     {
-        public int Id { get; set; }
-        public int Id_Cuenta { get; set; }
-        public int Id_Categoria { get; set; }
-        public int Id_Usuario { get; set; }
-        public int Tipo { get; set; }
-        public string Descripcion { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public decimal Monto { get; set; }
+        public int IdCategoria { get; set; }
+        public int IdUsuario { get; set; }
+        public int IdMoneda { get; set; }
+        public Nullable<decimal> Saldo { get; set; }
     
         public virtual seguridadusuario seguridadusuario { get; set; }
-        public virtual tcuenta tcuenta { get; set; }
         public virtual tcategoria tcategoria { get; set; }
+        public virtual tmoneda tmoneda { get; set; }
     }
 }

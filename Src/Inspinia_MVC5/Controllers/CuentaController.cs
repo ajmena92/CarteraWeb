@@ -186,7 +186,7 @@ namespace MenuCenter.Controllers
             {
                 return View(usuario);
             }
-           
+
         }
 
 
@@ -217,9 +217,7 @@ namespace MenuCenter.Controllers
                         ModelState.AddModelError("ModelErr", "El correo ingresado ya esta registrado en nuestro sistema. Este dato no se puede duplicar.");
                     }
                     else
-                    {
-                        int dbMaxId = Convert.ToInt32(db.seguridadusuarios.Max(m => (int?)m.Id));
-                        usuario.Id = dbMaxId + 1;
+                    {                        
                         usuario.FechaCreacion = DateTime.Now;
                         usuario.NomUsuario = usuario.NomUsuario.ToUpper();
                         usuario.Clave = Security.Encriptar(usuario.Clave);
@@ -234,8 +232,7 @@ namespace MenuCenter.Controllers
                 {
                     ModelState.AddModelError("ModelErr", ex.Message);
                 }
-                usuario.Clave = Olpas;
-                usuario.ConfirmarClave = usuario.Clave;
+                usuario.ClaveAnterior = usuario.Clave;                
             }
             ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion", usuario.IdRol);
             return PartialView("_Create", usuario);
@@ -249,16 +246,17 @@ namespace MenuCenter.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            seguridadusuario seguridadUsuario = db.seguridadusuarios.Find(id);
-            if (seguridadUsuario == null)
+            seguridadusuario Usuario = db.seguridadusuarios.Find(id);
+            if (Usuario == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion", seguridadUsuario.IdRol);
+            ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion", Usuario.IdRol);
             ViewBag.Editar = permiso.ActivaEdicion;
-            seguridadUsuario.Clave = seguridadUsuario.Clave;
-            seguridadUsuario.ConfirmarClave = seguridadUsuario.Clave;
-            return PartialView("_Edit", seguridadUsuario);
+            Usuario.Clave = Usuario.Clave;
+            Usuario.ConfirmarClave = Usuario.Clave;
+            Usuario.ClaveAnterior = Usuario.Clave;
+            return PartialView("_Edit", Usuario);
         }
 
         // POST: Cuenta/Edit/5
@@ -266,27 +264,31 @@ namespace MenuCenter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Email,NomUsuario,Clave,ConfirmarClave,IdRol")] seguridadusuario usuario)
-        {            
+        public ActionResult Edit([Bind(Include = "Id,Email,NomUsuario,Clave,ConfirmarClave,ClaveAnterior,IdRol,Activo")] seguridadusuario usuario)
+        {
             seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    
+
                     bool has = db.seguridadusuarios.Any(p => p.Email == usuario.Email && p.Id != usuario.Id);
                     if (has)
                     {
                         ModelState.AddModelError("ModelErr", "El correo ingresado ya esta registrado en nuestro sistema. Este dato no se puede duplicar.");
                     }
                     else
-                    {
-                        usuario.Activo = true;
+                    {                  
                         usuario.NomUsuario = usuario.NomUsuario.ToUpper();
-                        if (usuario.Clave != "secret") {
-                            usuario.Clave = Security.Encriptar(usuario.Clave);
-                            usuario.ConfirmarClave = usuario.Clave;
-                        }                                                
+                        if (usuario.Clave != "secret123")
+                        {
+                            usuario.Clave = Security.Encriptar(usuario.Clave);                         
+                        }
+                        else
+                        {
+                            usuario.Clave = usuario.ClaveAnterior;
+                        }
+                        usuario.ConfirmarClave = usuario.Clave; //Evita error en la valiadacion.
                         db.Entry(usuario).State = EntityState.Modified;
                         db.SaveChanges();
                         string url = Url.Action("Detalles", "Cuenta", new { id = usuario.Id });
@@ -296,7 +298,7 @@ namespace MenuCenter.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("ModelErr", ex.Message);
-                }               
+                }
             }
             ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion", usuario.IdRol);
             ViewBag.Editar = permiso.ActivaEdicion;
@@ -305,7 +307,7 @@ namespace MenuCenter.Controllers
 
         public ActionResult Delete(int? id)
         {
-            seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");            
+            seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -331,7 +333,7 @@ namespace MenuCenter.Controllers
                 usuario.Activo = false;
                 usuario.ConfirmarClave = usuario.Clave;
                 db.Entry(usuario).State = EntityState.Modified;
-                db.SaveChanges();                              
+                db.SaveChanges();
                 if (sesion.Usuario.Id == id)
                 {
                     url = Url.Action("LogOff", "Cuenta");
@@ -341,7 +343,7 @@ namespace MenuCenter.Controllers
                 {
                      url = Url.Action("Index", "Cuenta");
                     return Json(new { success = true, url });
-                }                                
+                }
             }
             catch (Exception ex)
             {
@@ -362,7 +364,7 @@ namespace MenuCenter.Controllers
                     cookie.Expires = DateTime.Now.AddDays(-1);
                     this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
                 }
-                
+
             }
             catch (Exception)
             {

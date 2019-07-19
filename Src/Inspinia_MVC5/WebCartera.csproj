@@ -49,6 +49,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="DynatableParser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynatableParser.1.0.0\lib\DynatableParser.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -135,11 +138,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CategoriasController.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\CuentaController.cs" />
+    <Compile Include="Controllers\CuentasController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InicioController.cs" />
+    <Compile Include="Controllers\MonedasController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -164,6 +170,7 @@
       <DependentUpon>CarteraModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\MetaData.cs" />
+    <Compile Include="Models\PartialClass.cs" />
     <Compile Include="Models\seguridadmodulo.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
@@ -190,6 +197,9 @@
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tparametro.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tsaldoxcategoria.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs" />
@@ -317,6 +327,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="bundleconfig.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Inspinia.pubxml" />
     <Content Include="Content\landing\avatar_all.png" />
@@ -368,6 +379,16 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\app\ActivaModal.js" />
+    <Content Include="Scripts\plugins\dynatable\jquery.dynatable.css" />
+    <Content Include="Scripts\plugins\dynatable\jquery.dynatable.js" />
+    <Content Include="Scripts\plugins\iconpicker\css\icos.css" />
+    <Content Include="Scripts\plugins\iconpicker\css\icos.min.css">
+      <DependentUpon>icos.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\plugins\iconpicker\icos.js" />
+    <Content Include="Scripts\plugins\iconpicker\icos.min.js">
+      <DependentUpon>icos.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_444444_256x240.png" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_555555_256x240.png" />
     <Content Include="Scripts\plugins\jquery-ui\images\ui-icons_777620_256x240.png" />
@@ -435,6 +456,20 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Cuentas\Create.cshtml" />
+    <Content Include="Views\Cuentas\Delete.cshtml" />
+    <Content Include="Views\Cuentas\Details.cshtml" />
+    <Content Include="Views\Cuentas\Edit.cshtml" />
+    <Content Include="Views\Cuentas\Index.cshtml" />
+    <Content Include="Views\Monedas\Create.cshtml" />
+    <Content Include="Views\Monedas\Delete.cshtml" />
+    <Content Include="Views\Monedas\Edit.cshtml" />
+    <Content Include="Views\Monedas\Index.cshtml" />
+    <Content Include="Views\Categorias\Create.cshtml" />
+    <Content Include="Views\Categorias\Delete.cshtml" />
+    <Content Include="Views\Categorias\Details.cshtml" />
+    <Content Include="Views\Categorias\Edit.cshtml" />
+    <Content Include="Views\Categorias\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

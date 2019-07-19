@@ -31,14 +31,14 @@
                     <li class="@Html.IsSelected(action: "Minor2")"><a href="@Url.Action("Minor2", "Home")">TODAS</a></li>
                 </ul>
             </li>
-            <li class="@Html.IsSelected(controller: "Inicio", action: "Index")">
-                <a href="@Url.Action("Index", "Inicio")"><i class="fa fa-bookmark"></i> <span class="nav-label" data-i18n="nav.categorias">Categorias</span> <span class="label label-primary float-right">+</span></a>
+            <li class="@Html.IsSelected(controller: "Categorias")">
+                <a href="@Url.Action("Index", "Categorias")"><i class="fa fa-bookmark"></i> <span class="nav-label" data-i18n="nav.categorias">Categorias</span> <span class="label label-primary float-right">+</span></a>
             </li>
             <li class="@Html.IsSelected(controller: "Demo")">
                 <a href="@Url.Action("Main", "Demo")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.cuenta">Cuentas</span> </a>
             </li>
-            <li class="@Html.IsSelected(controller: "Demo")">
-                <a href="@Url.Action("Main", "Demo")"><i class="fa fa-dollar"></i> <span class="nav-label" data-i18n="nav.moneda">Moneda</span> </a>
+            <li class="@Html.IsSelected(controller: "Monedas")">
+                <a href="@Url.Action("Index", "Monedas")"><i class="fa fa-dollar"></i> <span class="nav-label" data-i18n="nav.moneda">Moneda</span> </a>
             </li>
             <li class="@Html.IsSelected(controller: "Config")">
                 <a href="@Url.Action("Index", "Config")"><i class="fa fa-cog"></i> <span class="nav-label" data-i18n="nav.ajustes">Ajustes</span> </a>

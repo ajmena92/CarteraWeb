@@ -17,10 +17,11 @@ namespace WebCartera.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public seguridadusuario()
         {
-            this.tmonedas = new HashSet<tmoneda>();
             this.tmovimientoes = new HashSet<tmovimiento>();
-            this.tcategorias = new HashSet<tcategoria>();
             this.tcuentas = new HashSet<tcuenta>();
+            this.tcategorias = new HashSet<tcategoria>();
+            this.tmonedas = new HashSet<tmoneda>();
+            this.tsaldoxcategorias = new HashSet<tsaldoxcategoria>();
         }
     
         public int Id { get; set; }
@@ -32,13 +33,15 @@ namespace WebCartera.Models
         public string Clave { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tmoneda> tmonedas { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tmovimiento> tmovimientoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tcategoria> tcategorias { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tcuenta> tcuentas { get; set; }
         public virtual seguridadrol seguridadrol { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tcategoria> tcategorias { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tmoneda> tmonedas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tsaldoxcategoria> tsaldoxcategorias { get; set; }
     }
 }

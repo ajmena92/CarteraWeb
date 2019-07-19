@@ -1,0 +1,135 @@
+﻿@using WebCartera.Helpers
+@model IEnumerable<WebCartera.Models.tmoneda>
+
+@{
+    ViewBag.Title = "Mantenimiento de Monedas";
+}
+<div id="replacetarget">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Monedas</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="@Url.Action("Index", "Inicio")">Inicio</a>
+                </li>
+                <li class="active breadcrumb-item">
+                    <strong>Monedas</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content ">
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h4>Listado de Monedas </h4>
+                </div>
+                <div class="ibox-content">
+                    <p>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-4">
+                                <select class="form-control" id="search-estado" name="estado">
+                                    <option>-- Todos --</option>
+                                    <option>Activo</option>
+                                    <option>Inactivo</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="input-group">
+                                    <input type="search" id="search" class="form-control dynatable-search" placeholder="Buscar .."><span class="btn btn-primary fa fa-search"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </p>
+                    <div class="table-responsive animated fadeIn">
+                        <table id="t_datos" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Descripcion)
+                                    </th>
+                                    <th data-hide="phone">
+                                        @Html.DisplayNameFor(model => model.Simbolo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Activo)
+                                    </th>
+                                    <th data-dynatable-no-sort="true">
+                                        @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", "Nuevo", "Create", "Monedas", htmlAttributes: new { @class = "btn btn-secondary pull-right" })
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Descripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Simbolo)
+                                        </td>
+                                        <td class="text-center">@(item.Activo ? "Activo" : "Inactivo")</td>
+                                        <td>
+                                            <div class="pull-right">
+                                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-pencil'></span> ", "Editar", "Edit", "Monedas", routeValues: new { id = item.Id }, htmlAttributes: new { data_modal = "", @class = "btn btn-outline-secondary btn-sm" })
+                                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-trash'></span>", "Eliminar", "Delete", "Monedas", routeValues: new { id = item.Id }, htmlAttributes: new { data_modal = "", @class = "btn btn-outline-secondary btn-sm" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Styles {
+        @Styles.Render("~/plugins/dynatableStyles")
+    }
+    @section Scripts {
+        @Scripts.Render("~/plugins/dynatable")
+        <script type="text/javascript">
+            var dynatable = $('#t_datos').dynatable({
+                features: {
+                    perPageSelect: false,
+                    search: false,
+                    recordCount: false
+                },
+                dataset: {
+                    perPageDefault: 5,
+                    perPageOptions: [5, 10, 15, 20],
+                },
+                inputs: {
+                    paginationPrev: '<span class="fa fa-arrow-left"></span>',
+                    paginationNext: '<span class="fa fa-arrow-right"></span>',
+                    recordCountText: 'De ',
+                    processingText: 'Prosesando...',
+                    queries: $('#search')
+                }
+
+            }).data('dynatable');
+            $('#search-estado').change(function () {
+                var value = $(this).val();
+                if (value === "-- Todos --") {
+                    dynatable.queries.remove("estado");
+                } else {
+                    dynatable.queries.add("estado", value);
+                }
+                dynatable.process();
+            });
+            $(function () {
+                $("#search-estado").val("Activo").change();
+            });
+        </script>
+    }

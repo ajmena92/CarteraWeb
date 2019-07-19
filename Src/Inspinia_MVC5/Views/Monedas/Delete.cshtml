@@ -1,0 +1,80 @@
+﻿@model WebCartera.Models.tmoneda
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Categorias</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Inicio")">Inicio</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <a href="@Url.Action("Index", "Monedas")">Monedas</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Eliminar</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content text-left p-md">
+                    <h2>
+                        <span class="text-navy">Esta seguro de eliminar esta moneda ?</span>
+
+                    </h2>                    
+                    <div>
+
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Descripcion)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Descripcion)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Simbolo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Simbolo)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Activo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Activo)
+                            </dd>
+
+                        </dl>
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input class="btn btn-danger" type="submit" value="Borrar" />
+                                    <button class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Monedas")';return false;">Cancelar</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
