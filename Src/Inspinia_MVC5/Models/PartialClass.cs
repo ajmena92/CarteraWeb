@@ -17,4 +17,8 @@ namespace WebCartera.Models
     [MetadataType(typeof(MetaDatatmoneda))]
     public partial class tmoneda {
     }
+    [MetadataType(typeof(MetaDatatcuenta))]
+    public partial class tcuenta
+    {
+    }
 }

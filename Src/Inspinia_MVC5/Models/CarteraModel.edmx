@@ -67,7 +67,7 @@
           <Property Name="Imagen" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="SaldoActual" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="SaldoAnterior" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="Activo" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tmoneda">
           <Key>
@@ -359,29 +359,12 @@
           <Property Name="FechaCreacion" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tmovimientoes" Relationship="Self.FkUsarioxMov" FromRole="seguridadusuario" ToRole="tmovimiento" />
-          <NavigationProperty Name="tcuentas" Relationship="Self.FkUsuarioxCuenta" FromRole="seguridadusuario" ToRole="tcuenta" />
           <Property Name="Clave" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="seguridadrol" Relationship="CarteraModel.FkRolxUsuario" FromRole="seguridadusuario" ToRole="seguridadrol" />
           <NavigationProperty Name="tcategorias" Relationship="CarteraModel.FkUsuarioxCategoria" FromRole="seguridadusuario" ToRole="tcategoria" />
           <NavigationProperty Name="tmonedas" Relationship="CarteraModel.FkUsuarioxMoneda" FromRole="seguridadusuario" ToRole="tmoneda" />
           <NavigationProperty Name="tsaldoxcategorias" Relationship="CarteraModel.FkUsuarioxSaldo" FromRole="seguridadusuario" ToRole="tsaldoxcategoria" />
-        </EntityType>
-        <EntityType Name="tcuenta">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_Usuario" Type="Int32" Nullable="false" />
-          <Property Name="Id_Moneda" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Imagen" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SaldoActual" Type="Decimal" Nullable="false" />
-          <Property Name="SaldoAnterior" Type="Decimal" Nullable="false" />
-          <Property Name="Activo" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="seguridadusuario" Relationship="Self.FkUsuarioxCuenta" FromRole="tcuenta" ToRole="seguridadusuario" />
-          <NavigationProperty Name="tmovimientoes" Relationship="Self.FkCuentaxMov" FromRole="tcuenta" ToRole="tmovimiento" />
-          <NavigationProperty Name="tmoneda" Relationship="CarteraModel.FkMonedaxCuenta" FromRole="tcuenta" ToRole="tmoneda" />
+          <NavigationProperty Name="tcuentas" Relationship="CarteraModel.FkUsuarioxCuenta" FromRole="seguridadusuario" ToRole="tcuenta" />
         </EntityType>
         <EntityType Name="tmovimiento">
           <Key>
@@ -396,8 +379,8 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" />
           <Property Name="Monto" Type="Decimal" Nullable="false" />
           <NavigationProperty Name="seguridadusuario" Relationship="Self.FkUsarioxMov" FromRole="tmovimiento" ToRole="seguridadusuario" />
-          <NavigationProperty Name="tcuenta" Relationship="Self.FkCuentaxMov" FromRole="tmovimiento" ToRole="tcuenta" />
           <NavigationProperty Name="tcategoria" Relationship="CarteraModel.FkCategoriaxMov" FromRole="tmovimiento" ToRole="tcategoria" />
+          <NavigationProperty Name="tcuenta" Relationship="CarteraModel.FkCuentaxMov" FromRole="tmovimiento" ToRole="tcuenta" />
         </EntityType>
         <EntityType Name="tparametro">
           <Key>
@@ -421,46 +404,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FkUsuarioxCuenta">
-          <End Role="seguridadusuario" Type="Self.seguridadusuario" Multiplicity="1" />
-          <End Role="tcuenta" Type="Self.tcuenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="seguridadusuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tcuenta">
-              <PropertyRef Name="Id_Usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FkCuentaxMov">
-          <End Role="tcuenta" Type="Self.tcuenta" Multiplicity="1" />
-          <End Role="tmovimiento" Type="Self.tmovimiento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tcuenta">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tmovimiento">
-              <PropertyRef Name="Id_Cuenta" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="CarteraEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="seguridadrolmoduloes" EntityType="Self.seguridadrolmodulo" />
           <EntitySet Name="seguridadusuarios" EntityType="Self.seguridadusuario" />
-          <EntitySet Name="tcuentas" EntityType="Self.tcuenta" />
           <EntitySet Name="tmovimientoes" EntityType="Self.tmovimiento" />
           <EntitySet Name="tparametros" EntityType="Self.tparametro" />
           <AssociationSet Name="FkUsarioxMov" Association="Self.FkUsarioxMov">
             <End Role="seguridadusuario" EntitySet="seguridadusuarios" />
-            <End Role="tmovimiento" EntitySet="tmovimientoes" />
-          </AssociationSet>
-          <AssociationSet Name="FkUsuarioxCuenta" Association="Self.FkUsuarioxCuenta">
-            <End Role="seguridadusuario" EntitySet="seguridadusuarios" />
-            <End Role="tcuenta" EntitySet="tcuentas" />
-          </AssociationSet>
-          <AssociationSet Name="FkCuentaxMov" Association="Self.FkCuentaxMov">
-            <End Role="tcuenta" EntitySet="tcuentas" />
             <End Role="tmovimiento" EntitySet="tmovimientoes" />
           </AssociationSet>
           <EntitySet Name="seguridadmoduloes" EntityType="CarteraModel.seguridadmodulo" />
@@ -500,15 +450,24 @@
             <End Role="tcategoria" EntitySet="tcategorias" />
             <End Role="tsaldoxcategoria" EntitySet="tsaldoxcategorias" />
           </AssociationSet>
-          <AssociationSet Name="FkMonedaxCuenta" Association="CarteraModel.FkMonedaxCuenta">
-            <End Role="tmoneda" EntitySet="tmonedas" />
-            <End Role="tcuenta" EntitySet="tcuentas" />
-          </AssociationSet>
           <AssociationSet Name="FkMonedaxSaldo" Association="CarteraModel.FkMonedaxSaldo">
             <End Role="tmoneda" EntitySet="tmonedas" />
             <End Role="tsaldoxcategoria" EntitySet="tsaldoxcategorias" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="tcuentas" EntityType="CarteraModel.tcuenta" />
+          <AssociationSet Name="FkUsuarioxCuenta" Association="CarteraModel.FkUsuarioxCuenta">
+            <End Role="seguridadusuario" EntitySet="seguridadusuarios" />
+            <End Role="tcuenta" EntitySet="tcuentas" />
+          </AssociationSet>
+          <AssociationSet Name="FkCuentaxMov" Association="CarteraModel.FkCuentaxMov">
+            <End Role="tcuenta" EntitySet="tcuentas" />
+            <End Role="tmovimiento" EntitySet="tmovimientoes" />
+          </AssociationSet>
+          <AssociationSet Name="FkMonedaxCuenta" Association="CarteraModel.FkMonedaxCuenta">
+            <End Role="tmoneda" EntitySet="tmonedas" />
+            <End Role="tcuenta" EntitySet="tcuentas" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="seguridadmodulo">
           <Key>
             <PropertyRef Name="Id" />
@@ -590,8 +549,8 @@
           <Property Name="Simbolo" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="seguridadusuario" Relationship="CarteraModel.FkUsuarioxMoneda" FromRole="tmoneda" ToRole="seguridadusuario" />
-          <NavigationProperty Name="tcuentas" Relationship="CarteraModel.FkMonedaxCuenta" FromRole="tmoneda" ToRole="tcuenta" />
           <NavigationProperty Name="tsaldoxcategorias" Relationship="CarteraModel.FkMonedaxSaldo" FromRole="tmoneda" ToRole="tsaldoxcategoria" />
+          <NavigationProperty Name="tcuentas" Relationship="CarteraModel.FkMonedaxCuenta" FromRole="tmoneda" ToRole="tcuenta" />
         </EntityType>
         <EntityType Name="tsaldoxcategoria">
           <Key>
@@ -667,18 +626,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FkMonedaxCuenta">
-          <End Type="CarteraModel.tmoneda" Role="tmoneda" Multiplicity="1" />
-          <End Type="CarteraModel.tcuenta" Role="tcuenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tmoneda">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="tcuenta">
-              <PropertyRef Name="Id_Moneda" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FkMonedaxSaldo">
           <End Type="CarteraModel.tmoneda" Role="tmoneda" Multiplicity="1" />
           <End Type="CarteraModel.tsaldoxcategoria" Role="tsaldoxcategoria" Multiplicity="*" />
@@ -691,7 +638,60 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="tcuenta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Usuario" Type="Int32" Nullable="false" />
+          <Property Name="Id_Moneda" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Imagen" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="SaldoActual" Type="Decimal" Nullable="false" />
+          <Property Name="SaldoAnterior" Type="Decimal" Nullable="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="seguridadusuario" Relationship="CarteraModel.FkUsuarioxCuenta" FromRole="tcuenta" ToRole="seguridadusuario" />
+          <NavigationProperty Name="tmovimientoes" Relationship="CarteraModel.FkCuentaxMov" FromRole="tcuenta" ToRole="tmovimiento" />
+          <NavigationProperty Name="tmoneda" Relationship="CarteraModel.FkMonedaxCuenta" FromRole="tcuenta" ToRole="tmoneda" />
+        </EntityType>
+        <Association Name="FkUsuarioxCuenta">
+          <End Type="CarteraModel.seguridadusuario" Role="seguridadusuario" Multiplicity="1" />
+          <End Type="CarteraModel.tcuenta" Role="tcuenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seguridadusuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tcuenta">
+              <PropertyRef Name="Id_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkCuentaxMov">
+          <End Type="CarteraModel.tcuenta" Role="tcuenta" Multiplicity="1" />
+          <End Type="CarteraModel.tmovimiento" Role="tmovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tcuenta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tmovimiento">
+              <PropertyRef Name="Id_Cuenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkMonedaxCuenta">
+          <End Type="CarteraModel.tmoneda" Role="tmoneda" Multiplicity="1" />
+          <End Type="CarteraModel.tcuenta" Role="tcuenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tmoneda">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tcuenta">
+              <PropertyRef Name="Id_Moneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -715,21 +715,6 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="NomUsuario" ColumnName="NomUsuario" />
                 <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tcuentas">
-            <EntityTypeMapping TypeName="CarteraModel.tcuenta">
-              <MappingFragment StoreEntitySet="tcuenta">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
-                <ScalarProperty Name="Id_Moneda" ColumnName="Id_Moneda" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-                <ScalarProperty Name="SaldoActual" ColumnName="SaldoActual" />
-                <ScalarProperty Name="SaldoAnterior" ColumnName="SaldoAnterior" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -809,6 +794,21 @@
                 <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tcuentas">
+            <EntityTypeMapping TypeName="CarteraModel.tcuenta">
+              <MappingFragment StoreEntitySet="tcuenta">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="SaldoAnterior" ColumnName="SaldoAnterior" />
+                <ScalarProperty Name="SaldoActual" ColumnName="SaldoActual" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Moneda" ColumnName="Id_Moneda" />
+                <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

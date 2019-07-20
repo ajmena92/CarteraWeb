@@ -24,7 +24,7 @@ namespace WebCartera.Models
         public decimal Monto { get; set; }
     
         public virtual seguridadusuario seguridadusuario { get; set; }
-        public virtual tcuenta tcuenta { get; set; }
         public virtual tcategoria tcategoria { get; set; }
+        public virtual tcuenta tcuenta { get; set; }
     }
 }

@@ -1,6 +1,10 @@
-﻿<div class="footer">
+﻿@using WebCartera.Models
+@{
+    Parametro Parametro = (Parametro)Session["MiSession"];
+}
+<div class="footer">
     <div class="float-right">
-        Example text
+        <span class="m-r-sm text-muted welcome-message">@Parametro.NomEmpresa  + Smart Wallet</span>
     </div>
     <div>
         <strong>Copyright</strong> Smart Wallet &copy;  <span class="year"></span>

@@ -11,11 +11,32 @@ using System.Web.Mvc;
 namespace WebCartera.Models
 {
 
+    public class MetaDatatcuenta
+    {
+        [Required]
+        [StringLength(45, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud y maximo {1}.", MinimumLength = 4)]
+        public string Nombre;
+        [Required]
+        [StringLength(45, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud y maximo {1}.", MinimumLength = 4)]
+        [Display(Name = "Descripción")]
+        public string Descripcion;
+        [Required]
+        public string Imagen { get; set; }
+        [Required]
+        [Display(Name = "Saldo")]
+        [Range(0, double.MaxValue, ErrorMessage = "Valor ingresado fuera del rango.")]
+        public decimal SaldoActual;     
+        [Display(Name = "Estado")]
+        public bool Activo;
+        [Required]
+        public int Id_Moneda;
+    }
+
     public class MetaDatatmoneda
     {
         [Required]
         [StringLength(45, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 4)]
-        [Display(Name = "Nombre")]
+        [Display(Name = "Moneda")]
         public string Descripcion;
         [Required]
         [StringLength(1, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 1)]
@@ -33,6 +54,8 @@ namespace WebCartera.Models
         public int Tipo;
         [Required]
         public String Imagen;
+        [Display(Name = "Estado")]
+        public bool Activo;
 
     }
 

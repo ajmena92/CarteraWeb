@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Crear Categoria";
 }
-@Styles.Render("~/Scripts/plugins/iconpicker/css/icos.css")
+
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>Categorias</h2>
@@ -44,7 +44,11 @@
                         <div class="form-group picker">
                             @Html.LabelFor(model => model.Imagen, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Imagen, new { htmlAttributes = new { @class = "form-control inputpicker" } })
+                                <div class="input-group">
+                                    @Html.EditorFor(model => model.Imagen, new { htmlAttributes = new { @class = "form-control inputpicker", autocomplete = "off" }})
+                                    <span id="ImgIcosm" class="btn btn-outline-secondary fa fa-ban"></span>
+                                </div>
+
                                 @Html.ValidationMessageFor(model => model.Imagen, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -83,7 +87,10 @@
         </div>
     </div>
 </div>
-
+@section Styles {
+    @Styles.Render("~/Scripts/plugins/iconpicker/css/icos.css")
+}
 @section scripts{
     @Scripts.Render("~/Scripts/plugins/iconpicker/icos.js")
+    @Scripts.Render("~/bundles/jqueryForm")
 }

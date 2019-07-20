@@ -23,6 +23,14 @@ namespace WebCartera.Models
 
         public List<seguridadmodulo> Modulos { get; set; }
 
+        public int CuentaFiltro { get; set; }
+
+        public int RangoFiltro { get; set; }
+
+        public DateTime FechaInicial  { get; set; }
+
+        public DateTime FechaFinal { get; set; }
+
         #region Metodos y Propiedades
 
         public Parametro() { }
@@ -39,6 +47,8 @@ namespace WebCartera.Models
                 this.Mantenimiento = Convert.ToInt16( Tparametro[7].Valor); //Valor de mantenimiento
                 this.NomEmpresa = Tparametro[8].Valor; //Valor de mantenimiento
                 this.Usuario = pUsuario;
+                this.CuentaFiltro = 0; // filtro todas las cuentas
+                this.RangoFiltro = 1; //filtro por dia
             }
             catch (Exception )
             {

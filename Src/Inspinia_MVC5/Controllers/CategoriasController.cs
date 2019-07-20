@@ -21,58 +21,12 @@ namespace WebCartera.Controllers
         private seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
 
         // GET: Categorias
-        public ActionResult Index(string currentFilter, string searchString,int? Inactivo, int? sortType, int? page)
+        public ActionResult Index()
         {
-            Parametro sesion = Parametro.ObtenerSesionPagina();      
-            if (searchString != null)
-            {
-                searchString = searchString.ToLower();
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            if (sortType == null || sortType > 2 || sortType < 0)
-            {
-                sortType = 0;
-            }
-            if (Inactivo == null || Inactivo != 1)
-            {
-                ViewBag.Inactivo = 0;
-            }
-            else
-            {
-                if (ViewBag.Inactivo == 1)
-                {
-                    ViewBag.Inactivo = 0;
-                    Inactivo = 0;
-                }
-                else
-                {
-                    ViewBag.Inactivo = 1;
-                }
-            }
-            ViewBag.sortType = sortType;
-            ViewBag.CurrentFilter = searchString;            
-           
-            var categorias = db.tcategorias.Where(c=> c.IdUsuario == sesion.Usuario.Id).AsQueryable();
-            if (Inactivo == 0) {
-                categorias = categorias.Where(p => p.Activo);
-            }
-            if (sortType > 0)
-            {
-                categorias = categorias.Where(p => p.Tipo == sortType);
-            }         
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                categorias = categorias.Where(p => p.Nombre.ToLower().Contains(searchString));
-                ViewBag.SearchString = searchString;
-            }                             
-            categorias = categorias.OrderBy(p => p.Tipo).ThenBy(p => p.Id);
-            const int pageSize = 6;
-            int pageNumber = (page ?? 1);
-            return View(categorias.ToPagedList(pageNumber, pageSize));
+            Parametro sesion = Parametro.ObtenerSesionPagina();           
+            var categorias = db.tcategorias.Where(m => m.IdUsuario == sesion.Usuario.Id);
+            ViewBag.Tipo = ListTipoCategorias();
+            return View(categorias.ToList());
         }
         
         public ActionResult Create()
@@ -189,14 +143,14 @@ namespace WebCartera.Controllers
                 items.Add(new SelectListItem
                 { Text = "Ingreso", Value = "1", Selected = true });
                 items.Add(new SelectListItem
-                { Text = "Gastos", Value = "2", });
+                { Text = "Gasto", Value = "2", });
             }
             else if (pValue == 2)
             {
                 items.Add(new SelectListItem
                 { Text = "Ingreso", Value = "1" });
                 items.Add(new SelectListItem
-                { Text = "Gastos", Value = "2", Selected = true });
+                { Text = "Gasto", Value = "2", Selected = true });
             }
             else
             {
@@ -204,7 +158,7 @@ namespace WebCartera.Controllers
                 items.Add(new SelectListItem
                 { Text = "Ingreso", Value = "1" });
                 items.Add(new SelectListItem
-                { Text = "Gastos", Value = "2", });
+                { Text = "Gasto", Value = "2", });
             }
             return items;
         }

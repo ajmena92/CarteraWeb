@@ -27,7 +27,6 @@ namespace WebCartera.Models
     
         public virtual DbSet<seguridadrolmodulo> seguridadrolmoduloes { get; set; }
         public virtual DbSet<seguridadusuario> seguridadusuarios { get; set; }
-        public virtual DbSet<tcuenta> tcuentas { get; set; }
         public virtual DbSet<tmovimiento> tmovimientoes { get; set; }
         public virtual DbSet<tparametro> tparametros { get; set; }
         public virtual DbSet<seguridadmodulo> seguridadmoduloes { get; set; }
@@ -35,5 +34,6 @@ namespace WebCartera.Models
         public virtual DbSet<tcategoria> tcategorias { get; set; }
         public virtual DbSet<tmoneda> tmonedas { get; set; }
         public virtual DbSet<tsaldoxcategoria> tsaldoxcategorias { get; set; }
+        public virtual DbSet<tcuenta> tcuentas { get; set; }
     }
 }

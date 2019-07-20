@@ -11,8 +11,16 @@ namespace WebCartera.Controllers
         public Parametro sesion = Parametro.ObtenerSesionPagina();
 
         // GET: Inicio
-        public ActionResult Index()
+        public ActionResult Index(int? cuenta, int? rango )
         {
+            if (cuenta != null) {
+                sesion.CuentaFiltro = Convert.ToInt16( cuenta);
+            }
+            if (rango != null)
+            {
+                sesion.RangoFiltro = Convert.ToInt16(rango);                
+            }
+
             return View();
         }
 

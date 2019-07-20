@@ -520,53 +520,28 @@
     @*   @Scripts.Render("~/plugins/footable")*@
 
     <script src="~/Scripts/plugins/dynatable/jquery.dynatable.js"></script>
-    <script>
-      
-        var dynatable = $('#example').dynatable({        
-            features: {            
-                perPageSelect: false,
-                search: false
-            },
-             dataset: {                             
-                perPageDefault: 5,
-                perPageOptions: [5, 10, 15, 20],              
-            },
-            inputs: {                
-                paginationPrev: 'Anterior',
-                paginationNext: 'Siguiente',             
-                recordCountText: 'De ',
-                processingText: 'Prosesando...',
-                queries: $('#search-job,  #search')
-        }
-
-        }).data('dynatable');   
-
-        $('.date-picker').datepicker({
-        });
-
-        $('#search-year').change(function () {
-            dynatable.processingIndicator.show()
-            var value = $(this).val();
-            if (value === "-- Todos --") {
-                dynatable.queries.remove("office");
-            } else {
-                dynatable.queries.add("office", value);
-            }
-            dynatable.process();
-        });
+    <script>            
         $(function () {
-        //    $('#YourDDLId').trigger('change');
+            var val = parseInt(GetURLParameter(), 10);
+            var cuenta;
+            if (val == null || val == 0 || Number.isInteger(val) == false) {
+                $('#menu_0').addClass("active");
+                cuenta = $('#menu_0').text();
+            } else {
+                $('#menu_' + val).addClass("active"); 
+                cuenta = $('#menu_' + val).text();
+            }            
+            $('#menu_select').text(cuenta);
+        });   
+        function GetURLParameter() {
+            var sPageURL = window.location.href;
+            var indexOfLastSlash = sPageURL.lastIndexOf("/");
 
-        //});
-            $("#search-year").val("Edinburgh").change();
-            //$("#search-year").prop('selectedIndex', 1);
-            //$("#search-year").val('Edinburgh').trigger("chosen:change");
-            //var arNames = $('#year').val()
-            //if (arNames == "Edinburgh") {
-            //    dynatable.queries.add("office", value);
-            //}
-            
-        });                    
+            if (indexOfLastSlash > 0 && sPageURL.length - 1 != indexOfLastSlash)
+                return sPageURL.substring(indexOfLastSlash + 1);
+            else
+                return 0;
+        }
       
     </script>
 }

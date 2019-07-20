@@ -1,0 +1,215 @@
+﻿@using WebCartera.Models
+@{
+    Parametro Parametro = (Parametro)Session["MiSession"];
+    seguridadusuario Usuario = Parametro.Usuario;
+}
+<div id="right-sidebar">
+    <div class="sidebar-container">
+
+        <ul class="nav nav-tabs navs-3">
+
+            <li>
+                <a class="nav-link active" data-toggle="tab" href="#tab-1">
+                    Agregar
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" data-toggle="tab" href="#tab-2">
+                    Rango
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" data-toggle="tab" href="#tab-3">
+                    Mi Cuenta
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane active">
+
+                <div class="sidebar-title text-center">
+                    <h3> <i class="fa fa-edit"></i> Registrar Trasacción</h3>
+                </div>
+                <div class="tab_menu">
+                    <a  href="@Url.Action("Detalles", "Cuenta",new { Id = Parametro.Usuario.Id})">
+                        <div class="setings-item gatos_tab ">
+                            <span class="font-bold">
+                                Gastos
+                            </span>
+                            <i class="fa fa-minus-circle float-right"></i>
+                        </div>
+                    </a>
+                    <a  href="@Url.Action("Detalles", "Cuenta",new { Id = Parametro.Usuario.Id})">
+                        <div class="setings-item ingresos_tab">
+                            <span>
+                                Ingresos
+                            </span>
+                            <i class="fa fa-plus-square float-right"></i>
+                        </div>
+                    </a>
+                    <a href="@Url.Action("LogOff", "Cuenta")">
+                        <div class="setings-item transfer_tab">
+                            <span>
+                                Transferencia
+                            </span>
+                            <i class="fa fa-exchange float-right"></i>
+                        </div>
+                    </a>                   
+                </div>
+
+            </div>
+
+            <div id="tab-2" class="tab-pane">
+
+                <div class="sidebar-title">
+                    <h3> <i class="fa fa-calendar-plus-o"></i>Filtro de rango reportes.</h3>
+                    <small><i class="fa fa-tim"></i> Selecciones el rango de fecha.</small>
+                </div>
+
+                <ul class="sidebar-list">
+                    <li>
+                        <a href="#">
+                            <div class="small float-right m-t-xs">9 hours ago</div>
+                            <h4>Business valuation</h4>
+                            It is a long established fact that a reader will be distracted.
+
+                            <div class="small">Completion with: 22%</div>
+                            <div class="progress progress-mini">
+                                <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
+                            </div>
+                            <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="small float-right m-t-xs">9 hours ago</div>
+                            <h4>Contract with Company </h4>
+                            Many desktop publishing packages and web page editors.
+
+                            <div class="small">Completion with: 48%</div>
+                            <div class="progress progress-mini">
+                                <div style="width: 48%;" class="progress-bar"></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="small float-right m-t-xs">9 hours ago</div>
+                            <h4>Meeting</h4>
+                            By the readable content of a page when looking at its layout.
+
+                            <div class="small">Completion with: 14%</div>
+                            <div class="progress progress-mini">
+                                <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-primary float-right">NEW</span>
+                            <h4>The generated</h4>
+                            <!--<div class="small float-right m-t-xs">9 hours ago</div>-->
+                            There are many variations of passages of Lorem Ipsum available.
+                            <div class="small">Completion with: 22%</div>
+                            <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="small float-right m-t-xs">9 hours ago</div>
+                            <h4>Business valuation</h4>
+                            It is a long established fact that a reader will be distracted.
+
+                            <div class="small">Completion with: 22%</div>
+                            <div class="progress progress-mini">
+                                <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
+                            </div>
+                            <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="small float-right m-t-xs">9 hours ago</div>
+                            <h4>Contract with Company </h4>
+                            Many desktop publishing packages and web page editors.
+
+                            <div class="small">Completion with: 48%</div>
+                            <div class="progress progress-mini">
+                                <div style="width: 48%;" class="progress-bar"></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="small float-right m-t-xs">9 hours ago</div>
+                            <h4>Meeting</h4>
+                            By the readable content of a page when looking at its layout.
+
+                            <div class="small">Completion with: 14%</div>
+                            <div class="progress progress-mini">
+                                <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-primary float-right">NEW</span>
+                            <h4>The generated</h4>
+                            <!--<div class="small float-right m-t-xs">9 hours ago</div>-->
+                            There are many variations of passages of Lorem Ipsum available.
+                            <div class="small">Completion with: 22%</div>
+                            <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div id="tab-3" class="tab-pane">
+
+                <div class="sidebar-title">
+                    <h3><i class="fa fa-address-card"></i>  @Usuario.NomUsuario</h3>
+                </div>
+                <a href="@Url.Action("Detalles", "Cuenta",new { Id = Parametro.Usuario.Id})">
+                    <div class="setings-item">
+                        <span>
+                            Mi Perfil
+                        </span>
+                        <i class="fa fa-chevron-right float-right"></i>
+                    </div>
+                </a>
+                <a href="@Url.Action("Detalles", "Cuenta",new { Id = Parametro.Usuario.Id})">
+                    <div class="setings-item">
+                        <span>
+                            Cambiar Contraseña
+                        </span>
+                        <i class="fa fa-user-secret float-right"></i>
+                    </div>
+                </a>                               
+                <a href="@Url.Action("LogOff", "Cuenta")">
+                    <div class="setings-item">
+                        <span>
+                            Cerrar Sesión
+                        </span>
+                        <i class="fa fa-sign-out float-right"></i>
+                    </div>
+                </a>
+
+                <div class="sidebar-content">
+                    <h4 class="text-center">SW+</h4>
+                    <div class="small">
+                        ¿Cómo hacer un seguimiento de tus gastos con éxito? Sabemos que es fácil. Solo tienes que ir añadiendo cada gasto que hagas… ¡así de sencillo! Y Monefy te va a ayudar. Basta con añadir nuevos registros cuando compres un café o pidas un taxi. Se hace con un solo clic!
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+

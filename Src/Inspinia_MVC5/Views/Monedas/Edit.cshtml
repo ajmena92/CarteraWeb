@@ -35,46 +35,49 @@
                     {
                         @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
-                        @Html.ValidationMessage("ModelErr", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.Id_Usuario)
-                        @Html.HiddenFor(model => model.Id)
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                        <div class="form-horizontal">
+                            @Html.ValidationMessage("ModelErr", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id_Usuario)
+                            @Html.HiddenFor(model => model.Id)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Simbolo, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Simbolo, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Simbolo, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Simbolo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Simbolo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Simbolo, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                <div class="checkbox">
-                                    @Html.EditorFor(model => model.Activo)
-                                    @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.Activo)
+                                        @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input class="btn btn-primary" type="submit" value="Guardar" />
+                                    <button class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Monedas")';return false;">Cancelar</button>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input class="btn btn-primary" type="submit" value="Guardar" />
-                                <button class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Monedas")';return false;">Cancelar</button>
-                            </div>
-                        </div>
-                    </div>
                     }
                 </div>
             </div>
         </div>
     </div>
 </div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryForm")
+}

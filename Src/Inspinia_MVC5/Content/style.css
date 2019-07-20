@@ -896,11 +896,12 @@ h5 {
   border-color: #2f4050;
 }
 .navbar-top-links li {
-  display: inline-block;
+  /*display: inline-block;*/
   align-self: center;
-}
+}  
+
 .body-small .navbar-top-links li:last-child {
-  margin-right: 0;
+    margin-right: 0;
 }
 .navbar-top-links li a {
   padding: 20px 10px;

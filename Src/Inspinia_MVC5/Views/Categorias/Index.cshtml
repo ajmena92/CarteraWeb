@@ -1,10 +1,7 @@
 ﻿@using WebCartera.Helpers
-@using PagedList.Mvc;
 @model IEnumerable<WebCartera.Models.tcategoria>
-
 @{
     ViewBag.Title = "Mantenimiento de Categorias";
-    var pagedlist = (PagedList.IPagedList)Model;
 }
 
 <div id="replacetarget">
@@ -29,54 +26,38 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox ">
+                    <div class="ibox-title">
+                        <h4>Listado de Categorias </h4>
+                    </div>
                     <div class="ibox-content text-center p-md">
-
-                        <h2>
-                            <span class="text-navy">Lista de Categorias</span>                                                                                  
-                        </h2>
-                   
-
-                        @using (Html.BeginForm())
-                        {
-
-                            <p>
-                                <div class="row">
-                                    <div class="col-md-12 col-lg-6">
-                                        <div class="input-group">
-                                            @Html.TextBox("SearchString", null, new { @class = "form-control ", @Placeholder = "Buscar por nombre" })
-                                            <div class="input-group-btn">
-                                                <button type="submit" class="btn btn-primary">
-                                                    Buscar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>          
-                                    <div class="col-sm-6 col-lg-2 text-sm-center">
-                                        <ul class="list-group list-group-item-action">
-                                            <li class="list-group-item @(ViewBag.Inactivo == 1 ? "active" : "")">@Html.ActionLink("Ver Inactivos", "Index", new { Inactivo = 1, currentFilter = ViewBag.CurrentFilter })</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-6 col-lg-4  text-md-right text-sm-center">
-                                        <ul class="list-group list-group-horizontal  text-md-right text-sm-center">
-                                            <li class="list-group-item @(ViewBag.sortType == 1 ? "active" : "")">@Html.ActionLink("Ingresos", "Index", new { sortType = 1, currentFilter = ViewBag.CurrentFilter , Inactivo= ViewBag.Inactivo })</li>
-                                            <li class="list-group-item @(ViewBag.sortType == 0 ? "active" : "") ">@Html.ActionLink("Ambos", "Index", new { sortType = 0, currentFilter = ViewBag.CurrentFilter, Inactivo = ViewBag.Inactivo })</li>
-                                            <li class="list-group-item @(ViewBag.sortType == 2 ? "active" : "") ">@Html.ActionLink("Gastos", "Index", new { sortType = 2, currentFilter = ViewBag.CurrentFilter, Inactivo = ViewBag.Inactivo })</li>
-                                        </ul>
+                        <p>
+                            <div class="row">
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="input-group">
+                                        <input type="search" id="search" class="form-control dynatable-search" placeholder="Buscar .."><span class="btn btn-primary fa fa-search"></span>
                                     </div>
                                 </div>
+                                
+                                <div class="col-sm-3 col-lg-4">
+                                    @Html.DropDownList("Tipo", null, "-- Tipo --", htmlAttributes: new {@id= "search-tipo", @class = "form-control" })
+                                </div>
+                                <div class="col-sm-3 col-lg-4">
+                                    <select class="form-control" id="search-estado" name="estado">
+                                        <option>-- Todos --</option>
+                                        <option>Activo</option>
+                                        <option>Inactivo</option>
+                                    </select>
+                                </div>
 
-                            </p>
-                        }
 
-                        <div class="table-responsive animated fadeIn">
-                            <table class="table table-hover">
+                            </div>
+                        </p>
+
+                        <div class="table-responsive">
+                            <table id="t_datos" class="table table-hover ">
                                 <thead>
                                     <tr>
-
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <th>
+                                        <th data-dynatable-no-sort="true">
                                             @Html.DisplayNameFor(model => model.Imagen)
                                         </th>
                                         <th>
@@ -86,14 +67,14 @@
                                             @Html.DisplayNameFor(model => model.Tipo)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Activo)                                            
+                                            @Html.DisplayNameFor(model => model.Activo)
                                         </th>
-                                        <th>
+                                        <th data-dynatable-no-sort="true">
                                             @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", "Nuevo", "Create", "Categorias", htmlAttributes: new { @class = "btn btn-secondary pull-right" })
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="animated d-none">
                                     @foreach (var item in Model)
                                     {
                                         <tr>
@@ -103,12 +84,8 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Nombre)
                                             </td>
-                                            <td>
-                                                @(item.Tipo != 1 ? "GASTO" : "INGRESO")
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Activo)
-                                            </td>
+                                            <td>@(item.Tipo != 1 ? "Gasto" : "Ingreso")</td>
+                                            <td class="text-center">@(item.Activo ? "Activo" : "Inactivo")</td>
                                             <td>
                                                 <div class="pull-right">
                                                     @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-pencil'></span> ", "Editar", "Edit", "Categorias", routeValues: new { id = item.Id }, htmlAttributes: new { data_modal = "", @class = "btn btn-outline-secondary btn-sm" })
@@ -120,16 +97,61 @@
                                 </tbody>
                             </table>
                         </div>
-                        Pagina @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) de @pagedlist.PageCount
-                        @Html.PagedListPager(pagedlist, page => Url.Action("Index",
-                                            new { page, sortType = ViewBag.sortType, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, Inactivo = ViewBag.Inactivo }))
-
-
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
-</div>    
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dynatableStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/dynatable")
+    <script type="text/javascript">
+            var dynatable = $('#t_datos').dynatable({
+                features: {
+                    perPageSelect: false,
+                    search: false,
+                    recordCount: false
+                },
+                dataset: {
+                    perPageDefault: 5,
+                    perPageOptions: [5, 10, 15, 20],
+                },
+                inputs: {
+                    paginationPrev: '<span class="fa fa-arrow-left"></span>',
+                    paginationNext: '<span class="fa fa-arrow-right"></span>',
+                    recordCountText: 'De ',
+                    processingText: 'Prosesando...',
+                    queries: $('#search')
+                }
+
+            }).data('dynatable');
+            $('#search-estado').change(function () {
+                var value = $(this).val();
+                if (value === "-- Todos --") {
+                    dynatable.queries.remove("estado");
+                } else {
+                    dynatable.queries.add("estado", value);
+                }
+                dynatable.process();
+        });
+        $('#search-tipo').change(function () {
+            var value = $("#search-tipo option:selected").text();           
+            if (value === "-- Tipo --") {
+                dynatable.queries.remove("tipo");
+            } else {
+                dynatable.queries.add("tipo", value);
+            }
+            dynatable.process();
+        });
+        
+            $(function () {
+                $("#search-estado").val("Activo").change();
+                $(".animated").removeClass("d-none");
+                $(".animated").addClass("fadeIn");                                
+            });
+    </script>
+} 

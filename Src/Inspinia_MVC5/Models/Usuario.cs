@@ -39,11 +39,18 @@ namespace WebCartera.Models
 
                 //Esta variable almacena la clave cifrada pra crear la cokie con los valores ingresados del usuario
                 string pass = Security.Encriptar(pClave);
-                seguridadusuario Usuario = db.seguridadusuarios.Where(u => u.Email == pUsuario && u.Clave == pass).SingleOrDefault();
+                seguridadusuario Usuario = db.seguridadusuarios.Where(u => u.Email == pUsuario).SingleOrDefault();
+                if (Usuario != null)
+                {
+                    if (Usuario.Clave != pass) {
+                        Usuario = null;
+                    }
+                }
                 if (Usuario != null)
                 {
                     if (Usuario.Activo)
                     {
+                        //Usuario.tcuentas = db.tcuentas.Where(m => m.Id_Usuario == Usuario.Id && m.Activo).ToList();
                         Parametro.CrearSesionPagina(Usuario);
                         if (pRecordar)
                         {
@@ -82,8 +89,9 @@ namespace WebCartera.Models
                     return ResultLogueo.Invalido;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                string err = ex.Message;
                 return ResultLogueo.Error;
             }
         }

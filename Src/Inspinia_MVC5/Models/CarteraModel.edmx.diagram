@@ -24,6 +24,10 @@
         <AssociationConnector Association="CarteraModel.FkCategoriaxMov" />
         <AssociationConnector Association="CarteraModel.FkCategoriaxSaldo" />
         <AssociationConnector Association="CarteraModel.FkMonedaxSaldo" />
+        <EntityTypeShape EntityType="CarteraModel.tcuenta" Width="1.5" PointX="14.375" PointY="4.25" />
+        <AssociationConnector Association="CarteraModel.FkUsuarioxCuenta" />
+        <AssociationConnector Association="CarteraModel.FkCuentaxMov" />
+        <AssociationConnector Association="CarteraModel.FkMonedaxCuenta" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
