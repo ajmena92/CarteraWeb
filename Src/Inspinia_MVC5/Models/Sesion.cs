@@ -31,6 +31,8 @@ namespace WebCartera.Models
 
         public DateTime FechaFinal { get; set; }
 
+        public List<tcuenta> Cuentas { get; set; }
+
         #region Metodos y Propiedades
 
         public Parametro() { }
@@ -42,13 +44,13 @@ namespace WebCartera.Models
                 
                 List<tparametro> Tparametro = db.tparametros.ToList();
                 this.Modulos = db.seguridadmoduloes.ToList() ;
-                UrlImgs = "~/img/";
-                this.Usuario = null;
+                UrlImgs = "~/img/";              
                 this.Mantenimiento = Convert.ToInt16( Tparametro[7].Valor); //Valor de mantenimiento
                 this.NomEmpresa = Tparametro[8].Valor; //Valor de mantenimiento
                 this.Usuario = pUsuario;
                 this.CuentaFiltro = 0; // filtro todas las cuentas
                 this.RangoFiltro = 1; //filtro por dia
+                this.Cuentas = Usuario.tcuentas.Where(c=> c.Activo).ToList();
             }
             catch (Exception )
             {
@@ -56,9 +58,8 @@ namespace WebCartera.Models
                 UrlImgs = "";
                 throw;
             }
-        }
-
-        public static void CrearSesionPagina(seguridadusuario pUsuario)
+        }        
+            public static void CrearSesionPagina(seguridadusuario pUsuario)
         {
             try
             {
@@ -72,10 +73,10 @@ namespace WebCartera.Models
 
         public static Parametro  ObtenerSesionPagina()
         {
-            Parametro parametros;
+            Parametro parametros = new Parametro();
             try
             {
-                parametros = HttpContext.Current.Session["MiSession"] as Parametro;
+                parametros = (Parametro)HttpContext.Current.Session["MiSession"];
                 //System.Diagnostics.Debug.Assert(parametros != null); // request will be null if the cast fails
             }
             catch (Exception)
@@ -98,8 +99,8 @@ namespace WebCartera.Models
                         LoginViewModel Usuario = JsonConvert.DeserializeObject<LoginViewModel>(Cookie);
                         ResultLogueo  result = seguridadusuario.Login(Usuario.Email, Usuario.Password, true);
                         if (result == ResultLogueo.Logueo)
-                        {
-                            parametros = HttpContext.Current.Session["MiSession"] as Parametro;
+                        {                           
+                            parametros = (Parametro)HttpContext.Current.Session["MiSession"];
                             System.Diagnostics.Debug.Assert(parametros != null); // request will be null if the cast fails
                         }
                         else
@@ -120,7 +121,7 @@ namespace WebCartera.Models
             return parametros;
         }
 
-        public static seguridadrolmodulo VerificaPermiso(string Code, bool DesactivaPermiso = false)
+        public static seguridadrolmodulo VerificaPermiso(Parametro sesion,string Code, bool DesactivaPermiso = false)
         {
             seguridadrolmodulo Permiso = new seguridadrolmodulo
             {
@@ -141,8 +142,7 @@ namespace WebCartera.Models
                     Permiso.IdRol = 1;
                     return Permiso;
                 }
-            }
-            Parametro sesion = Parametro.ObtenerSesionPagina();
+            }          
             if (sesion != null)
             {
                 try
@@ -163,7 +163,7 @@ namespace WebCartera.Models
                 {
                     var context = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
                     var urlHelper = new UrlHelper(context);
-                    var url = urlHelper.Action("Index", "Inicio", new { Logout = 1 });
+                    var url = urlHelper.Action("LogOff", "Cuenta");
                     HttpContext.Current.Response.Redirect(url);
                 }
             }

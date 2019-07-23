@@ -4,10 +4,10 @@
 @{
     ViewBag.Title = "Lista Cuentas";
 }
-
+@Html.Raw(ViewBag.Message)
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Monedas</h2>
+        <h2>Cuentas</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="@Url.Action("Index", "Inicio")">Inicio</a>
@@ -37,12 +37,12 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-3 col-lg-4">                                
-                                @Html.DropDownList("Id_Moneda", null, htmlAttributes: new { @id = "search-moneda", @class = "form-control" })
+                            <div class="col-sm-3 col-lg-4">
+                                @Html.DropDownList("Id_Moneda", null, "-- Moneda ---", htmlAttributes: new { @id = "search-moneda", @class = "form-control" })
                             </div>
                             <div class="col-sm-3 col-lg-4">
                                 <select class="form-control" id="search-estado" name="estado">
-                                    <option>-- Todos --</option>
+                                    <option>-- Estado --</option>
                                     <option>Activo</option>
                                     <option>Inactivo</option>
                                 </select>
@@ -55,28 +55,13 @@
                         <table id="t_datos" class="table table-hover ">
                             <thead>
                                 <tr>
-                                    <th data-dynatable-no-sort="true">
-                                        @Html.DisplayNameFor(model => model.Imagen)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Nombre)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Descripcion)
-                                    </th>
-
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.SaldoActual)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Activo)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.tmoneda.Descripcion)
-                                    </th>
-                                    <th data-dynatable-no-sort="true">
-                                        @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", "Nuevo", "Create", "Cuentas", htmlAttributes: new { @class = "btn btn-secondary pull-right" })
-                                    </th>
+                                    <th data-name="@Html.DisplayNameFor(model => model.Imagen)" data-dynatable-no-sort="true">@Html.DisplayNameFor(model => model.Imagen)</th>
+                                    <th data-name="@Html.DisplayNameFor(model => model.Nombre)">@Html.DisplayNameFor(model => model.Nombre)</th>
+                                    <th data-name="@Html.DisplayNameFor(model => model.Descripcion)">@Html.DisplayNameFor(model => model.Descripcion)</th>
+                                    <th data-name="@Html.DisplayNameFor(model => model.SaldoActual)">@Html.DisplayNameFor(model => model.SaldoActual)</th>
+                                    <th data-name="@Html.DisplayNameFor(model => model.Activo)">@Html.DisplayNameFor(model => model.Activo)</th>
+                                    <th data-name="@Html.DisplayNameFor(model => model.tmoneda.Descripcion)">@Html.DisplayNameFor(model => model.tmoneda.Descripcion)</th>
+                                    <th data-name="Acciones" data-dynatable-no-sort="true">@Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", "Nuevo", "Create", "Cuentas", htmlAttributes: new { @class = "btn btn-secondary pull-right" })</th>
                                 </tr>
                             </thead>
                             <tbody class="animated d-none">
@@ -93,7 +78,7 @@
                                             @Html.DisplayFor(modelItem => item.Descripcion)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.SaldoActual)
+                                            @item.tmoneda.Simbolo  @Html.DisplayFor(modelItem => item.SaldoActual_Format)
                                         </td>
                                         <td class="text-center">@(item.Activo ? "Activo" : "Inactivo")</td>
                                         <td>@Html.DisplayFor(modelItem => item.tmoneda.Descripcion)</td>
@@ -105,63 +90,63 @@
                                         </td>
                                     </tr>
                                 }
-                                </tbody>
-                            </table>
-</div>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
- </div>
-    @section Styles {
-        @Styles.Render("~/plugins/dynatableStyles")
-    }
-    @section Scripts {
-        @Scripts.Render("~/plugins/dynatable")
-        <script type="text/javascript">
-            var dynatable = $('#t_datos').dynatable({
-                features: {
-                    perPageSelect: false,
-                    search: false,
-                    recordCount: false
-                },
-                dataset: {
-                    perPageDefault: 5,
-                    perPageOptions: [5, 10, 15, 20],
-                },
-                inputs: {
-                    paginationPrev: '<span class="fa fa-arrow-left"></span>',
-                    paginationNext: '<span class="fa fa-arrow-right"></span>',
-                    recordCountText: 'De ',
-                    processingText: 'Prosesando...',
-                    queries: $('#search')
-                }
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/dynatableStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/dynatable")
+    <script type="text/javascript">
+        var dynatable = $('#t_datos').dynatable({
+            features: {
+                perPageSelect: false,
+                search: false,
+                recordCount: false
+            },
+            dataset: {
+                perPageDefault: 5,
+                perPageOptions: [5, 10, 15, 20],
+            },
+            inputs: {
+                paginationPrev: '<span class="fa fa-arrow-left"></span>',
+                paginationNext: '<span class="fa fa-arrow-right"></span>',
+                recordCountText: 'De ',
+                processingText: 'Prosesando...',
+                queries: $('#search')
+            }
 
-            }).data('dynatable');
+        }).data('dynatable');
 
-            $('#search-moneda').change(function () {
-                var value = $("#search-moneda option:selected").text();
-                if (value === "-- Moneda --") {
-                    dynatable.queries.remove("moneda");
-                } else {
-                    dynatable.queries.add("moneda", value);
-                }
-                dynatable.process();
-            });
+        $('#search-moneda').change(function () {
+            var value = $("#search-moneda option:selected").text();
+            if (value === "-- Moneda --") {
+                dynatable.queries.remove("moneda");
+            } else {
+                dynatable.queries.add("moneda", value);
+            }
+            dynatable.process();
+        });
 
-            $('#search-estado').change(function () {
-                var value = $(this).val();
-                if (value === "-- Todos --") {
-                    dynatable.queries.remove("estado");
-                } else {
-                    dynatable.queries.add("estado", value);
-                }
-                dynatable.process();
-            });
-            $(function () {
-                $("#search-estado").val("Activo").change();
-                $(".animated").removeClass("d-none");
-                $(".animated").addClass("fadeIn");   
-            });
-        </script>
-    }
+        $('#search-estado').change(function () {
+            var value = $(this).val();
+            if (value === "-- Estado --") {
+                dynatable.queries.remove("estado");
+            } else {
+                dynatable.queries.add("estado", value);
+            }
+            dynatable.process();
+        });
+        $(function () {
+            $("#search-estado").val("Activo").change();
+            $(".animated").removeClass("d-none");
+            $(".animated").addClass("fadeIn");
+        });
+    </script>
+}

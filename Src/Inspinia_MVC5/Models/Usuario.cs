@@ -49,7 +49,7 @@ namespace WebCartera.Models
                 if (Usuario != null)
                 {
                     if (Usuario.Activo)
-                    {
+                    {                        
                         //Usuario.tcuentas = db.tcuentas.Where(m => m.Id_Usuario == Usuario.Id && m.Activo).ToList();
                         Parametro.CrearSesionPagina(Usuario);
                         if (pRecordar)

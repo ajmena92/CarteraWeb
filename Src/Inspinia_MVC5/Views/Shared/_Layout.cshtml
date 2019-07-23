@@ -21,6 +21,7 @@
     @Styles.Render("~/Content/css")
 
     @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/plugins/dataPickerStyles")
 
 </head>
 <body>
@@ -81,9 +82,15 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/plugins/slimScroll")
     @Scripts.Render("~/bundles/inspinia")
-
+    @Scripts.Render("~/plugins/dataPicker")
+    <script>
+        $('#data_5 .input-daterange').datepicker({
+            keyboardNavigation: false,
+            forceParse: false,
+            autoclose: true
+        });
+    </script>
     <!-- Handler for local scripts -->
     @RenderSection("scripts", required: false)
-    
 </body>
 </html>

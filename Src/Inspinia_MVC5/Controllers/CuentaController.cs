@@ -113,7 +113,8 @@ namespace MenuCenter.Controllers
         // GET: Cuenta
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            seguridadrolmodulo permiso = Parametro.VerificaPermiso("ADM");
+            Parametro sesion = Parametro.ObtenerSesionPagina();        
+            seguridadrolmodulo permiso = Parametro.VerificaPermiso( sesion,"ADM");
             ViewBag.Edit = permiso.ActivaEdicion;
             ViewBag.CurrentSort = sortOrder;
             ViewBag.EmailSortParm = string.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
@@ -172,7 +173,8 @@ namespace MenuCenter.Controllers
         // GET: Cuenta/Detalles/5                                       
         public ActionResult Detalles(int? id)
         {
-            seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
+            Parametro sesion = Parametro.ObtenerSesionPagina();
+            seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion, "USE");
             seguridadusuario usuario = db.seguridadusuarios.Find(id);
             if (usuario == null)
             {
@@ -193,7 +195,8 @@ namespace MenuCenter.Controllers
         // GET: Cuenta/Create
         public ActionResult Create()
         {
-            seguridadrolmodulo permiso = Parametro.VerificaPermiso("ADM");
+            Parametro sesion = Parametro.ObtenerSesionPagina();
+            seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion,"ADM");
             VerificaEdit(permiso);
             ViewBag.IdRol = new SelectList(db.seguridadrols, "Id", "Descripcion");
             return PartialView("_Create");
@@ -241,7 +244,8 @@ namespace MenuCenter.Controllers
         // GET: Cuenta/Edit/5
         public ActionResult Edit(int? id)
         {
-            seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
+            Parametro sesion = Parametro.ObtenerSesionPagina();
+            seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion,"USE");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -266,7 +270,8 @@ namespace MenuCenter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Email,NomUsuario,Clave,ConfirmarClave,ClaveAnterior,IdRol,Activo")] seguridadusuario usuario)
         {
-            seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
+            Parametro sesion = Parametro.ObtenerSesionPagina();
+            seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion,"USE");
             if (ModelState.IsValid)
             {
                 try
@@ -307,7 +312,8 @@ namespace MenuCenter.Controllers
 
         public ActionResult Delete(int? id)
         {
-            seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
+            Parametro sesion = Parametro.ObtenerSesionPagina();
+            seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion,"USE");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

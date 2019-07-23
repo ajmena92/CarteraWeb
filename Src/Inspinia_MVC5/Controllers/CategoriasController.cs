@@ -18,21 +18,19 @@ namespace WebCartera.Controllers
     public class CategoriasController : Controller
     {
         private readonly CarteraEntities db = new CarteraEntities();
-        private seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
+        private static Parametro sesion = Parametro.ObtenerSesionPagina();
+        private readonly seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion, "USE");
 
         // GET: Categorias
         public ActionResult Index()
-        {
-            Parametro sesion = Parametro.ObtenerSesionPagina();           
+        {                   
             var categorias = db.tcategorias.Where(m => m.IdUsuario == sesion.Usuario.Id);
             ViewBag.Tipo = ListTipoCategorias();
             return View(categorias.ToList());
-        }
-        
+        }        
         public ActionResult Create()
         {
-            //Precargo valores necesario para crear una categoria
-            Parametro sesion = Parametro.ObtenerSesionPagina();
+            //Precargo valores necesario para crear una categoria            
             tcategoria categoria = new tcategoria();
             categoria.IdUsuario = sesion.Usuario.Id;      
             categoria.Activo = true;

@@ -29,8 +29,6 @@ namespace WebCartera
                     "~/Scripts/jquery.form.js",
                    "~/Scripts/jquery.unobtrusive*",
                    "~/Scripts/jquery.validate*"));
-           
-
             // jQueryUI CSS
             bundles.Add(new ScriptBundle("~/Scripts/plugins/jquery-ui/jqueryuiStyles").Include(
                         "~/Scripts/plugins/jquery-ui/jquery-ui.min.css"));
@@ -62,6 +60,14 @@ namespace WebCartera
             // Footable alert
             bundles.Add(new ScriptBundle("~/plugins/dynatable").Include(
                       "~/Scripts/plugins/dynatable/jquery.dynatable.js"));
+
+            // dataPicker 
+            bundles.Add(new ScriptBundle("~/plugins/dataPicker").Include(
+                      "~/Scripts/plugins/datapicker/bootstrap-datepicker.js"));
+            // dataPicker styles
+            bundles.Add(new StyleBundle("~/plugins/dataPickerStyles").Include(
+                      "~/Content/plugins/datapicker/datepicker3.css"));
+
         }
     }
 }

@@ -10,5 +10,29 @@
     "inputFiles": [
       "Scripts/plugins/iconpicker/icos.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/plugins/datapicker/bootstrap-datepicker.min.js",
+    "inputFiles": [
+      "Scripts/plugins/datapicker/bootstrap-datepicker.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/plugins/basictable/jquery.basictable.min.js",
+    "inputFiles": [
+      "Scripts/plugins/basictable/jquery.basictable.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/plugins/dynatable/jquery.dynatable.min.js",
+    "inputFiles": [
+      "Scripts/plugins/dynatable/jquery.dynatable.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/plugins/dynatable/jquery.dynatable.min.css",
+    "inputFiles": [
+      "Scripts/plugins/dynatable/jquery.dynatable.css"
+    ]
   }
 ]

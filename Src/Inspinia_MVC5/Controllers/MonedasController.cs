@@ -14,12 +14,13 @@ namespace WebCartera.Controllers
     public class MonedasController : Controller
     {
         private CarteraEntities db = new CarteraEntities();
-        private seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
+        private static Parametro sesion = Parametro.ObtenerSesionPagina();
+        private seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion ,"USE");
 
         // GET: Monedas
         public ActionResult Index()
         {
-            Parametro sesion = Parametro.ObtenerSesionPagina();
+            
             var tmonedas = db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id);
             return View(tmonedas.ToList());
         }
@@ -27,8 +28,7 @@ namespace WebCartera.Controllers
         // GET: Monedas/Create
         public ActionResult Create()
         {
-            //Precargo valores necesario para crear una categoria
-            Parametro sesion = Parametro.ObtenerSesionPagina();
+            //Precargo valores necesario para crear una categoria            
             tmoneda moneda = new tmoneda();
             moneda.Id_Usuario = sesion.Usuario.Id;
             moneda.Activo = true;        

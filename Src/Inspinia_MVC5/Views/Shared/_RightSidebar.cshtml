@@ -32,15 +32,15 @@
                     <h3> <i class="fa fa-edit"></i> Registrar Trasacción</h3>
                 </div>
                 <div class="tab_menu">
-                    <a  href="@Url.Action("Detalles", "Cuenta",new { Id = Parametro.Usuario.Id})">
+                    <a href="@Url.Action("Gasto", "Cuentas")">
                         <div class="setings-item gatos_tab ">
-                            <span class="font-bold">
+                            <span>
                                 Gastos
                             </span>
                             <i class="fa fa-minus-circle float-right"></i>
                         </div>
                     </a>
-                    <a  href="@Url.Action("Detalles", "Cuenta",new { Id = Parametro.Usuario.Id})">
+                    <a href="@Url.Action("Ingreso", "Cuentas")">
                         <div class="setings-item ingresos_tab">
                             <span>
                                 Ingresos
@@ -48,14 +48,22 @@
                             <i class="fa fa-plus-square float-right"></i>
                         </div>
                     </a>
-                    <a href="@Url.Action("LogOff", "Cuenta")">
+                    <a href="@Url.Action("Transferencia", "Cuentas")">
                         <div class="setings-item transfer_tab">
                             <span>
                                 Transferencia
                             </span>
                             <i class="fa fa-exchange float-right"></i>
                         </div>
-                    </a>                   
+                    </a>
+                    <div class="setings-item text-center">                        
+                        <h4>Revisar Transacción</h4>
+                        Con esta opción puede editar trasacciones registradas.                        
+                        <div class="m-1">
+                            <button type="button" class="btn btn-w-m btn-warning">Editar</button>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
@@ -63,108 +71,50 @@
             <div id="tab-2" class="tab-pane">
 
                 <div class="sidebar-title">
-                    <h3> <i class="fa fa-calendar-plus-o"></i>Filtro de rango reportes.</h3>
+                    <h3> <i class="fa fa-calendar-plus-o"></i> Filtro de rango reportes.</h3>
                     <small><i class="fa fa-tim"></i> Selecciones el rango de fecha.</small>
                 </div>
+                <a class="itemDate" href="@Url.Action("CambioRango", "Inicio",new { Id = 1})">
+                    <div class="setings-item ">
+                        <span>
+                            Día
+                        </span>
+                    </div>
+                </a>
+                <a class="itemDate" href="@Url.Action("CambioRango", "Inicio",new { Id = 2})">
+                    <div class="setings-item ">
+                        <span>
+                            Semana
+                        </span>
+                    </div>
+                </a>
+                <a class="itemDate" href="@Url.Action("CambioRango", "Inicio",new { Id = 3})">
+                    <div class="setings-item ">
+                        <span>
+                            Mes
+                        </span>
+                    </div>
+                </a>
+                <a class="itemDate" href="@Url.Action("CambioRango", "Inicio",new {Id = 4})">
+                    <div class="setings-item">
+                        <span>
+                            Año
+                        </span>
+                    </div>
+                </a>
+                <div class="setings-item" >
+                    <h4 class="text-center">Rango fecha</h4>
+          
+                    <div class="form-group" id="data_5">                       
+                        <div class="input-daterange input-group" id="datepicker">
+                            <input type="text" class="form-control-sm form-control" name="start" value="05/14/2014" />
+                            <span class="input-group-addon">al</span>
+                            <input type="text" class="form-control-sm form-control" name="end" value="05/22/2014" />
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-block btn-outline btn-primary">Aplicar</button>
 
-                <ul class="sidebar-list">
-                    <li>
-                        <a href="#">
-                            <div class="small float-right m-t-xs">9 hours ago</div>
-                            <h4>Business valuation</h4>
-                            It is a long established fact that a reader will be distracted.
-
-                            <div class="small">Completion with: 22%</div>
-                            <div class="progress progress-mini">
-                                <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
-                            </div>
-                            <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="small float-right m-t-xs">9 hours ago</div>
-                            <h4>Contract with Company </h4>
-                            Many desktop publishing packages and web page editors.
-
-                            <div class="small">Completion with: 48%</div>
-                            <div class="progress progress-mini">
-                                <div style="width: 48%;" class="progress-bar"></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="small float-right m-t-xs">9 hours ago</div>
-                            <h4>Meeting</h4>
-                            By the readable content of a page when looking at its layout.
-
-                            <div class="small">Completion with: 14%</div>
-                            <div class="progress progress-mini">
-                                <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="label label-primary float-right">NEW</span>
-                            <h4>The generated</h4>
-                            <!--<div class="small float-right m-t-xs">9 hours ago</div>-->
-                            There are many variations of passages of Lorem Ipsum available.
-                            <div class="small">Completion with: 22%</div>
-                            <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="small float-right m-t-xs">9 hours ago</div>
-                            <h4>Business valuation</h4>
-                            It is a long established fact that a reader will be distracted.
-
-                            <div class="small">Completion with: 22%</div>
-                            <div class="progress progress-mini">
-                                <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
-                            </div>
-                            <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="small float-right m-t-xs">9 hours ago</div>
-                            <h4>Contract with Company </h4>
-                            Many desktop publishing packages and web page editors.
-
-                            <div class="small">Completion with: 48%</div>
-                            <div class="progress progress-mini">
-                                <div style="width: 48%;" class="progress-bar"></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="small float-right m-t-xs">9 hours ago</div>
-                            <h4>Meeting</h4>
-                            By the readable content of a page when looking at its layout.
-
-                            <div class="small">Completion with: 14%</div>
-                            <div class="progress progress-mini">
-                                <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span class="label label-primary float-right">NEW</span>
-                            <h4>The generated</h4>
-                            <!--<div class="small float-right m-t-xs">9 hours ago</div>-->
-                            There are many variations of passages of Lorem Ipsum available.
-                            <div class="small">Completion with: 22%</div>
-                            <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
-                        </a>
-                    </li>
-
-                </ul>
-
+                </div>
             </div>
 
             <div id="tab-3" class="tab-pane">

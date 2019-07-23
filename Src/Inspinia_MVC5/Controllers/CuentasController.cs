@@ -8,21 +8,23 @@ using System.Web;
 using System.Web.Mvc;
 using WebCartera.Models;
 using EntityState = System.Data.Entity.EntityState;
+using toastr.Net.OptionEnums;
 
 namespace WebCartera.Controllers
 {
     public class CuentasController : Controller
     {
-        private CarteraEntities db = new CarteraEntities();
-        private seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
-        Parametro sesion = Parametro.ObtenerSesionPagina();
+        private readonly CarteraEntities db = new CarteraEntities();
+        private static Parametro sesion = Parametro.ObtenerSesionPagina();
+        private readonly seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion,"USE");
+        
 
         // GET: Cuentas
         public ActionResult Index()
         {            
-            var cuentas = db.tcuentas.Where(m => m.Id_Usuario == sesion.Usuario.Id);
+            var cuentas = db.tcuentas.Where(m => m.Id_Usuario == sesion.Usuario.Id).ToList();
             ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion");
-            return View(cuentas.ToList());
+            return View(cuentas);
         }
 
         // GET: Cuentas/Details/5
@@ -55,19 +57,18 @@ namespace WebCartera.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Id_Usuario,Id_Moneda,Nombre,Descripcion,Imagen,SaldoActual,Activo")] tcuenta tcuenta)
+        public ActionResult Create([Bind(Include = "Id_Usuario,Id_Moneda,Nombre,Descripcion,Imagen,SaldoActual,Activo")] tcuenta pCuenta)
         {           
             if (ModelState.IsValid)
             {
-                db.tcuentas.Add(tcuenta);
+                db.tcuentas.Add(pCuenta);
                 db.SaveChanges();
                 //Se actuliza la session del usuario con las nuevas cuentas
-                seguridadusuario Usuario = db.seguridadusuarios.Where(u => u.Email == sesion.Usuario.Email).SingleOrDefault(); 
-                Parametro.CrearSesionPagina(Usuario);
+                ActualizaCuenta(-1);                
                 return RedirectToAction("Index");
             }                        
-            ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion", tcuenta.Id_Moneda);
-            return View(tcuenta);
+            ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion", pCuenta.Id_Moneda);
+            return View(pCuenta);
         }
 
         // GET: Cuentas/Edit/5
@@ -77,13 +78,13 @@ namespace WebCartera.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tcuenta tcuenta = db.tcuentas.Find(id);           
-            if (tcuenta == null)
+            tcuenta cuenta = db.tcuentas.Find(id);
+            if (cuenta == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion");
-            return View(tcuenta);
+            ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion",cuenta.Id_Moneda);
+            return View(cuenta);
         }
 
         // POST: Cuentas/Edit/5
@@ -91,19 +92,19 @@ namespace WebCartera.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Id_Usuario,Id_Moneda,Nombre,Descripcion,Imagen,SaldoActual,Activo")] tcuenta tcuenta)
+        public ActionResult Edit([Bind(Include = "Id,Id_Usuario,Id_Moneda,Nombre,Descripcion,Imagen,SaldoActual,Activo")] tcuenta pCuenta)
         {
             
             if (ModelState.IsValid)
             {
-                db.Entry(tcuenta).State = EntityState.Modified;
+                db.Entry(pCuenta).State = EntityState.Modified;
                 db.SaveChanges();
-                seguridadusuario Usuario = db.seguridadusuarios.Where(u => u.Email == sesion.Usuario.Email).SingleOrDefault();
-                Parametro.CrearSesionPagina(Usuario);
+                ActualizaCuenta(pCuenta.Id);
+                ViewBag.Message = Notification.Show("Hello World", position: Position.BottomCenter, type: ToastType.Error, timeOut: 7000);
                 return RedirectToAction("Index");
             }
-            ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion");
-            return View(tcuenta);
+            ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion",pCuenta.Id_Moneda);
+            return View(pCuenta);
         }
 
         // GET: Cuentas/Delete/5
@@ -126,21 +127,20 @@ namespace WebCartera.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tcuenta cuenta = db.tcuentas.Find(id);
-            int Movimientos = cuenta.tmovimientoes.Count;
+            tcuenta Cuenta = db.tcuentas.Find(id);
+            int Movimientos = Cuenta.tmovimientoes.Count;
 
             if (Movimientos > 0)
             {
-                cuenta.Activo = false;
-                db.Entry(cuenta).State = EntityState.Modified;
+                Cuenta.Activo = false;
+                db.Entry(Cuenta).State = EntityState.Modified;
             }
             else
             {
-                db.tcuentas.Remove(cuenta);
+                db.tcuentas.Remove(Cuenta);
             }           
             db.SaveChanges();
-            seguridadusuario Usuario = db.seguridadusuarios.Where(u => u.Email == sesion.Usuario.Email).SingleOrDefault();
-            Parametro.CrearSesionPagina(Usuario);
+            ActualizaCuenta(Cuenta.Id);
             return RedirectToAction("Index");
         }
 
@@ -152,5 +152,29 @@ namespace WebCartera.Controllers
             }
             base.Dispose(disposing);
         }
+
+        private void ActualizaCuenta(int IdCuenta) {
+            sesion.Cuentas = db.tcuentas.Where(c=> c.Id_Usuario == sesion.Usuario.Id && c.Activo).ToList();
+            if (IdCuenta == sesion.CuentaFiltro)
+            {
+                sesion.CuentaFiltro = 0;
+            }
+        }
+
+        // GET: Cuentas/Ingreso
+        public ActionResult Ingreso()
+        {                       
+           return View();
+        }
+        // GET: Cuentas/Gasto
+        public ActionResult Gasto()
+        {
+            return View();
+        }
+        // GET: Cuentas/Transferencia
+        public ActionResult Transferencia()
+        {
+            return View();
+        }     
     }
 }

@@ -15,7 +15,7 @@
                     <ul class="dropdown-menu animated fadeInRight m-t-xs" style="position: absolute; top: 91px; left: 0px; will-change: top, left;">
                         <li><a class="dropdown-item" href="@Url.Action("Detalles", "Cuenta",new { Id = Parametro.Usuario.Id})">Mi Cuenta</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("Index", "Inicio")">Inicio</a></li>
-                        <li class="dropdown-divider"></li>                    
+                        <li class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="@Url.Action("LogOff", "Cuenta")">Salir</a></li>
                     </ul>
                 </div>
@@ -26,26 +26,26 @@
             <li class="@Html.IsSelected(controller: "Inicio")">
                 <a href="@Url.Action("Index", "Home")"><i class="fa fa-database"></i> <span class="nav-label" data-i18n="nav.cuentas">Reportes</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Inicio", cssClass: "in")">
-                    @foreach (var item in Parametro.Usuario.tcuentas.Where(c => c.Activo))
+                    @foreach (var item in Parametro.Cuentas)
                     {
-                        <li class="" id="menu_@item.Id"><a href="@Url.Action("Index", "Inicio",new { id = item.Id })">@item.Nombre</a></li>
+                       
+                            <li class="@(Parametro.CuentaFiltro == item.Id ? "active" : "")"><a href="@Url.Action("Index", "Inicio", new { id = item.Id })">@item.Nombre</a></li>
+                        
                     }
-                    <li id="menu_0">
-                        <a href="@Url.Action("Index", "Inicio",new { id = 0})"><span class="nav-label">Todas las Cuentas</span> <span class="label label-primary float-right"><i class="fa fa-line-chart"></i></span></a>
-                    </li>
+                    <li class="@(Parametro.CuentaFiltro == 0 ? "active":"")"><a href="@Url.Action("Index", "Inicio",new { id = 0})">Todas las Cuentas</a></li>
                 </ul>
             </li>
             <li class="@Html.IsSelected(controller: "Categorias")">
-                <a href="@Url.Action("Index", "Categorias")"><i class="fa fa-tags"></i> <span class="nav-label" data-i18n="nav.categorias">Categorias</span> <span class="label label-primary float-right">+</span></a>
-            </li>
-            <li class="@Html.IsSelected(controller: "Cuentas")">
-                <a href="@Url.Action("Index", "Cuentas")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.cuenta">Cuentas</span> </a>
+                <a href="@Url.Action("Index", "Categorias")"><i class="fa fa-tags"></i> <span class="nav-label" data-i18n="nav.categorias">Categorias</span> </a>
             </li>
             <li class="@Html.IsSelected(controller: "Monedas")">
                 <a href="@Url.Action("Index", "Monedas")"><i class="fa fa-dollar"></i> <span class="nav-label" data-i18n="nav.moneda">Monedas</span> </a>
             </li>
+            <li class="@Html.IsSelected(controller: "Cuentas")">
+                <a href="@Url.Action("Index", "Cuentas")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.cuenta">Cuentas</span> <span class="label label-primary float-right">+</span></a>
+            </li>
             <li class="@Html.IsSelected(controller: "Cuenta")">
-                <a href="@Url.Action("LogOff", "Cuenta")"><i class="fa fa-sign-out"></i> <span class="nav-label" data-i18n="nav.salir">Cerrar Sesión</span> </a>             
+                <a href="@Url.Action("LogOff", "Cuenta")"><i class="fa fa-sign-out"></i> <span class="nav-label" data-i18n="nav.salir">Cerrar Sesión</span> </a>
             </li>
         </ul>
     </div>

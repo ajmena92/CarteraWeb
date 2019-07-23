@@ -2,126 +2,36 @@
 @{
     Parametro Parametro = (Parametro)Session["MiSession"];
 }
-@*<div class="row border-bottom">
-        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-            <div class="container">
-                <ul class="nav navbar-nav pull-left">
-                    <li class="nav-item">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                        </li>
-                </ul>
 
-                <ul class="nav navbar-nav text-center">
-                    <li class="nav-item">
-                        <button class="minimalize-styl-2 btn btn-outline btn-primary dim " type="button"><i class="fa fa-plus-circle"> </i> Ingresos</button>
-                        <button class="btn btn-outline btn-danger dim minimalize-styl-2" type="button"><i class="fa fa-minus-circle"> </i> Gastos  </button>
-                    </li>
-                </ul>
-
-                <ul class="nav navbar-nav pull-right">
-                    <li class="nav-item">
-                        <a href="@Url.Action("LogOff", "Cuenta")">
-                            <i class="fa fa-sign-out"></i> Salir
-                        </a>
-                        </li>
-                </ul>
-            </div>
-            </nav>
-            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    </div>
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li>
-                            <a href="@Url.Action("LogOff", "Cuenta")">
-                                <i class="fa fa-sign-out"></i> Salir
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-    </div>*@
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <a class="navbar-minimalize minimalize-styl-2 btn  btn-primary " href="#" style="font-size: 1.1rem"><i class="fa fa-bars"></i> </a>
         </div>
-        <ul class="nav navbar-top-links">
-            <li class="dropdown_main_li">
-                @*<button class="btn btn-primary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Cuentas
-        </button>
-        <div class="dropdown-menu text-primary" aria-labelledby="dropdownMenuButton">
-            @foreach (var item in Parametro.Usuario.tcuentas.Where(c => c.Activo))
-            {
-                <a class="dropdown-item" href="@Url.Action("Index", "Inicio",new { id = item.Id })">@item.Nombre</a>
-            }
-        </div>*@
-                @*<div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle btn-lg" id="menu1" type="button" data-toggle="dropdown" style="font-size: 1.2rem">
-                Dropdown Example
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
-                <li role="presentation" class="divider"></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
-            </ul>
-        </div>*@
-                <div class="dropdown_main">
-                    <div class="select">
-                        <span id="menu_select">Select Gender</span>
-                        <i class="fa fa-chevron-left"></i>
-                    </div>
-                    <input type="hidden" name="gender">
-                    <ul class="dropdown_main-menu">
-                        @foreach (var item in Parametro.Usuario.tcuentas.Where(c => c.Activo))
-                        {
-                            <li id="menu_@item.Id">
-                                <a href="@Url.Action("Index", "Inicio",new { id = item.Id })" class="text-primary"><span class="nav-label"><i class="fa @item.Imagen"></i> @item.Nombre</span></a>
-                            </li>                            
-                        }
-                        <li id="menu_0">
-                            <a href="@Url.Action("Index", "Inicio",new { id = 0 })" class="text-primary"><span class="nav-label"><i class="fa fa-line-chart"></i> Todas las Cuentas</span></a>
-                        </li>
-                    </ul>
-                </div>
-                <span class="msg"></span>
-            </li>
-        </ul>
-        <ul class="nav navbar-top-links navbar-right">
-
+        <ul class="nav navbar-top-links">      
             <li>
+                   @using (Html.BeginForm("CambioCuenta", "Inicio", null,
+                    FormMethod.Post, new { @autocomplete = "off" }))
+                   {
+
+                        <select class="form-control ddl-size" id="search-main" name="ddl_cuenta" onchange="this.form.submit()">
+                            @foreach (var item in Parametro.Cuentas)
+                            {
+                               
+                                    <option @(Parametro.CuentaFiltro == item.Id ? "selected='selected'" : "") value="@item.Id">@item.Nombre</option>
+                                
+                            }
+                            <option @(Parametro.CuentaFiltro == 0 ? "selected='selected'":"") value="0">Todas las Cuentas</option>                
+                        </select>
+                   }
+            </li>
+        </ul>     
+        <ul class="nav navbar-top-links navbar-right">         
+            <li >
                 <a class="right-sidebar-toggle">
-                    <i class="fa fa-gears btn  btn-primary m-0"></i>          
+                    <i class="fa fa-gears btn  btn-primary m-0"></i>
                 </a>
             </li>
         </ul>
     </nav>
 </div>
-<style>
-    /** {
-        outline: 0;
-        font-family: sans-serif
-    }
-
-    body {
-        background-color: #fafafa
-    }
-
-    span.msg,
-    span.choose {
-        color: #555;
-        padding: 5px 0 10px;
-        display: inherit
-    }
-
-    .container {
-        width: 500px;
-        margin: 50px auto 0;
-        text-align: center
-    }*/
-
-
-</style>

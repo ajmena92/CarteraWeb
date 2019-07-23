@@ -132,7 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
-    <Folder Include="Content\plugins\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -229,6 +228,7 @@
     <Content Include="Content\patterns\otis_redding.png" />
     <Content Include="Content\patterns\shattered.png" />
     <Content Include="Content\patterns\triangular.png" />
+    <Content Include="Content\plugins\datapicker\datepicker3.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -378,8 +378,18 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\app\ActivaModal.js" />
+    <Content Include="Scripts\plugins\datapicker\bootstrap-datepicker.js" />
+    <Content Include="Scripts\plugins\datapicker\bootstrap-datepicker.min.js">
+      <DependentUpon>bootstrap-datepicker.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\plugins\dynatable\jquery.dynatable.css" />
     <Content Include="Scripts\plugins\dynatable\jquery.dynatable.js" />
+    <Content Include="Scripts\plugins\dynatable\jquery.dynatable.min.css">
+      <DependentUpon>jquery.dynatable.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\plugins\dynatable\jquery.dynatable.min.js">
+      <DependentUpon>jquery.dynatable.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\plugins\iconpicker\css\icos.css" />
     <Content Include="Scripts\plugins\iconpicker\css\icos.min.css">
       <DependentUpon>icos.css</DependentUpon>
@@ -466,6 +476,9 @@
     <Content Include="Views\Categorias\Edit.cshtml" />
     <Content Include="Views\Categorias\Index.cshtml" />
     <Content Include="Views\Shared\_RightSidebar.cshtml" />
+    <Content Include="Views\Cuentas\Ingreso.cshtml" />
+    <Content Include="Views\Cuentas\Gasto.cshtml" />
+    <Content Include="Views\Cuentas\Transferencia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -476,6 +489,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

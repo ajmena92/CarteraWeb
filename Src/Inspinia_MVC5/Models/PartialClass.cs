@@ -20,5 +20,12 @@ namespace WebCartera.Models
     [MetadataType(typeof(MetaDatatcuenta))]
     public partial class tcuenta
     {
+        public string SaldoActual_Format
+        {
+            get
+            {
+                return string.Format("{0:0,0.00}", SaldoActual);
+            }
+        }
     }
 }
