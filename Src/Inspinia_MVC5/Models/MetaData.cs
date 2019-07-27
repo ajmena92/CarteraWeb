@@ -10,8 +10,24 @@ using System.Web.Mvc;
 
 namespace WebCartera.Models
 {
-
-    public class MetaDatatcuenta
+    public class MetaDatatmovimiento
+    {
+        public int Id { get; set; }
+        public int Id_Cuenta { get; set; }
+        public int Id_Categoria { get; set; }
+        public int Id_Usuario { get; set; }
+        public int Tipo { get; set; }
+        [Required]
+        [StringLength(150, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud y maximo {1}.", MinimumLength = 0)]
+        [Display(Name = "Descripción")]
+        public string Descripcion;
+        [Required]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public System.DateTime Fecha;
+        [Required]
+        public decimal Monto;
+    }
+        public class MetaDatatcuenta
     {
         [Required]
         [StringLength(45, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud y maximo {1}.", MinimumLength = 4)]

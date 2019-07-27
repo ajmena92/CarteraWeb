@@ -8,26 +8,26 @@
         <div class="navbar-header">
             <a class="navbar-minimalize minimalize-styl-2 btn  btn-primary " href="#" style="font-size: 1.1rem"><i class="fa fa-bars"></i> </a>
         </div>
-        <ul class="nav navbar-top-links">      
+        <ul class="nav navbar-top-links">
             <li>
-                   @using (Html.BeginForm("CambioCuenta", "Inicio", null,
-                    FormMethod.Post, new { @autocomplete = "off" }))
-                   {
+                @using (Html.BeginForm("CambioCuenta", "Inicio", null,
+                 FormMethod.Post, new { @autocomplete = "off" }))
+                {
 
-                        <select class="form-control ddl-size" id="search-main" name="ddl_cuenta" onchange="this.form.submit()">
-                            @foreach (var item in Parametro.Cuentas)
-                            {
-                               
-                                    <option @(Parametro.CuentaFiltro == item.Id ? "selected='selected'" : "") value="@item.Id">@item.Nombre</option>
-                                
-                            }
-                            <option @(Parametro.CuentaFiltro == 0 ? "selected='selected'":"") value="0">Todas las Cuentas</option>                
-                        </select>
-                   }
+                    <select class="form-control ddl-size" id="search-main" name="ddl_cuenta" onchange="this.form.submit()">
+                        @foreach (var item in Parametro.Cuentas)
+                        {
+
+                            <option @(Parametro.CuentaFiltro == item.Id ? "selected='selected'" : "") value="@item.Id">@item.Nombre</option>
+
+                        }
+                        <option @(Parametro.CuentaFiltro == 0 ? "selected='selected'" : "") value="0">Todas las Cuentas</option>
+                    </select>
+                }
             </li>
-        </ul>     
-        <ul class="nav navbar-top-links navbar-right">         
-            <li >
+        </ul>
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
                 <a class="right-sidebar-toggle">
                     <i class="fa fa-gears btn  btn-primary m-0"></i>
                 </a>
@@ -35,3 +35,8 @@
         </ul>
     </nav>
 </div>
+@if (Parametro.Message != null)
+{
+    Html.Raw(Parametro.Message);
+    Parametro.Message = null;    
+}

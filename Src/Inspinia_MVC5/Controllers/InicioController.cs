@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebCartera.Models;
+using WebCartera.OptionEnums;
 namespace WebCartera.Controllers
 {
     public class InicioController : Controller
@@ -20,7 +21,7 @@ namespace WebCartera.Controllers
             {
                 Sesion.RangoFiltro = Convert.ToInt16(rango);                
             }
-
+            
             return View();
         }
         

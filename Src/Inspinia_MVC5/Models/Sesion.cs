@@ -17,7 +17,7 @@ namespace WebCartera.Models
 
         public string NomEmpresa { get; set; }
 
-        public string UrlImgs { get; set; }
+        public string Message { get; set; }
 
         public seguridadusuario Usuario { get; set; }
 
@@ -43,8 +43,7 @@ namespace WebCartera.Models
             {
                 
                 List<tparametro> Tparametro = db.tparametros.ToList();
-                this.Modulos = db.seguridadmoduloes.ToList() ;
-                UrlImgs = "~/img/";              
+                this.Modulos = db.seguridadmoduloes.ToList() ;                            
                 this.Mantenimiento = Convert.ToInt16( Tparametro[7].Valor); //Valor de mantenimiento
                 this.NomEmpresa = Tparametro[8].Valor; //Valor de mantenimiento
                 this.Usuario = pUsuario;
@@ -54,8 +53,7 @@ namespace WebCartera.Models
             }
             catch (Exception )
             {
-                Mantenimiento = 1;
-                UrlImgs = "";
+                Mantenimiento = 1;               
                 throw;
             }
         }        

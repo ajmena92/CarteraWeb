@@ -5,27 +5,6 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCartera", "Inspinia_MVC5\WebCartera.csproj", "{A5859E0E-3C08-4045-B8DC-B3FB13655B00}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "toastr.Net.Core", "..\..\..\..\Downloads\toastr.Net-master\toastr.Net.Core\", "{2D1D8195-DD3E-4627-9E6C-020C85CE3D5A}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_53306"
-		Debug.AspNetCompiler.PhysicalPath = "..\..\..\..\Downloads\toastr.Net-master\toastr.Net.Core\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53306\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_53306"
-		Release.AspNetCompiler.PhysicalPath = "..\..\..\..\Downloads\toastr.Net-master\toastr.Net.Core\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53306\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "53306"
-		SlnRelativePath = "..\..\..\..\Downloads\toastr.Net-master\toastr.Net.Core\"
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,10 +15,6 @@ Global
 		{A5859E0E-3C08-4045-B8DC-B3FB13655B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5859E0E-3C08-4045-B8DC-B3FB13655B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5859E0E-3C08-4045-B8DC-B3FB13655B00}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D1D8195-DD3E-4627-9E6C-020C85CE3D5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D1D8195-DD3E-4627-9E6C-020C85CE3D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D1D8195-DD3E-4627-9E6C-020C85CE3D5A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D1D8195-DD3E-4627-9E6C-020C85CE3D5A}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

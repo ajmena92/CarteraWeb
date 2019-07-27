@@ -3,7 +3,7 @@ using System.Web.Optimization;
 
 namespace WebCartera
 {
-    public class BundleConfig
+    public static class BundleConfig
     {
 
         public static void RegisterBundles(BundleCollection bundles)
@@ -14,7 +14,8 @@ namespace WebCartera
                       "~/Content/bootstrap.min.css",
                       "~/Content/animate.css",
                       "~/Content/style.css",
-                      "~/Content/Custom.css"));
+                      "~/Content/Custom.css",
+                      "~/Content/toastr.css"));
 
             // Font Awesome icons
             bundles.Add(new StyleBundle("~/font-awesome/css").Include(
@@ -47,7 +48,8 @@ namespace WebCartera
                       "~/Scripts/plugins/metisMenu/jquery.metisMenu.js",
                       "~/Scripts/plugins/pace/pace.min.js",
                       "~/Scripts/app/inspinia.js",
-                       "~/Scripts/app/custom.js"));
+                       "~/Scripts/app/custom.js",
+                       "~/Scripts/toastr.js"));
 
             // SlimScroll
             bundles.Add(new ScriptBundle("~/plugins/slimScroll").Include(

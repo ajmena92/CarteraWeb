@@ -11,7 +11,9 @@ using WebCartera.Models;
 using WebCartera.Helpers;
 using System.Web.Routing;
 using PagedList;
+using WebCartera.OptionEnums;
 using EntityState = System.Data.Entity.EntityState;
+using WebCartera;
 
 namespace MenuCenter.Controllers
 {
@@ -44,7 +46,9 @@ namespace MenuCenter.Controllers
             }
             switch (seguridadusuario.Login(model.Email, model.Password, model.RememberMe))
             {
-                case ResultLogueo.Logueo:
+
+                case ResultLogueo.Logueo:                    
+                    AddErrors("Bienvenido " + model.Email);
                     return RedirectToLocal(returnUrl);
                 case ResultLogueo.Invalido:
                     ModelState.AddModelError ("ModelErr", "Intento de inicio de sesión no válido.");
@@ -401,13 +405,10 @@ namespace MenuCenter.Controllers
             }
             base.Dispose(disposing);
         }
-        //private void AddErrors(IdentityResult result)
-        //{
-        //    foreach (var error in result.Errors)
-        //    {
-        //        ModelState.AddModelError("ModelErr", error);
-        //    }
-        //}
+        private void AddErrors(string err)
+        {
+            TempData["msg"] += Notification.Show(err, position: Position.BottomCenter, type: ToastType.Info, timeOut: 7000);
+        }
 
         private ActionResult RedirectToLocal(string returnUrl)
         {

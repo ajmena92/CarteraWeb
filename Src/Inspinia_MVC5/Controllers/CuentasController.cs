@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebCartera.Models;
 using EntityState = System.Data.Entity.EntityState;
-using toastr.Net.OptionEnums;
+using WebCartera.OptionEnums;
 
 namespace WebCartera.Controllers
 {
@@ -21,10 +21,18 @@ namespace WebCartera.Controllers
 
         // GET: Cuentas
         public ActionResult Index()
-        {            
-            var cuentas = db.tcuentas.Where(m => m.Id_Usuario == sesion.Usuario.Id).ToList();
-            ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion");
-            return View(cuentas);
+        {
+            try
+            {
+                List<tcuenta> cuentas = db.tcuentas.Where(m => m.Id_Usuario == sesion.Usuario.Id).ToList();
+                ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion");
+                return View(cuentas);
+            }
+            catch {
+                AddErrors("Error al acceder a los datos", ToastType.Error);
+                return RedirectToAction("Index","Inicio");
+            }
+           
         }
 
         // GET: Cuentas/Details/5
@@ -44,12 +52,12 @@ namespace WebCartera.Controllers
 
         // GET: Cuentas/Create
         public ActionResult Create()
-        {           
+        {            
             tcuenta cuenta = new tcuenta();
             cuenta.Id_Usuario = sesion.Usuario.Id;
             cuenta.Activo = true;
             ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m=> m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion");
-            return View(cuenta);       
+            return View(cuenta);                
         }
 
         // POST: Cuentas/Create
@@ -61,11 +69,19 @@ namespace WebCartera.Controllers
         {           
             if (ModelState.IsValid)
             {
+                try { 
                 db.tcuentas.Add(pCuenta);
                 db.SaveChanges();
                 //Se actuliza la session del usuario con las nuevas cuentas
-                ActualizaCuenta(-1);                
-                return RedirectToAction("Index");
+                ActualizaCuenta(-1);
+                    AddErrors("Registro agregado exitosamente", ToastType.Success);                    
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("ModelErr", ex.Message);
+                    AddErrors("Error al agregar el registro",ToastType.Error);                    
+                }
             }                        
             ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion", pCuenta.Id_Moneda);
             return View(pCuenta);
@@ -97,11 +113,17 @@ namespace WebCartera.Controllers
             
             if (ModelState.IsValid)
             {
-                db.Entry(pCuenta).State = EntityState.Modified;
-                db.SaveChanges();
-                ActualizaCuenta(pCuenta.Id);
-                ViewBag.Message = Notification.Show("Hello World", position: Position.BottomCenter, type: ToastType.Error, timeOut: 7000);
-                return RedirectToAction("Index");
+                try {
+                    db.Entry(pCuenta).State = EntityState.Modified;
+                    db.SaveChanges();
+                    ActualizaCuenta(pCuenta.Id);
+                    AddErrors("Registro editado exitosamente", ToastType.Success);                    
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex) {
+                    ModelState.AddModelError("ModelErr", ex.Message);
+                    AddErrors("Error al editar el registro",ToastType.Error);                    
+                }              
             }
             ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion",pCuenta.Id_Moneda);
             return View(pCuenta);
@@ -129,19 +151,31 @@ namespace WebCartera.Controllers
         {
             tcuenta Cuenta = db.tcuentas.Find(id);
             int Movimientos = Cuenta.tmovimientoes.Count;
-
-            if (Movimientos > 0)
+            try
             {
-                Cuenta.Activo = false;
-                db.Entry(Cuenta).State = EntityState.Modified;
+            
+                if (Movimientos > 0)
+                {
+                    Cuenta.Activo = false;
+                    db.Entry(Cuenta).State = EntityState.Modified;
+                    AddErrors("Registro desactivo, cuenta con movimientos asociados", ToastType.Warning);                  
+                }
+                else
+                {
+                    db.tcuentas.Remove(Cuenta);
+                    AddErrors("Registro eliminado exitosamente",ToastType.Success);                
+                }           
+                db.SaveChanges();
+                ActualizaCuenta(Cuenta.Id);
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                db.tcuentas.Remove(Cuenta);
-            }           
-            db.SaveChanges();
-            ActualizaCuenta(Cuenta.Id);
-            return RedirectToAction("Index");
+                ModelState.AddModelError("ModelErr", ex.Message);
+                AddErrors("Error al eliminar el registro",ToastType.Error);            
+                tcuenta tcuenta = db.tcuentas.Find(id);               
+                return View(tcuenta);
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -163,8 +197,16 @@ namespace WebCartera.Controllers
 
         // GET: Cuentas/Ingreso
         public ActionResult Ingreso()
-        {                       
-           return View();
+        {
+            tmovimiento ingreso = new tmovimiento();
+            ingreso.Id_Usuario = sesion.Usuario.Id;
+            ingreso.TipoMovimiento = TipoMovimiento.Credito;
+            ingreso.Id_Usuario = sesion.Usuario.Id;
+            ingreso.Id_Cuenta = sesion.CuentaFiltro;
+            ingreso.Fecha = DateTime.Now;
+            ViewBag.Cuentas = new SelectList(sesion.Cuentas, "Id", "Nombre", sesion.CuentaFiltro);
+            ViewBag.Categorias = new SelectList(db.tcategorias.Where(c => c.IdUsuario == sesion.Usuario.Id && c.Activo), "Id", "Nombre", sesion.CuentaFiltro);
+            return View(ingreso);       
         }
         // GET: Cuentas/Gasto
         public ActionResult Gasto()
@@ -175,6 +217,10 @@ namespace WebCartera.Controllers
         public ActionResult Transferencia()
         {
             return View();
-        }     
+        }
+        private void AddErrors(string err, ToastType type)
+        {
+            TempData["msg"] += Notification.Show(err, position: Position.BottomRight, type: type, timeOut: 7000);
+        }
     }
 }

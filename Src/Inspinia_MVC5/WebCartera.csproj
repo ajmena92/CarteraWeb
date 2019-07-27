@@ -150,6 +150,9 @@
     <Compile Include="Helpers\Cifrado.cs" />
     <Compile Include="Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Helpers\MyHelpers.cs" />
+    <Compile Include="Helpers\Notification.cs" />
+    <Compile Include="Helpers\OptionEnums\Position.cs" />
+    <Compile Include="Helpers\OptionEnums\ToastType.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CarteraModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -270,6 +273,8 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome\css\font-awesome.css" />
     <Content Include="fonts\font-awesome\css\font-awesome.min.css" />
@@ -327,6 +332,8 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="bundleconfig.json" />
     <Content Include="libman.json" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Inspinia.pubxml" />
     <Content Include="Content\landing\avatar_all.png" />
@@ -413,6 +420,8 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
