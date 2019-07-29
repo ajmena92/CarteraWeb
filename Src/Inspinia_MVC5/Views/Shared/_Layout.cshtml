@@ -1,4 +1,4 @@
-﻿g<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -21,17 +21,15 @@
     @Styles.Render("~/Content/css")
 
     @Scripts.Render("~/bundles/jquery")
-    @Styles.Render("~/plugins/dataPickerStyles")
+  
 
 </head>
 <body>
     <!-- Wrapper-->
     <!-- PageClass give you ability to specify custom style for specific view based on action -->
     <div id="wrapper" class="@Html.PageClass()">
-
         <!-- Navigation -->
         @Html.Partial("_Navigation")
-
         <!-- Page wraper -->
         <div id="page-wrapper" class="gray-bg @ViewBag.SpecialClass">
 
@@ -54,8 +52,7 @@
 
 
     <div id='myModal' class='modal fade in'>
-        <div class="modal-dialog modal-vertical-centered" role="document">
-            >
+        <div class="modal-dialog modal-vertical-centered" role="document">           
             <div class="modal-content">
                 <div id='myModalContent'></div>
             </div>
@@ -76,11 +73,9 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/plugins/slimScroll")
     @Scripts.Render("~/bundles/inspinia")
-    @Scripts.Render("~/plugins/dataPicker")
+
     @Html.Raw(TempData["msg"])
-    <script>
-      
-    </script>
+
 
     <!-- Handler for local scripts -->
     @RenderSection("scripts", required: false)

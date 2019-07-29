@@ -17,8 +17,6 @@ namespace WebCartera.Models
 
         public string NomEmpresa { get; set; }
 
-        public string Message { get; set; }
-
         public seguridadusuario Usuario { get; set; }
 
         public List<seguridadmodulo> Modulos { get; set; }
@@ -43,13 +41,13 @@ namespace WebCartera.Models
             {
                 
                 List<tparametro> Tparametro = db.tparametros.ToList();
-                this.Modulos = db.seguridadmoduloes.ToList() ;                            
-                this.Mantenimiento = Convert.ToInt16( Tparametro[7].Valor); //Valor de mantenimiento
-                this.NomEmpresa = Tparametro[8].Valor; //Valor de mantenimiento
-                this.Usuario = pUsuario;
-                this.CuentaFiltro = 0; // filtro todas las cuentas
-                this.RangoFiltro = 1; //filtro por dia
-                this.Cuentas = Usuario.tcuentas.Where(c=> c.Activo).ToList();
+                Modulos = db.seguridadmoduloes.ToList() ;                            
+                Mantenimiento = Convert.ToInt16( Tparametro[7].Valor); //Valor de mantenimiento
+                NomEmpresa = Tparametro[8].Valor; //Valor de mantenimiento
+                Usuario = pUsuario;
+                CuentaFiltro = 0; // filtro todas las cuentas
+                RangoFiltro = 1; //filtro por dia
+                Cuentas = Usuario.tcuentas.Where(c=> c.Activo).ToList();
             }
             catch (Exception )
             {
@@ -85,7 +83,7 @@ namespace WebCartera.Models
             {
                 var context = new RequestContext(new HttpContextWrapper(System.Web.HttpContext.Current), new RouteData());
                 var urlHelper = new UrlHelper(context);
-                var url = urlHelper.Action("Login", "Cuenta");
+                var url = urlHelper.Action("Login", "Cuenta", new { returnUrl = Getroot() });
                 try
                 {
                     string Cookie;
@@ -119,8 +117,11 @@ namespace WebCartera.Models
             return parametros;
         }
 
-        public static seguridadrolmodulo VerificaPermiso(Parametro sesion,string Code, bool DesactivaPermiso = false)
+        public static seguridadrolmodulo VerificaPermiso(string Code, bool DesactivaPermiso = false)
         {
+            var context = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
+            var urlHelper = new UrlHelper(context);
+            Parametro sesion = Parametro.ObtenerSesionPagina();
             seguridadrolmodulo Permiso = new seguridadrolmodulo
             {
                 ActivaEdicion = false
@@ -140,9 +141,10 @@ namespace WebCartera.Models
                     Permiso.IdRol = 1;
                     return Permiso;
                 }
-            }          
+            }
             if (sesion != null)
             {
+               
                 try
                 {
                     seguridadmodulo Modulo = sesion.Modulos.Where(m => m.Codigo == Code).SingleOrDefault();
@@ -158,14 +160,20 @@ namespace WebCartera.Models
 
                 }
                 catch (Exception)
-                {
-                    var context = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
-                    var urlHelper = new UrlHelper(context);
-                    var url = urlHelper.Action("LogOff", "Cuenta");
+                {                   
+                    var url = urlHelper.Action("Index", "Inicio");
                     HttpContext.Current.Response.Redirect(url);
-                }
+                    return null;
+                }                
             }
-            return Permiso;
+            else {                                
+                return null;
+            }          
+        }
+
+        public static string Getroot()
+        {
+            return HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Query);
         }
         public static void  CerrarSesionPagina()
         {

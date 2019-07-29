@@ -22,8 +22,8 @@ namespace WebCartera.Helpers
             var currentController = routeData.GetRequiredString("controller");
             if (string.Equals(currentAction,
                               action,
-                              StringComparison.OrdinalIgnoreCase) &&
-                string.Equals(currentController,
+                              StringComparison.OrdinalIgnoreCase)
+                && string.Equals(currentController,
                               controller,
                               StringComparison.OrdinalIgnoreCase))
             {

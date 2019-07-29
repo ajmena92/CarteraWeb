@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebCartera.Models;
+
 using EntityState = System.Data.Entity.EntityState;
 using WebCartera.OptionEnums;
+using System.Reflection;
+using System.ComponentModel;
+using WebCartera.Helpers.OptionEnums;
+using System.Data.Entity;
 
 namespace WebCartera.Controllers
 {
     public class CuentasController : Controller
     {
-        private readonly CarteraEntities db = new CarteraEntities();
-        private static Parametro sesion = Parametro.ObtenerSesionPagina();
-        private readonly seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion,"USE");
-        
+        private readonly CarteraEntities db = new CarteraEntities();                
+        private readonly seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
+        private Parametro sesion = Parametro.ObtenerSesionPagina();
 
         // GET: Cuentas
         public ActionResult Index()
@@ -29,7 +31,7 @@ namespace WebCartera.Controllers
                 return View(cuentas);
             }
             catch {
-                AddErrors("Error al acceder a los datos", ToastType.Error);
+                AddMsgWeb("Error al acceder a los datos", ToastType.Error);
                 return RedirectToAction("Index","Inicio");
             }
            
@@ -74,13 +76,13 @@ namespace WebCartera.Controllers
                 db.SaveChanges();
                 //Se actuliza la session del usuario con las nuevas cuentas
                 ActualizaCuenta(-1);
-                    AddErrors("Registro agregado exitosamente", ToastType.Success);                    
+                    AddMsgWeb("Registro agregado exitosamente", ToastType.Success);                    
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("ModelErr", ex.Message);
-                    AddErrors("Error al agregar el registro",ToastType.Error);                    
+                    AddMsgWeb("Error al agregar el registro",ToastType.Error);                    
                 }
             }                        
             ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion", pCuenta.Id_Moneda);
@@ -117,12 +119,12 @@ namespace WebCartera.Controllers
                     db.Entry(pCuenta).State = EntityState.Modified;
                     db.SaveChanges();
                     ActualizaCuenta(pCuenta.Id);
-                    AddErrors("Registro editado exitosamente", ToastType.Success);                    
+                    AddMsgWeb("Registro editado exitosamente", ToastType.Success);                    
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex) {
                     ModelState.AddModelError("ModelErr", ex.Message);
-                    AddErrors("Error al editar el registro",ToastType.Error);                    
+                    AddMsgWeb("Error al editar el registro",ToastType.Error);                    
                 }              
             }
             ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m => m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion",pCuenta.Id_Moneda);
@@ -158,12 +160,12 @@ namespace WebCartera.Controllers
                 {
                     Cuenta.Activo = false;
                     db.Entry(Cuenta).State = EntityState.Modified;
-                    AddErrors("Registro desactivo, cuenta con movimientos asociados", ToastType.Warning);                  
+                    AddMsgWeb("Registro desactivo, cuenta con movimientos asociados", ToastType.Warning);                  
                 }
                 else
                 {
                     db.tcuentas.Remove(Cuenta);
-                    AddErrors("Registro eliminado exitosamente",ToastType.Success);                
+                    AddMsgWeb("Registro eliminado exitosamente",ToastType.Success);                
                 }           
                 db.SaveChanges();
                 ActualizaCuenta(Cuenta.Id);
@@ -172,7 +174,7 @@ namespace WebCartera.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("ModelErr", ex.Message);
-                AddErrors("Error al eliminar el registro",ToastType.Error);            
+                AddMsgWeb("Error al eliminar el registro",ToastType.Error);            
                 tcuenta tcuenta = db.tcuentas.Find(id);               
                 return View(tcuenta);
             }
@@ -198,29 +200,145 @@ namespace WebCartera.Controllers
         // GET: Cuentas/Ingreso
         public ActionResult Ingreso()
         {
+            int tipo = IntValue(TipoMovimiento.Credito);
             tmovimiento ingreso = new tmovimiento();
             ingreso.Id_Usuario = sesion.Usuario.Id;
-            ingreso.TipoMovimiento = TipoMovimiento.Credito;
-            ingreso.Id_Usuario = sesion.Usuario.Id;
-            ingreso.Id_Cuenta = sesion.CuentaFiltro;
+            ingreso.TipoMovimiento = TipoMovimiento.Credito;      
             ingreso.Fecha = DateTime.Now;
-            ViewBag.Cuentas = new SelectList(sesion.Cuentas, "Id", "Nombre", sesion.CuentaFiltro);
-            ViewBag.Categorias = new SelectList(db.tcategorias.Where(c => c.IdUsuario == sesion.Usuario.Id && c.Activo), "Id", "Nombre", sesion.CuentaFiltro);
-            return View(ingreso);       
+            ViewBag.Id_Cuenta = new SelectList(sesion.Cuentas, "Id", "Nombre", sesion.CuentaFiltro);
+            ViewBag.Id_Categoria = new SelectList(
+                db.tcategorias.Where(c => c.IdUsuario == sesion.Usuario.Id && c.Tipo == tipo && c.Activo),
+                "Id",
+                "Nombre");
+            return View(ingreso);
         }
+        // POST: Cuentas/Ingreso
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Ingreso([Bind(Include = "Id_Usuario,Id_Categoria,Id_Cuenta,Fecha,Descripcion,TipoMovimiento,Monto")] tmovimiento pMovimiento)
+        {                         
+            if (ModelState.IsValid)
+            {
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        //Ingreso Movimiento
+                        pMovimiento.Tipo = IntValue(pMovimiento.TipoMovimiento);
+                        db.tmovimientoes.Add(pMovimiento);
+                        db.SaveChanges();
+
+                        //Actulizo Saldo
+                        tcuenta cuenta = db.tcuentas.Find(pMovimiento.Id_Cuenta);
+                        cuenta.SaldoAnterior = cuenta.SaldoActual;
+                        cuenta.SaldoActual += pMovimiento.Monto;
+                        db.Entry(cuenta).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        //Cierro tracssaccion
+                        transaction.Commit();
+                        AddMsgWeb("Ingreso agregado exitosamente", ToastType.Success);
+                        return RedirectToAction("Index", "Inicio");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        ModelState.AddModelError("ModelErr", ex.Message);
+                        AddMsgWeb("Error al agregar el registro", ToastType.Error);
+                    }                  
+                }
+              
+            }
+            ViewBag.Id_Cuenta = new SelectList(sesion.Cuentas, "Id", "Nombre", pMovimiento.Id_Cuenta);
+            int tipo = IntValue(TipoMovimiento.Credito);
+            ViewBag.Id_Categoria = new SelectList(
+              db.tcategorias.Where(c => c.IdUsuario == sesion.Usuario.Id && c.Tipo == tipo && c.Activo),
+              "Id",
+              "Nombre", pMovimiento.Id_Categoria);
+            return View(pMovimiento);
+        }
+
         // GET: Cuentas/Gasto
         public ActionResult Gasto()
         {
-            return View();
+            int tipo = IntValue(TipoMovimiento.Debito);
+            tmovimiento gasto = new tmovimiento();
+            gasto.Id_Usuario = sesion.Usuario.Id;
+            gasto.TipoMovimiento = TipoMovimiento.Debito;
+            gasto.Fecha = DateTime.Now;
+            ViewBag.Id_Cuenta = new SelectList(sesion.Cuentas, "Id", "Nombre", sesion.CuentaFiltro);
+            ViewBag.Id_Categoria = new SelectList(db.tcategorias.Where(c => c.IdUsuario == sesion.Usuario.Id
+                && c.Tipo == tipo && c.Activo), "Id", "Nombre");
+            return View(gasto);
         }
+        // POST: Cuentas/Ingreso
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Gasto([Bind(Include = "Id_Usuario,Id_Categoria,Id_Cuenta,Fecha,Descripcion,TipoMovimiento,Monto")] tmovimiento pMovimiento)
+        {
+            if (ModelState.IsValid)
+            {
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        //Ingreso Movimiento
+                        pMovimiento.Tipo = IntValue(pMovimiento.TipoMovimiento);
+                        db.tmovimientoes.Add(pMovimiento);
+                        db.SaveChanges();
+
+                        //Actulizo Saldo
+                        tcuenta cuenta = db.tcuentas.Find(pMovimiento.Id_Cuenta);
+                        cuenta.SaldoAnterior = cuenta.SaldoActual;
+                        cuenta.SaldoActual -= pMovimiento.Monto;
+                        db.Entry(cuenta).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        //Cierro tracssaccion
+                        transaction.Commit();
+                        AddMsgWeb("Gasto agregado exitosamente", ToastType.Success);
+                        return RedirectToAction("Index", "Inicio");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        ModelState.AddModelError("ModelErr", ex.Message);
+                        AddMsgWeb("Error al agregar el registro", ToastType.Error);
+                    }
+                }          
+            }
+            ViewBag.Id_Cuenta = new SelectList(sesion.Cuentas, "Id", "Nombre", pMovimiento.Id_Cuenta);
+            int tipo = IntValue(TipoMovimiento.Debito);
+            ViewBag.Id_Categoria = new SelectList(db.tcategorias.Where(c => c.IdUsuario == sesion.Usuario.Id
+                && c.Tipo == tipo && c.Activo), "Id", "Nombre", pMovimiento.Id_Categoria);
+            return View(pMovimiento);
+        }
+
         // GET: Cuentas/Transferencia
         public ActionResult Transferencia()
         {
             return View();
         }
-        private void AddErrors(string err, ToastType type)
+        private void AddMsgWeb(string err, ToastType type)
         {
             TempData["msg"] += Notification.Show(err, position: Position.BottomRight, type: type, timeOut: 7000);
+        }
+        private static int IntValue(Enum value)
+        {
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (attributes.Length > 0)
+            {
+                return Convert.ToInt16(attributes[0].Description);
+            }
+            else
+            {
+                return Convert.ToInt16(value);
+            }
         }
     }
 }

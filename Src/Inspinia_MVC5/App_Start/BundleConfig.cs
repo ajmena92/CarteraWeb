@@ -63,12 +63,24 @@ namespace WebCartera
             bundles.Add(new ScriptBundle("~/plugins/dynatable").Include(
                       "~/Scripts/plugins/dynatable/jquery.dynatable.js"));
 
-            // dataPicker 
-            bundles.Add(new ScriptBundle("~/plugins/dataPicker").Include(
-                      "~/Scripts/plugins/datapicker/bootstrap-datepicker.js"));
-            // dataPicker styles
-            bundles.Add(new StyleBundle("~/plugins/dataPickerStyles").Include(
-                      "~/Content/plugins/datapicker/datepicker3.css"));
+            //// dataPicker 
+            //bundles.Add(new ScriptBundle("~/plugins/dataPicker").Include(
+            //          "~/Scripts/plugins/datapicker/bootstrap-datepicker.js"));
+            //// dataPicker styles
+            //bundles.Add(new StyleBundle("~/plugins/dataPickerStyles").Include(
+            //          "~/Content/plugins/datapicker/datepicker3.css"));
+
+
+
+            // dataTables css styles
+            bundles.Add(new StyleBundle("~/Content/plugins/dataTables/dataTablesStyles").Include(
+                      "~/Content/plugins/dataTables/datatables.min.css"));
+
+            // dataTables 
+            bundles.Add(new ScriptBundle("~/plugins/dataTables").Include(
+                      "~/Scripts/plugins/dataTables/datatables.min.js",
+                      "~/Scripts/plugins/dataTables/dataTables.bootstrap4.min.js"));
+
 
         }
     }

@@ -13,9 +13,10 @@ namespace WebCartera.Controllers
 {
     public class MonedasController : Controller
     {
-        private CarteraEntities db = new CarteraEntities();
-        private static Parametro sesion = Parametro.ObtenerSesionPagina();
-        private seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion ,"USE");
+        private readonly CarteraEntities db = new CarteraEntities();
+        private readonly seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
+        private Parametro sesion = Parametro.ObtenerSesionPagina();
+
 
         // GET: Monedas
         public ActionResult Index()

@@ -152,6 +152,7 @@
     <Compile Include="Helpers\MyHelpers.cs" />
     <Compile Include="Helpers\Notification.cs" />
     <Compile Include="Helpers\OptionEnums\Position.cs" />
+    <Compile Include="Helpers\OptionEnums\TipoMovimiento.cs" />
     <Compile Include="Helpers\OptionEnums\ToastType.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CarteraModel.Context.cs">
@@ -231,7 +232,7 @@
     <Content Include="Content\patterns\otis_redding.png" />
     <Content Include="Content\patterns\shattered.png" />
     <Content Include="Content\patterns\triangular.png" />
-    <Content Include="Content\plugins\datapicker\datepicker3.css" />
+    <Content Include="Content\plugins\dataTables\datatables.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -385,10 +386,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\app\ActivaModal.js" />
-    <Content Include="Scripts\plugins\datapicker\bootstrap-datepicker.js" />
-    <Content Include="Scripts\plugins\datapicker\bootstrap-datepicker.min.js">
-      <DependentUpon>bootstrap-datepicker.js</DependentUpon>
-    </Content>
+    <Content Include="Scripts\plugins\dataTables\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\plugins\dataTables\datatables.min.js" />
     <Content Include="Scripts\plugins\dynatable\jquery.dynatable.css" />
     <Content Include="Scripts\plugins\dynatable\jquery.dynatable.js" />
     <Content Include="Scripts\plugins\dynatable\jquery.dynatable.min.css">
@@ -486,8 +485,9 @@
     <Content Include="Views\Categorias\Index.cshtml" />
     <Content Include="Views\Shared\_RightSidebar.cshtml" />
     <Content Include="Views\Cuentas\Ingreso.cshtml" />
-    <Content Include="Views\Cuentas\Gasto.cshtml" />
     <Content Include="Views\Cuentas\Transferencia.cshtml" />
+    <Content Include="Views\Cuentas\Gasto.cshtml" />
+    <Content Include="Views\Inicio\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

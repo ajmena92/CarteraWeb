@@ -9,22 +9,90 @@ namespace WebCartera.Controllers
 {
     public class InicioController : Controller
     {
+        private readonly CarteraEntities db = new CarteraEntities();
         public Parametro Sesion = Parametro.ObtenerSesionPagina();
 
         // GET: Inicio
         public ActionResult Index(int? id, int? rango )
         {
-           if (id != null) {
-                Sesion.CuentaFiltro = Convert.ToInt16(id);
-            }
-            if (rango != null)
+            DateTime Fecha, FechInicial, FechFinal;
+            Fecha = DateTime.Today;      
+            IQueryable<tmovimiento> Consulta;
+            List<tmovimiento> Movimientos = new List<tmovimiento>();
+            try
             {
-                Sesion.RangoFiltro = Convert.ToInt16(rango);                
+                //Actulizo valores de los filtros
+                if ((id != null && Sesion.Cuentas.Any(c => c.Id == id)) || id ==0)
+                {
+                    Sesion.CuentaFiltro = Convert.ToInt16(id);
+                }
+                if (rango == null) {
+                    rango = Sesion.RangoFiltro;
+                }
+            // Filtro por fecha 1= Dia 2=Semana 3=Mes 4=Ano 5=Rango
+            switch (rango){
+                case 2:
+                    {
+                        // lastMonday is always the Monday before nextSunday.
+                        // When date is a Sunday, lastMonday will be tomorrow.     
+                        int offset = Fecha.DayOfWeek - DayOfWeek.Monday;
+                        FechInicial = Fecha.AddDays(-offset);
+                        FechFinal = FechInicial.AddDays(6);
+                        FechFinal = Fecha.AddDays(7 - (int)Fecha.DayOfWeek);
+                        ViewBag.Rango = "Semana Actual";
+                        ViewBag.RangoFiltro = FechInicial + " hasta " + FechFinal;
+                        Consulta = db.tmovimientoes.Where(m => m.Id_Usuario == Sesion.Usuario.Id &&
+                        m.Fecha >= FechInicial && m.Fecha <= FechFinal);                    
+                                            break;
+                    }
+                case 3: {
+                        ViewBag.Rango = "Mes Actual";
+                        ViewBag.RangoFiltro = Fecha.Month + " del " + Fecha.Year;
+                        Consulta = db.tmovimientoes.Where(m => m.Id_Usuario == Sesion.Usuario.Id                            
+                            && m.Fecha.Month == Fecha.Month
+                            && m.Fecha.Year == Fecha.Year);
+                        break;
+                    }
+                case 4:
+                    {
+                        ViewBag.Rango = "Año Actual";
+                        ViewBag.RangoFiltro = Fecha.Year;
+                        Consulta = db.tmovimientoes.Where(m => m.Id_Usuario == Sesion.Usuario.Id                        
+                            && m.Fecha.Year == Fecha.Year);
+                        break;                         
+                    }
+                default:
+                    {
+                        ViewBag.Rango = "Movimientos del día";
+                        ViewBag.RangoFiltro = Fecha.ToString("dd/MM/yyyy");
+                        rango = 1; // Se valida el parametro
+                        Consulta = db.tmovimientoes.Where(m => m.Id_Usuario == Sesion.Usuario.Id
+                            && m.Fecha.Day == Fecha.Day
+                            && m.Fecha.Month == Fecha.Month
+                            && m.Fecha.Year == Fecha.Year);
+                        break;
+                    }
+                }
+                Sesion.RangoFiltro = Convert.ToInt16(rango);
+                if (Sesion.CuentaFiltro == 0)
+                {
+                    Movimientos = Consulta.Where(m => m.Id_Usuario == Sesion.Usuario.Id).ToList();
+                }
+                else {
+                    Movimientos = Consulta.Where(m => m.Id_Usuario == Sesion.Usuario.Id && m.Id_Cuenta == Sesion.CuentaFiltro).ToList();
+                }
             }
-            
-            return View();
+            catch
+            {
+                AddMsgWeb("Error crítico al acceder a los datos", ToastType.Error);          
+            }
+            return View(Movimientos);
         }
-        
+
+        private void AddMsgWeb(string err, ToastType type)
+        {
+            TempData["msg"] += Notification.Show(err, position: Position.BottomRight, type: type, timeOut: 7000);
+        }
 
         [HttpPost]
         public ActionResult CambioCuenta(FormCollection form)

@@ -18,8 +18,9 @@ namespace WebCartera.Controllers
     public class CategoriasController : Controller
     {
         private readonly CarteraEntities db = new CarteraEntities();
-        private static Parametro sesion = Parametro.ObtenerSesionPagina();
-        private readonly seguridadrolmodulo permiso = Parametro.VerificaPermiso(sesion, "USE");
+        private readonly seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
+        private Parametro sesion = Parametro.ObtenerSesionPagina();
+
 
         // GET: Categorias
         public ActionResult Index()

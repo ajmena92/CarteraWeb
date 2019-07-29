@@ -21,10 +21,16 @@ namespace WebCartera.Models
         [StringLength(150, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud y maximo {1}.", MinimumLength = 0)]
         [Display(Name = "Descripción")]
         public string Descripcion;
+
+        //[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Fecha;
-        [Required]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}")]
+        public System.DateTime Hora;
+        [Required]     
+        [Range(0, 9999999999.99)]        
         public decimal Monto;
     }
         public class MetaDatatcuenta
@@ -39,9 +45,11 @@ namespace WebCartera.Models
         [Required]
         public string Imagen { get; set; }
         [Required]
-        [Display(Name = "Saldo")]
-        [Range(0, double.MaxValue, ErrorMessage = "Valor ingresado fuera del rango.")]
-        public decimal SaldoActual;     
+        [Display(Name = "Saldo")]  
+        [Range(0, 9999999999.99)]
+        public decimal SaldoActual;   
+        [Range(0, 9999999999.99)]
+        public decimal SaldoAnterior;
         [Display(Name = "Estado")]
         public bool Activo;
         [Required]

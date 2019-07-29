@@ -40,11 +40,9 @@ namespace WebCartera.Models
                 //Esta variable almacena la clave cifrada pra crear la cokie con los valores ingresados del usuario
                 string pass = Security.Encriptar(pClave);
                 seguridadusuario Usuario = db.seguridadusuarios.Where(u => u.Email == pUsuario).SingleOrDefault();
-                if (Usuario != null)
+                if (Usuario != null && Usuario.Clave != pass)
                 {
-                    if (Usuario.Clave != pass) {
-                        Usuario = null;
-                    }
+                    Usuario = null;
                 }
                 if (Usuario != null)
                 {
