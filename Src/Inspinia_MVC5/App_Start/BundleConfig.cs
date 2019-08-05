@@ -74,12 +74,29 @@ namespace WebCartera
 
             // dataTables css styles
             bundles.Add(new StyleBundle("~/Content/plugins/dataTables/dataTablesStyles").Include(
-                      "~/Content/plugins/dataTables/datatables.min.css"));
+                       "~/Content/DataTables/media/css/dataTables.bootstrap4.css",
+                       "~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.css",
+                       "~/Content/DataTables/extensions/Responsive/css/responsive.bootstrap4.css",
+                       "~/Content/DataTables/extensions/FixedHeader/css/fixedInspinia_MVC5Header.bootstrap4.css"));
 
             // dataTables 
             bundles.Add(new ScriptBundle("~/plugins/dataTables").Include(
-                      "~/Scripts/plugins/dataTables/datatables.min.js",
-                      "~/Scripts/plugins/dataTables/dataTables.bootstrap4.min.js"));
+                        "~/Scripts/DataTables/media/js/jquery.dataTables.js",
+                        "~/Scripts/DataTables/media/js/dataTables.bootstrap4.js",
+                        "~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.js",
+                        "~/Scripts/DataTables/extensions/Buttons/js/buttons.bootstrap4.js",
+                        "~/Scripts/DataTables/extensions/Responsive/js/dataTables.responsive.js",
+                        "~/Scripts/DataTables/extensions/Responsive/js/responsive.bootstrap4.js",
+                        "~/Scripts/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.js",
+                        "~/Scripts/DataTables/extensions/FixedHeader/js/fixedHeader.bootstrap4.js"));
+            // dataTables  addins
+            bundles.Add(new ScriptBundle("~/plugins/dataTables_addings").Include(              
+                        "~/Scripts/DataTables/extensions/JSZip/jszip.js",
+                        "~/Scripts/DataTables/extensions/pdfmake/pdfmake.js",
+                        "~/Scripts/DataTables/extensions/pdfmake/vfs_fonts.js",
+                        "~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.js",
+                        "~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js",
+                        "~/Scripts/DataTables/extensions/Buttons/js/buttons.colVis.js"));
 
 
         }

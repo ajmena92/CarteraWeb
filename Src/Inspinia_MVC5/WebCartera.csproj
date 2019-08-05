@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DecimalModelBinder.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoriasController.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Controllers\InicioController.cs" />
     <Compile Include="Controllers\MonedasController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
+    <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -200,7 +202,14 @@
     <Compile Include="Models\tparametro.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Trasferencia.cs" />
+    <Compile Include="Models\treportecartera.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tsaldoxcategoria.cs">
+      <DependentUpon>CarteraModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tversion.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs" />
@@ -215,6 +224,21 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Custom.css" />
+    <Content Include="Content\DataTables\extensions\Buttons\css\buttons.bootstrap4.css" />
+    <Content Include="Content\DataTables\extensions\Buttons\css\buttons.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\extensions\FixedHeader\css\fixedHeader.bootstrap4.css" />
+    <Content Include="Content\DataTables\extensions\FixedHeader\css\fixedHeader.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\extensions\Responsive\css\responsive.bootstrap4.css" />
+    <Content Include="Content\DataTables\extensions\Responsive\css\responsive.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\media\css\dataTables.bootstrap4.css" />
+    <Content Include="Content\DataTables\media\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\media\images\favicon.ico" />
+    <Content Include="Content\DataTables\media\images\Sorting icons.psd" />
+    <Content Include="Content\DataTables\media\images\sort_asc.png" />
+    <Content Include="Content\DataTables\media\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTables\media\images\sort_both.png" />
+    <Content Include="Content\DataTables\media\images\sort_desc.png" />
+    <Content Include="Content\DataTables\media\images\sort_desc_disabled.png" />
     <Content Include="Content\email.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\patterns\1.png" />
@@ -335,6 +359,8 @@
     <Content Include="libman.json" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Content\DataTables\extensions\Buttons\css\mixins.scss" />
+    <Content Include="Content\DataTables\extensions\Buttons\css\common.scss" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Inspinia.pubxml" />
     <Content Include="Content\landing\avatar_all.png" />
@@ -359,6 +385,64 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.colVis.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.colVis.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.flash.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.flash.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.foundation.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.foundation.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.html5.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.html5.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.jqueryui.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.print.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.print.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.semanticui.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\dataTables.buttons.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\dataTables.buttons.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\swf\flashExport.swf" />
+    <Content Include="Scripts\DataTables\extensions\FixedHeader\js\fixedHeader.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\extensions\FixedHeader\js\fixedHeader.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\extensions\JSZip\jszip.js" />
+    <Content Include="Scripts\DataTables\extensions\JSZip\jszip.min.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\dataTables.keyTable.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\dataTables.keyTable.min.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.bootstrap.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.dataTables.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.foundation.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.foundation.min.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.jqueryui.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.semanicui.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.semanticui.js" />
+    <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\extensions\pdfmake\pdfmake.js" />
+    <Content Include="Scripts\DataTables\extensions\pdfmake\pdfmake.min.js" />
+    <Content Include="Scripts\DataTables\extensions\pdfmake\vfs_fonts.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\dataTables.responsive.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\dataTables.responsive.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.bootstrap.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.foundation.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.foundation.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.jqueryui.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.jqueryui.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.semanticui.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\media\js\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\DataTables\media\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\media\js\jquery.dataTables.js" />
+    <Content Include="Scripts\DataTables\media\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -488,6 +572,8 @@
     <Content Include="Views\Cuentas\Transferencia.cshtml" />
     <Content Include="Views\Cuentas\Gasto.cshtml" />
     <Content Include="Views\Inicio\View.cshtml" />
+    <Content Include="Views\Reporte\Cartera.cshtml" />
+    <Content Include="Views\Reporte\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

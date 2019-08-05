@@ -11,7 +11,7 @@ namespace WebCartera.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class tmovimiento
     {
         public int Id { get; set; }
@@ -22,7 +22,7 @@ namespace WebCartera.Models
         public string Descripcion { get; set; }
         public System.DateTime Fecha { get; set; }
         public decimal Monto { get; set; }
-
+    
         public virtual seguridadusuario seguridadusuario { get; set; }
         public virtual tcategoria tcategoria { get; set; }
         public virtual tcuenta tcuenta { get; set; }

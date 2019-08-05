@@ -25,7 +25,7 @@ namespace WebCartera.Controllers
         // GET: Categorias
         public ActionResult Index()
         {                   
-            var categorias = db.tcategorias.Where(m => m.IdUsuario == sesion.Usuario.Id);
+            var categorias = db.tcategorias.Where(m => m.IdUsuario == sesion.Usuario.Id && m.Tipo !=3);
             ViewBag.Tipo = ListTipoCategorias();
             return View(categorias.ToList());
         }        

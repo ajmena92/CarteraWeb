@@ -1,15 +1,93 @@
-﻿@model WebCartera.Models.tmovimiento
+﻿@model WebCartera.Models.Transferencia
 
 @{
-    ViewBag.Title = "Transferencia";
+    ViewBag.Title = "Registro de Transferencia";
 }
 
-<h2>Transferencia</h2>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Movimientos</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Inicio")">Inicio</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>Transferencia</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
 
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    </div>
 </div>
-<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.css" rel="stylesheet" />
-<script src=""></script>
-<script src="s"></script>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-content text-left">
+                    <h2>
+                        <span class="text-navy">Crear Transferencia</span>
+
+                    </h2>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationMessage("ModelErr", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tcuenta.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("CuentaOrigen", null, "-- Cuenta Origen --", htmlAttributes: new { @class = "form-control", onchange = "this.form.submit();" })
+                                @Html.ValidationMessageFor(model => model.CuentaOrigen, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tcuenta.SaldoActual, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="bg-muted form-control">
+                                    @ViewBag.Simbolo @ViewBag.Saldo
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tcuenta.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("CuentaDestino", null, "-- Cuenta Destino --", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CuentaDestino, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Monto, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="input-group">
+                                    <span id="ImgIcosm" class="btn btn-secondary ">@ViewBag.Simbolo</span>
+                                    @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input class="btn btn-primary" type="submit" value="Guardar" />
+                                <button class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Inicio")';return false;">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryForm")
+}

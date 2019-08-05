@@ -35,5 +35,7 @@ namespace WebCartera.Models
         public virtual DbSet<tmoneda> tmonedas { get; set; }
         public virtual DbSet<tsaldoxcategoria> tsaldoxcategorias { get; set; }
         public virtual DbSet<tcuenta> tcuentas { get; set; }
+        public virtual DbSet<treportecartera> treportecarteras { get; set; }
+        public virtual DbSet<tversion> tversions { get; set; }
     }
 }

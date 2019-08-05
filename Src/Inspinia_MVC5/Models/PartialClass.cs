@@ -3,20 +3,23 @@ using WebCartera.Helpers.OptionEnums;
 namespace WebCartera.Models
 {
 
-
+    [MetadataType(typeof(MetaDatatreportecartera))]
+    public partial class treportecartera {
+    }
     [MetadataType(typeof(MetaDatatmovimiento))]
     public partial class tmovimiento
     {
         public TipoMovimiento TipoMovimiento
         {
             get;set;
-        }
 
-        public System.DateTime Hora
+
+        }
+        public string Monto_Format
         {
-            get => Fecha;
-            set
+            get
             {
+                return string.Format("{0:0,0.00}", Monto);
             }
         }
     }

@@ -102,6 +102,15 @@
           <Property Name="Valor" Type="varchar" MaxLength="255" />
           <Property Name="Visible" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <EntityType Name="treportecartera">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+          <Property Name="Valor" Type="double" Nullable="false" />
+          <Property Name="Reporte" Type="int" />
+        </EntityType>
         <EntityType Name="tsaldoxcategoria">
           <Key>
             <PropertyRef Name="IdCategoria" />
@@ -112,6 +121,15 @@
           <Property Name="IdUsuario" Type="int" Nullable="false" />
           <Property Name="IdMoneda" Type="int" Nullable="false" />
           <Property Name="Saldo" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="tversion">
+          <Key>
+            <PropertyRef Name="IdVersion" />
+          </Key>
+          <Property Name="IdVersion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VerBD" Type="int" />
+          <Property Name="Script" Type="varchar" MaxLength="255" />
+          <Property Name="Detalles" Type="text" />
         </EntityType>
         <Association Name="FkCategoriaxMov">
           <End Role="tcategoria" Type="Self.tcategoria" Multiplicity="1" />
@@ -279,7 +297,9 @@
           <EntitySet Name="tmoneda" EntityType="Self.tmoneda" Schema="db_a4a772_ajmena9" store:Type="Tables" />
           <EntitySet Name="tmovimiento" EntityType="Self.tmovimiento" Schema="db_a4a772_ajmena9" store:Type="Tables" />
           <EntitySet Name="tparametros" EntityType="Self.tparametros" Schema="db_a4a772_ajmena9" store:Type="Tables" />
+          <EntitySet Name="treportecartera" EntityType="Self.treportecartera" Schema="db_a4a772_ajmena9" store:Type="Tables" />
           <EntitySet Name="tsaldoxcategoria" EntityType="Self.tsaldoxcategoria" Schema="db_a4a772_ajmena9" store:Type="Tables" />
+          <EntitySet Name="tversion" EntityType="Self.tversion" Schema="db_a4a772_ajmena9" store:Type="Tables" />
           <AssociationSet Name="FkCategoriaxMov" Association="Self.FkCategoriaxMov">
             <End Role="tcategoria" EntitySet="tcategoria" />
             <End Role="tmovimiento" EntitySet="tmovimiento" />
@@ -467,6 +487,8 @@
             <End Role="tmoneda" EntitySet="tmonedas" />
             <End Role="tcuenta" EntitySet="tcuentas" />
           </AssociationSet>
+          <EntitySet Name="treportecarteras" EntityType="CarteraModel.treportecartera" />
+          <EntitySet Name="tversions" EntityType="CarteraModel.tversion" />
           </EntityContainer>
         <EntityType Name="seguridadmodulo">
           <Key>
@@ -691,6 +713,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="treportecartera">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="Double" Nullable="false" />
+          <Property Name="Reporte" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tversion">
+          <Key>
+            <PropertyRef Name="IdVersion" />
+          </Key>
+          <Property Name="IdVersion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VerBD" Type="Int32" />
+          <Property Name="Script" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Detalles" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -809,6 +849,26 @@
                 <ScalarProperty Name="Id_Moneda" ColumnName="Id_Moneda" />
                 <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="treportecarteras">
+            <EntityTypeMapping TypeName="CarteraModel.treportecartera">
+              <MappingFragment StoreEntitySet="treportecartera">
+                <ScalarProperty Name="Reporte" ColumnName="Reporte" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tversions">
+            <EntityTypeMapping TypeName="CarteraModel.tversion">
+              <MappingFragment StoreEntitySet="tversion">
+                <ScalarProperty Name="Detalles" ColumnName="Detalles" />
+                <ScalarProperty Name="Script" ColumnName="Script" />
+                <ScalarProperty Name="VerBD" ColumnName="VerBD" />
+                <ScalarProperty Name="IdVersion" ColumnName="IdVersion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

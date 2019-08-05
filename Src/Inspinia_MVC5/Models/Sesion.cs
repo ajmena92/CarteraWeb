@@ -29,7 +29,14 @@ namespace WebCartera.Models
 
         public DateTime FechaFinal { get; set; }
 
-        public List<tcuenta> Cuentas { get; set; }
+        public List<tcuenta> Cuentas { get
+            {
+                return db.tcuentas.Where(c => c.Id_Usuario == Usuario.Id && c.Activo).ToList();
+            }
+            set
+            {
+            }
+        }
 
         #region Metodos y Propiedades
 
@@ -46,7 +53,7 @@ namespace WebCartera.Models
                 NomEmpresa = Tparametro[8].Valor; //Valor de mantenimiento
                 Usuario = pUsuario;
                 CuentaFiltro = 0; // filtro todas las cuentas
-                RangoFiltro = 1; //filtro por dia
+                RangoFiltro = 3; //filtro por mes
                 Cuentas = Usuario.tcuentas.Where(c=> c.Activo).ToList();
             }
             catch (Exception )

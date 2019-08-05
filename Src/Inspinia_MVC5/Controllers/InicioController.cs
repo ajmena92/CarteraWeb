@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,13 +38,12 @@ namespace WebCartera.Controllers
                         // lastMonday is always the Monday before nextSunday.
                         // When date is a Sunday, lastMonday will be tomorrow.     
                         int offset = Fecha.DayOfWeek - DayOfWeek.Monday;
-                        FechInicial = Fecha.AddDays(-offset);
-                        FechFinal = FechInicial.AddDays(6);
-                        FechFinal = Fecha.AddDays(7 - (int)Fecha.DayOfWeek);
+                        FechInicial = Fecha.AddDays(-offset);                      
+                        FechFinal = Fecha.AddDays(7 - (int)Fecha.DayOfWeek).AddHours(23.9999);
                         ViewBag.Rango = "Semana Actual";
-                        ViewBag.RangoFiltro = FechInicial + " hasta " + FechFinal;
-                        Consulta = db.tmovimientoes.Where(m => m.Id_Usuario == Sesion.Usuario.Id &&
-                        m.Fecha >= FechInicial && m.Fecha <= FechFinal);                    
+                        ViewBag.RangoFiltro = FechInicial.ToString("dd/MM/yyyy") + " hasta " + FechFinal.ToString("dd/MM/yyyy");
+                        Consulta = db.tmovimientoes.Where(m => m.Id_Usuario == Sesion.Usuario.Id
+                        && m.Fecha >= FechInicial && m.Fecha <= FechFinal).Include(c => c.tcuenta);                  
                                             break;
                     }
                 case 3: {
@@ -50,7 +51,7 @@ namespace WebCartera.Controllers
                         ViewBag.RangoFiltro = Fecha.Month + " del " + Fecha.Year;
                         Consulta = db.tmovimientoes.Where(m => m.Id_Usuario == Sesion.Usuario.Id                            
                             && m.Fecha.Month == Fecha.Month
-                            && m.Fecha.Year == Fecha.Year);
+                            && m.Fecha.Year == Fecha.Year).Include(c => c.tcuenta);
                         break;
                     }
                 case 4:
@@ -58,18 +59,18 @@ namespace WebCartera.Controllers
                         ViewBag.Rango = "Año Actual";
                         ViewBag.RangoFiltro = Fecha.Year;
                         Consulta = db.tmovimientoes.Where(m => m.Id_Usuario == Sesion.Usuario.Id                        
-                            && m.Fecha.Year == Fecha.Year);
-                        break;                         
+                            && m.Fecha.Year == Fecha.Year).Include(c => c.tcuenta);                        
+                            break;                         
                     }
                 default:
                     {
-                        ViewBag.Rango = "Movimientos del día";
+                        ViewBag.Rango = "Movimientos del día ";
                         ViewBag.RangoFiltro = Fecha.ToString("dd/MM/yyyy");
                         rango = 1; // Se valida el parametro
                         Consulta = db.tmovimientoes.Where(m => m.Id_Usuario == Sesion.Usuario.Id
                             && m.Fecha.Day == Fecha.Day
                             && m.Fecha.Month == Fecha.Month
-                            && m.Fecha.Year == Fecha.Year);
+                            && m.Fecha.Year == Fecha.Year).Include(c => c.tcuenta);
                         break;
                     }
                 }
@@ -81,6 +82,7 @@ namespace WebCartera.Controllers
                 else {
                     Movimientos = Consulta.Where(m => m.Id_Usuario == Sesion.Usuario.Id && m.Id_Cuenta == Sesion.CuentaFiltro).ToList();
                 }
+                ViewBag.Monedas = Movimientos.Select(c => c.tcuenta.tmoneda).Distinct();           
             }
             catch
             {

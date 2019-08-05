@@ -117,3 +117,9 @@ a {
         text-align: center;
         font-size: large;
     }
+
+.dropdown-item.active,
+.dropdown-item:active {
+    /* background-color: inherit; */
+    background-color: #bbbbbb !important;
+}

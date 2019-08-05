@@ -10,13 +10,14 @@ using System.Web.Mvc;
 
 namespace WebCartera.Models
 {
+    
+    public class MetaDatatreportecartera
+    {    
+        [Display(Name = "Descripción")]
+        public string Descripcion;
+    }
     public class MetaDatatmovimiento
-    {
-        public int Id { get; set; }
-        public int Id_Cuenta { get; set; }
-        public int Id_Categoria { get; set; }
-        public int Id_Usuario { get; set; }
-        public int Tipo { get; set; }
+    {            
         [Required]
         [StringLength(150, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud y maximo {1}.", MinimumLength = 0)]
         [Display(Name = "Descripción")]
@@ -26,11 +27,9 @@ namespace WebCartera.Models
         [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public System.DateTime Fecha;
-        [DisplayFormat(DataFormatString = "{0:HH:mm}")]
-        public System.DateTime Hora;
-        [Required]     
-        [Range(0, 9999999999.99)]        
+        public System.DateTime Fecha;      
+        [Required]
+        [Range(-9999999999.99, 9999999999.99)]
         public decimal Monto;
     }
         public class MetaDatatcuenta
@@ -45,10 +44,9 @@ namespace WebCartera.Models
         [Required]
         public string Imagen { get; set; }
         [Required]
-        [Display(Name = "Saldo")]  
-        [Range(0, 9999999999.99)]
-        public decimal SaldoActual;   
-        [Range(0, 9999999999.99)]
+        [Display(Name = "Saldo")]
+        [Range(-9999999999.99, 9999999999.99)]
+        public decimal SaldoActual;         
         public decimal SaldoAnterior;
         [Display(Name = "Estado")]
         public bool Activo;
@@ -72,7 +70,7 @@ namespace WebCartera.Models
     public class MetaDatatcategoria
     {
         [Required]
-        [StringLength(50, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 6)]        
+        [StringLength(50, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 4)]        
         public string Nombre;
         [Required]
         public int Tipo;
@@ -92,7 +90,7 @@ namespace WebCartera.Models
         public string Email;
 
         [Required]
-        [StringLength(50, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 6)]
+        [StringLength(50, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud.", MinimumLength = 4)]
         [Display(Name = "Nombre")]
         public string NomUsuario;
 

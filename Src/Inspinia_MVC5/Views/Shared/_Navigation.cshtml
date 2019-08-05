@@ -28,9 +28,9 @@
                 <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Inicio", cssClass: "in")">
                     @foreach (var item in Parametro.Cuentas)
                     {
-                       
-                            <li class="@(Parametro.CuentaFiltro == item.Id ? "active" : "")"><a href="@Url.Action("Index", "Inicio", new { id = item.Id })">@item.Nombre</a></li>
-                        
+
+                        <li class="@(Parametro.CuentaFiltro == item.Id ? "active" : "")"><a href="@Url.Action("Index", "Inicio", new { id = item.Id })">@item.Nombre</a></li>
+
                     }
                     <li class="@(Parametro.CuentaFiltro == 0 ? "active":"")"><a href="@Url.Action("Index", "Inicio",new { id = 0})">Todas las Cuentas</a></li>
                 </ul>
@@ -42,7 +42,10 @@
                 <a href="@Url.Action("Index", "Monedas")"><i class="fa fa-dollar"></i> <span class="nav-label" data-i18n="nav.moneda">Monedas</span> </a>
             </li>
             <li class="@Html.IsSelected(controller: "Cuentas")">
-                <a href="@Url.Action("Index", "Cuentas")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.cuenta">Cuentas</span> <span class="label label-primary float-right">+</span></a>
+                <a href="@Url.Action("Index", "Cuentas")"><i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.cuenta">Cuentas</span></a>
+            </li>
+            <li class="@Html.IsSelected(controller: "Reporte")">
+                <a href="@Url.Action("Cartera", "Reporte")"><i class="fa fa-file-o"></i> <span class="nav-label" data-i18n="nav.cuenta">Reporte Cartera</span> <span class="label label-primary float-right">+</span></a>
             </li>
             <li class="@Html.IsSelected(controller: "Cuenta")">
                 <a href="@Url.Action("LogOff", "Cuenta")"><i class="fa fa-sign-out"></i> <span class="nav-label" data-i18n="nav.salir">Cerrar Sesión</span> </a>

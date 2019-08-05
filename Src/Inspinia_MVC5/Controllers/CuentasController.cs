@@ -12,6 +12,7 @@ using System.Reflection;
 using System.ComponentModel;
 using WebCartera.Helpers.OptionEnums;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace WebCartera.Controllers
 {
@@ -242,12 +243,30 @@ namespace WebCartera.Controllers
                         AddMsgWeb("Ingreso agregado exitosamente", ToastType.Success);
                         return RedirectToAction("Index", "Inicio");
                     }
+                    catch (DbEntityValidationException exp)
+                    {
+                        transaction.Rollback();
+
+                        foreach (var eve in exp.EntityValidationErrors)
+                        {
+                            string msg = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            AddMsgWeb("EntityValidationErrors: " + msg, ToastType.Error);
+
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                string msg1 = string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                                AddMsgWeb("EntityValidationErrors: " + msg1, ToastType.Error);
+                            }
+                        }
+
+                    }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
                         ModelState.AddModelError("ModelErr", ex.Message);
                         AddMsgWeb("Error al agregar el registro", ToastType.Error);
-                    }                  
+                    }
                 }
               
             }
@@ -280,13 +299,14 @@ namespace WebCartera.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Gasto([Bind(Include = "Id_Usuario,Id_Categoria,Id_Cuenta,Fecha,Descripcion,TipoMovimiento,Monto")] tmovimiento pMovimiento)
         {
+
             if (ModelState.IsValid)
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
-                        //Ingreso Movimiento
+                        //Ingreso Movimiento                        
                         pMovimiento.Tipo = IntValue(pMovimiento.TipoMovimiento);
                         db.tmovimientoes.Add(pMovimiento);
                         db.SaveChanges();
@@ -303,13 +323,31 @@ namespace WebCartera.Controllers
                         AddMsgWeb("Gasto agregado exitosamente", ToastType.Success);
                         return RedirectToAction("Index", "Inicio");
                     }
+                    catch (DbEntityValidationException exp)
+                    {
+                        transaction.Rollback();
+
+                        foreach (var eve in exp.EntityValidationErrors)
+                        {
+                            string msg = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            AddMsgWeb("EntityValidationErrors: " + msg, ToastType.Error);                         
+
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                string msg1 = string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);                                
+                                AddMsgWeb("EntityValidationErrors: " + msg1, ToastType.Error);
+                            }
+                        }
+
+                    }                 
                     catch (Exception ex)
                     {
                         transaction.Rollback();
                         ModelState.AddModelError("ModelErr", ex.Message);
                         AddMsgWeb("Error al agregar el registro", ToastType.Error);
                     }
-                }          
+                }        
             }
             ViewBag.Id_Cuenta = new SelectList(sesion.Cuentas, "Id", "Nombre", pMovimiento.Id_Cuenta);
             int tipo = IntValue(TipoMovimiento.Debito);
@@ -320,9 +358,116 @@ namespace WebCartera.Controllers
 
         // GET: Cuentas/Transferencia
         public ActionResult Transferencia()
-        {
+        {          
+            ViewBag.CuentaOrigen = new SelectList(sesion.Cuentas, "Id", "Nombre");
+            ViewBag.CuentaDestino = new SelectList(new List<tcuenta>(), "Id", "Nombre");
+            ViewBag.Saldo = "0.0";
             return View();
         }
+        // POST: Cuentas/Transferencia
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Transferencia([Bind(Include = "CuentaOrigen,CuentaDestino,Descripcion,Monto")] Transferencia pTransferencia)
+        {
+            tcuenta CuentaOrigen = sesion.Cuentas.Find(c => c.Id == pTransferencia.CuentaOrigen);
+            if (CuentaOrigen != null)
+            {
+                ViewBag.Saldo = CuentaOrigen.SaldoActual_Format;
+                ViewBag.Simbolo = CuentaOrigen.tmoneda.Simbolo;
+                if (pTransferencia.Monto > CuentaOrigen.SaldoActual) {
+                    ModelState.AddModelError("ModelErr", "Monto de transferencia mayor al saldo de la cuenta");                    
+                    AddMsgWeb("Monto de transferencia mayor al saldo de la cuenta", ToastType.Error);
+                }
+            }
+            else
+            {
+                ViewBag.Saldo = "0.0";
+            }
+            if (ModelState.IsValid)
+            {
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var Categoria = db.tcategorias.Where(c => c.IdUsuario == sesion.Usuario.Id && c.Tipo == 3).FirstOrDefault();
+                        tmovimiento Gasto = new tmovimiento();
+                        //Ingreso Gasto   
+                        Gasto.Id_Usuario = sesion.Usuario.Id;
+                        Gasto.Fecha = DateTime.Now;
+                        Gasto.Id_Categoria = Categoria.Id;
+                        Gasto.Id_Cuenta = pTransferencia.CuentaOrigen;
+                        Gasto.Monto = pTransferencia.Monto;
+                        Gasto.Descripcion = "Transferencia " + pTransferencia.Descripcion;
+                        Gasto.Tipo = IntValue(TipoMovimiento.Debito);                        
+                        db.tmovimientoes.Add(Gasto);
+                        db.SaveChanges();
+
+                        tmovimiento Ingreso = new tmovimiento();
+                        //Ingreso Gasto   
+                        Ingreso.Id_Usuario = sesion.Usuario.Id;
+                        Ingreso.Fecha = DateTime.Now;
+                        Ingreso.Id_Categoria = Categoria.Id;
+                        Ingreso.Id_Cuenta = pTransferencia.CuentaDestino;
+                        Ingreso.Monto = pTransferencia.Monto;
+                        Ingreso.Descripcion = "Transferencia " + pTransferencia.Descripcion;
+                        Ingreso.Tipo = IntValue(TipoMovimiento.Credito);
+                        db.tmovimientoes.Add(Ingreso);                          
+                        db.SaveChanges();
+
+                        //Actulizo Saldo
+                        tcuenta COrigen = db.tcuentas.Find(pTransferencia.CuentaOrigen);
+                        COrigen.SaldoAnterior = COrigen.SaldoActual;
+                        COrigen.SaldoActual -= pTransferencia.Monto;
+                        db.Entry(COrigen).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        //Actulizo Saldo
+                        tcuenta CDestino = db.tcuentas.Find(pTransferencia.CuentaDestino);
+                        CDestino.SaldoAnterior = CDestino.SaldoActual;
+                        CDestino.SaldoActual += pTransferencia.Monto;
+                        db.Entry(CDestino).State = EntityState.Modified;
+
+                        db.SaveChanges();
+
+                        //Cierro tracssaccion
+                        transaction.Commit();
+                        AddMsgWeb("Gasto agregado exitosamente", ToastType.Success);
+                        return RedirectToAction("Index", "Inicio");
+                    }
+                    catch (DbEntityValidationException exp)
+                    {
+                        transaction.Rollback();
+
+                        foreach (var eve in exp.EntityValidationErrors)
+                        {
+                            string msg = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            AddMsgWeb("EntityValidationErrors: " + msg, ToastType.Error);
+
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                string msg1 = string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                                AddMsgWeb("EntityValidationErrors: " + msg1, ToastType.Error);
+                            }
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        ModelState.AddModelError("ModelErr", ex.Message);
+                        AddMsgWeb("Error al agregar el registro", ToastType.Error);
+                    }
+                }
+            }                     
+            ViewBag.CuentaOrigen = new SelectList(sesion.Cuentas, "Id", "Nombre", pTransferencia.CuentaOrigen);           
+            ViewBag.CuentaDestino = new SelectList(sesion.Cuentas.Where(c => c.Id_Usuario == sesion.Usuario.Id
+                && c.Activo && c.Id != CuentaOrigen.Id && c.Id_Moneda == CuentaOrigen.Id_Moneda), "Id", "Nombre", pTransferencia.CuentaDestino);           
+            return View(pTransferencia);
+        }
+
         private void AddMsgWeb(string err, ToastType type)
         {
             TempData["msg"] += Notification.Show(err, position: Position.BottomRight, type: type, timeOut: 7000);
