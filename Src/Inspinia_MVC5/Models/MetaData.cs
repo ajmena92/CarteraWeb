@@ -29,7 +29,7 @@ namespace WebCartera.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Fecha;      
         [Required]
-        [Range(-9999999999.99, 9999999999.99)]
+        [Range(-9999999999.99, 9999999999.99, ErrorMessage ="Valor excede el maximo de digitos permitido")]
         public decimal Monto;
     }
         public class MetaDatatcuenta

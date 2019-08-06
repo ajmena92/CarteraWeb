@@ -29,13 +29,9 @@ namespace WebCartera.Models
 
         public DateTime FechaFinal { get; set; }
 
-        public List<tcuenta> Cuentas { get
-            {
-                return db.tcuentas.Where(c => c.Id_Usuario == Usuario.Id && c.Activo).ToList();
-            }
-            set
-            {
-            }
+        public List<tcuenta> Cuentas {
+            get;
+            set;          
         }
 
         #region Metodos y Propiedades

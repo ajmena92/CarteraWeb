@@ -69,7 +69,7 @@
                             <div class="col-md-10">
                                 <div class="input-group">
                                     <span id="ImgIcosm" class="btn btn-secondary ">@ViewBag.Simbolo</span>
-                                    @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
                             </div>

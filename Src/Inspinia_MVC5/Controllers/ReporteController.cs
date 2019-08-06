@@ -18,7 +18,7 @@ namespace WebCartera.Controllers
         {
             try
             {
-                List<treportecartera> cartera = db.treportecarteras.ToList();        
+                List<treportecartera> cartera = db.treportecarteras.ToList();
                 return View(cartera);
             }
             catch

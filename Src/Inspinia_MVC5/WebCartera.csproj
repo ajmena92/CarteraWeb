@@ -385,24 +385,14 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap4.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap4.min.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.colVis.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.colVis.min.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.flash.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.flash.min.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.foundation.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.foundation.min.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.html5.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.html5.min.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.jqueryui.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.print.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.print.min.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.semanticui.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.semanticui.min.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\dataTables.buttons.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\dataTables.buttons.min.js" />
     <Content Include="Scripts\DataTables\extensions\Buttons\swf\flashExport.swf" />
@@ -571,9 +561,9 @@
     <Content Include="Views\Cuentas\Ingreso.cshtml" />
     <Content Include="Views\Cuentas\Transferencia.cshtml" />
     <Content Include="Views\Cuentas\Gasto.cshtml" />
-    <Content Include="Views\Inicio\View.cshtml" />
     <Content Include="Views\Reporte\Cartera.cshtml" />
     <Content Include="Views\Reporte\View.cshtml" />
+    <Content Include="Views\Shared\_Graficos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -47,7 +47,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="animated d-none">
                             @foreach (var item in Model)
                             {
                                 if (item.Reporte == 1)
@@ -57,7 +57,7 @@
                                             @Html.DisplayFor(modelItem => item.Descripcion)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Valor)
+                                            @Html.DisplayFor(modelItem => item.Valor_Format)
                                         </td>
                                     </tr>
                                 }
@@ -92,7 +92,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="animated d-none">
                             @foreach (var item in Model)
                             {
                                 if (item.Reporte == 2)
@@ -123,7 +123,7 @@
 
 @section Scripts {
     @Scripts.Render("~/plugins/dataTables")
-    @Scripts.Render("~/plugins/dataTables_addings")
+    @Scripts.Render("~/plugins/datatables_plus")
     <script type="text/javascript">
         Number.prototype.format = function (n, x) {
             var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';

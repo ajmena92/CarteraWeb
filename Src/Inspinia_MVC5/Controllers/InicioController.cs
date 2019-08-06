@@ -88,7 +88,7 @@ namespace WebCartera.Controllers
             {
                 AddMsgWeb("Error crítico al acceder a los datos", ToastType.Error);          
             }
-            return View(Movimientos);
+            return View(Movimientos.OrderByDescending(c=> c.Id));
         }
 
         private void AddMsgWeb(string err, ToastType type)

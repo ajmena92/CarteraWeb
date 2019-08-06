@@ -5,10 +5,8 @@ namespace WebCartera
 {
     public static class BundleConfig
     {
-
         public static void RegisterBundles(BundleCollection bundles)
         {
-
             // CSS style (bootstrap/inspinia)
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
@@ -69,16 +67,12 @@ namespace WebCartera
             //// dataPicker styles
             //bundles.Add(new StyleBundle("~/plugins/dataPickerStyles").Include(
             //          "~/Content/plugins/datapicker/datepicker3.css"));
-
-
-
             // dataTables css styles
             bundles.Add(new StyleBundle("~/Content/plugins/dataTables/dataTablesStyles").Include(
                        "~/Content/DataTables/media/css/dataTables.bootstrap4.css",
                        "~/Content/DataTables/extensions/Buttons/css/buttons.bootstrap4.css",
                        "~/Content/DataTables/extensions/Responsive/css/responsive.bootstrap4.css",
-                       "~/Content/DataTables/extensions/FixedHeader/css/fixedInspinia_MVC5Header.bootstrap4.css"));
-
+                       "~/Content/DataTables/extensions/FixedHeader/css/fixedHeader.bootstrap4.css"));
             // dataTables 
             bundles.Add(new ScriptBundle("~/plugins/dataTables").Include(
                         "~/Scripts/DataTables/media/js/jquery.dataTables.js",
@@ -90,14 +84,24 @@ namespace WebCartera
                         "~/Scripts/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.js",
                         "~/Scripts/DataTables/extensions/FixedHeader/js/fixedHeader.bootstrap4.js"));
             // dataTables  addins
-            bundles.Add(new ScriptBundle("~/plugins/dataTables_addings").Include(              
+            bundles.Add(new ScriptBundle("~/plugins/datatables_plus").Include(
                         "~/Scripts/DataTables/extensions/JSZip/jszip.js",
                         "~/Scripts/DataTables/extensions/pdfmake/pdfmake.js",
                         "~/Scripts/DataTables/extensions/pdfmake/vfs_fonts.js",
+                        "~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.js",
+                        "~/Scripts/DataTables/extensions/Buttons/js/buttons.bootstrap4.js",
                         "~/Scripts/DataTables/extensions/Buttons/js/buttons.html5.js",
                         "~/Scripts/DataTables/extensions/Buttons/js/buttons.print.js",
                         "~/Scripts/DataTables/extensions/Buttons/js/buttons.colVis.js"));
 
+            // Morriss chart css styles
+            bundles.Add(new StyleBundle("~/plugins/morrisStyles").Include(
+                      "~/Content/plugins/morris/morris-0.4.3.min.css"));
+
+            // Morriss chart
+            bundles.Add(new ScriptBundle("~/plugins/morris").Include(
+                      "~/Scripts/plugins/morris/raphael-2.1.0.min.js",
+                      "~/Scripts/plugins/morris/morris.js"));
 
         }
     }

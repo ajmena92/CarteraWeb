@@ -5,6 +5,13 @@ namespace WebCartera.Models
 
     [MetadataType(typeof(MetaDatatreportecartera))]
     public partial class treportecartera {
+        public string Valor_Format
+        {
+            get
+            {
+                return string.Format("{0:0,0.00}", Valor);
+            }
+        }
     }
     [MetadataType(typeof(MetaDatatmovimiento))]
     public partial class tmovimiento

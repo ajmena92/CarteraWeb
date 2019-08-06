@@ -123,3 +123,7 @@ a {
     /* background-color: inherit; */
     background-color: #bbbbbb !important;
 }
+
+div.dataTables_scrollBody thead th {
+    vertical-align: top;
+}

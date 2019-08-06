@@ -18,7 +18,7 @@ namespace WebCartera.Controllers
 {
     public class CuentasController : Controller
     {
-        private readonly CarteraEntities db = new CarteraEntities();                
+        private readonly CarteraEntities db = new CarteraEntities();      
         private readonly seguridadrolmodulo permiso = Parametro.VerificaPermiso("USE");
         private Parametro sesion = Parametro.ObtenerSesionPagina();
 
@@ -35,7 +35,6 @@ namespace WebCartera.Controllers
                 AddMsgWeb("Error al acceder a los datos", ToastType.Error);
                 return RedirectToAction("Index","Inicio");
             }
-           
         }
 
         // GET: Cuentas/Details/5
@@ -60,7 +59,7 @@ namespace WebCartera.Controllers
             cuenta.Id_Usuario = sesion.Usuario.Id;
             cuenta.Activo = true;
             ViewBag.Id_Moneda = new SelectList(db.tmonedas.Where(m=> m.Id_Usuario == sesion.Usuario.Id && m.Activo), "Id", "Descripcion");
-            return View(cuenta);                
+            return View(cuenta);
         }
 
         // POST: Cuentas/Create
@@ -77,7 +76,7 @@ namespace WebCartera.Controllers
                 db.SaveChanges();
                 //Se actuliza la session del usuario con las nuevas cuentas
                 ActualizaCuenta(-1);
-                    AddMsgWeb("Registro agregado exitosamente", ToastType.Success);                    
+                    AddMsgWeb("Registro agregado exitosamente", ToastType.Success);
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
@@ -370,8 +369,8 @@ namespace WebCartera.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Transferencia([Bind(Include = "CuentaOrigen,CuentaDestino,Descripcion,Monto")] Transferencia pTransferencia)
-        {
-            tcuenta CuentaOrigen = sesion.Cuentas.Find(c => c.Id == pTransferencia.CuentaOrigen);
+        {            
+            tcuenta CuentaOrigen = db.tcuentas.Where(c => c.Id == pTransferencia.CuentaOrigen).SingleOrDefault();
             if (CuentaOrigen != null)
             {
                 ViewBag.Saldo = CuentaOrigen.SaldoActual_Format;
