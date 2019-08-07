@@ -223,6 +223,9 @@
 }
 @section Scripts {
     @Scripts.Render("~/plugins/dataTables")
+    <script src="~/Scripts/DataTables/extensions/pdfmake/pdfmake.js"></script>
+    <script src="~/Scripts/DataTables/extensions/FixedHeader/js/fixedHeader.bootstrap4.min.js"></script>
+    <script src="~/Scripts/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js"></script>    
     @Scripts.Render("~/plugins/datatables_plus")
     <script type="text/javascript">
         Number.prototype.format = function (n, x) {

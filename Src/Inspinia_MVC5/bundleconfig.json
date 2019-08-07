@@ -34,5 +34,71 @@
     "inputFiles": [
       "Scripts/plugins/dynatable/jquery.dynatable.css"
     ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/Buttons/js/buttons.colVis.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/Buttons/js/buttons.colVis.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/Buttons/js/buttons.bootstrap4.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/Buttons/js/buttons.bootstrap4.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/Buttons/js/buttons.html5.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/Buttons/js/buttons.html5.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/Buttons/js/buttons.print.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/Buttons/js/buttons.print.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/pdfmake/vfs_fonts.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/pdfmake/vfs_fonts.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/FixedHeader/js/fixedHeader.bootstrap4.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/FixedHeader/js/fixedHeader.bootstrap4.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/DataTables/extensions/FixedHeader/css/fixedHeader.bootstrap4.min.css",
+    "inputFiles": [
+      "Content/DataTables/extensions/FixedHeader/css/fixedHeader.bootstrap4.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/Responsive/js/dataTables.responsive.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/Responsive/js/dataTables.responsive.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/DataTables/extensions/Responsive/js/responsive.bootstrap4.min.js",
+    "inputFiles": [
+      "Scripts/DataTables/extensions/Responsive/js/responsive.bootstrap4.js"
+    ]
   }
 ]

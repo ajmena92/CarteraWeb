@@ -80,13 +80,10 @@ namespace WebCartera
                         "~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.js",
                         "~/Scripts/DataTables/extensions/Buttons/js/buttons.bootstrap4.js",
                         "~/Scripts/DataTables/extensions/Responsive/js/dataTables.responsive.js",
-                        "~/Scripts/DataTables/extensions/Responsive/js/responsive.bootstrap4.js",
-                        "~/Scripts/DataTables/extensions/FixedHeader/js/dataTables.fixedHeader.js",
-                        "~/Scripts/DataTables/extensions/FixedHeader/js/fixedHeader.bootstrap4.js"));
+                        "~/Scripts/DataTables/extensions/Responsive/js/responsive.bootstrap4.js"));
             // dataTables  addins
             bundles.Add(new ScriptBundle("~/plugins/datatables_plus").Include(
-                        "~/Scripts/DataTables/extensions/JSZip/jszip.js",
-                        "~/Scripts/DataTables/extensions/pdfmake/pdfmake.js",
+                        "~/Scripts/DataTables/extensions/JSZip/jszip.js",                   
                         "~/Scripts/DataTables/extensions/pdfmake/vfs_fonts.js",
                         "~/Scripts/DataTables/extensions/Buttons/js/dataTables.buttons.js",
                         "~/Scripts/DataTables/extensions/Buttons/js/buttons.bootstrap4.js",
@@ -95,13 +92,13 @@ namespace WebCartera
                         "~/Scripts/DataTables/extensions/Buttons/js/buttons.colVis.js"));
 
             // Morriss chart css styles
-            bundles.Add(new StyleBundle("~/plugins/morrisStyles").Include(
-                      "~/Content/plugins/morris/morris-0.4.3.min.css"));
+            //bundles.Add(new StyleBundle("~/plugins/morrisStyles").Include(
+            //          "~/Content/plugins/morris/morris-0.4.3.min.css"));
 
             // Morriss chart
-            bundles.Add(new ScriptBundle("~/plugins/morris").Include(
-                      "~/Scripts/plugins/morris/raphael-2.1.0.min.js",
-                      "~/Scripts/plugins/morris/morris.js"));
+            //bundles.Add(new ScriptBundle("~/plugins/morris").Include(
+            //          "~/Scripts/plugins/morris/raphael-2.1.0.min.js",
+            //          "~/Scripts/plugins/morris/morris.js"));
 
         }
     }

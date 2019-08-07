@@ -10,7 +10,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="@Url.Action("Index", "Inicio")">Inicio</a>
-            </li>      
+            </li>
             <li class="active breadcrumb-item">
                 <strong>Reporte Cartera</strong>
             </li>
@@ -123,107 +123,108 @@
 
 @section Scripts {
     @Scripts.Render("~/plugins/dataTables")
+    <script src="~/Scripts/DataTables/extensions/pdfmake/pdfmake.js"></script>
     @Scripts.Render("~/plugins/datatables_plus")
     <script type="text/javascript">
         Number.prototype.format = function (n, x) {
             var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
             return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
         };
-            $(document).ready(function () {
-                // DataTable initialisation
-                $('#t_reporte_cartera').DataTable(
-                    {
-                        fixedHeader: true,
-                        responsive: false,
-                        paging: false,
-                        dom: '<"html5buttons"B>lTfgitp',
-                        buttons: [
-                            //{ extend: 'colvis' },
-                            { extend: 'copy' },
-                            { extend: 'csv' },
-                            { extend: 'excel', title: 'Reporte de Cartera' },
-                            { extend: 'pdf', title: 'Reporte de Cartera' },
+        $(document).ready(function () {
+            // DataTable initialisation
+            $('#t_reporte_cartera').DataTable(
+                {
+                    fixedHeader: true,
+                    responsive: false,
+                    paging: false,
+                    dom: '<"html5buttons"B>lTfgitp',
+                    buttons: [
+                        //{ extend: 'colvis' },
+                        { extend: 'copy' },
+                        { extend: 'csv' },
+                        { extend: 'excel', title: 'Reporte de Cartera' },
+                        { extend: 'pdf', title: 'Reporte de Cartera' },
 
-                            {
-                                extend: 'print', footer: true,
-                                customize: function (win) {
-                                    $(win.document.body).addClass('white-bg');
-                                    $(win.document.body).css('font-size', '10px');
+                        {
+                            extend: 'print', footer: true,
+                            customize: function (win) {
+                                $(win.document.body).addClass('white-bg');
+                                $(win.document.body).css('font-size', '10px');
 
-                                    $(win.document.body).find('table')
-                                        .addClass('compact')
-                                        .css('font-size', 'inherit');
-                                }
-                            }
-                        ],                                  
-                        language: {
-                            "decimal": ".",
-                            "emptyTable": "No hay información",
-                            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                            "infoPostFix": "",
-                            "thousands": ",",
-                            "lengthMenu": "Mostrar _MENU_ Entradas",
-                            "loadingRecords": "Cargando...",
-                            "processing": "Procesando...",
-                            "search": "Buscar:",
-                            "zeroRecords": "Sin resultados encontrados",
-                            "paginate": {
-                                "first": "Primero",
-                                "last": "Ultimo",
-                                "next": "Siguiente",
-                                "previous": "Anterior"
+                                $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
                             }
                         }
-                    });    
+                    ],
+                    language: {
+                        "decimal": ".",
+                        "emptyTable": "No hay información",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Mostrar _MENU_ Entradas",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "Sin resultados encontrados",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    }
+                });
 
-                $('#t_reporte_creditos').DataTable(
-                    {
-                        fixedHeader: true,
-                        responsive: false,
-                        paging: false,       
-                        dom: '<"html5buttons"B>lTfgitp',
-                        buttons: [
-                            //{ extend: 'colvis' },
-                            { extend: 'copy'},
-                            { extend: 'csv' },
-                            { extend: 'excel', title: 'Reporte de Creditos' },
-                            { extend: 'pdf', title: 'Reporte de Creditos' },
+            $('#t_reporte_creditos').DataTable(
+                {
+                    fixedHeader: true,
+                    responsive: false,
+                    paging: false,
+                    dom: '<"html5buttons"B>lTfgitp',
+                    buttons: [
+                        //{ extend: 'colvis' },
+                        { extend: 'copy' },
+                        { extend: 'csv' },
+                        { extend: 'excel', title: 'Reporte de Creditos' },
+                        { extend: 'pdf', title: 'Reporte de Creditos' },
 
-                            {
-                                extend: 'print', footer: true,
-                                customize: function (win) {
-                                    $(win.document.body).addClass('white-bg');
-                                    $(win.document.body).css('font-size', '10px');
+                        {
+                            extend: 'print', footer: true,
+                            customize: function (win) {
+                                $(win.document.body).addClass('white-bg');
+                                $(win.document.body).css('font-size', '10px');
 
-                                    $(win.document.body).find('table')
-                                        .addClass('compact')
-                                        .css('font-size', 'inherit');
-                                }
-                            }
-                        ],
-                        language: {
-                            "decimal": ".",
-                            "emptyTable": "No hay información",
-                            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
-                            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                            "infoPostFix": "",
-                            "thousands": ",",
-                            "lengthMenu": "Mostrar _MENU_ Entradas",
-                            "loadingRecords": "Cargando...",
-                            "processing": "Procesando...",
-                            "search": "Buscar:",
-                            "zeroRecords": "Sin resultados encontrados",
-                            "paginate": {
-                                "first": "Primero",
-                                "last": "Ultimo",
-                                "next": "Siguiente",
-                                "previous": "Anterior"
+                                $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
                             }
                         }
-                    });   
-            });
+                    ],
+                    language: {
+                        "decimal": ".",
+                        "emptyTable": "No hay información",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                        "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                        "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                        "infoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "Mostrar _MENU_ Entradas",
+                        "loadingRecords": "Cargando...",
+                        "processing": "Procesando...",
+                        "search": "Buscar:",
+                        "zeroRecords": "Sin resultados encontrados",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    }
+                });
+        });
     </script>
 }

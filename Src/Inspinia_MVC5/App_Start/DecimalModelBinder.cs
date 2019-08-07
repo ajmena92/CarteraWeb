@@ -10,8 +10,15 @@ namespace WebCartera.App_Start
         {
             var valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
-            return valueProviderResult == null ? base.BindModel(controllerContext, bindingContext) : Decimal.Parse(valueProviderResult.AttemptedValue, NumberStyles.Currency);
-            // of course replace with your custom conversion logic
+            try
+            {
+                return valueProviderResult == null ? base.BindModel(controllerContext, bindingContext) : Decimal.Parse(valueProviderResult.AttemptedValue, NumberStyles.Currency);
+                // of course replace with your custom conversion logic
+            }
+            catch (Exception) {
+                return valueProviderResult;
+            }
+            
         }
     }
 }

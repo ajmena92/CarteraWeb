@@ -227,7 +227,9 @@
     <Content Include="Content\DataTables\extensions\Buttons\css\buttons.bootstrap4.css" />
     <Content Include="Content\DataTables\extensions\Buttons\css\buttons.bootstrap4.min.css" />
     <Content Include="Content\DataTables\extensions\FixedHeader\css\fixedHeader.bootstrap4.css" />
-    <Content Include="Content\DataTables\extensions\FixedHeader\css\fixedHeader.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\extensions\FixedHeader\css\fixedHeader.bootstrap4.min.css">
+      <DependentUpon>fixedHeader.bootstrap4.css</DependentUpon>
+    </Content>
     <Content Include="Content\DataTables\extensions\Responsive\css\responsive.bootstrap4.css" />
     <Content Include="Content\DataTables\extensions\Responsive\css\responsive.bootstrap4.min.css" />
     <Content Include="Content\DataTables\media\css\dataTables.bootstrap4.css" />
@@ -386,18 +388,34 @@
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap4.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.bootstrap4.min.js">
+      <DependentUpon>buttons.bootstrap4.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.colVis.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.colVis.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.colVis.min.js">
+      <DependentUpon>buttons.colVis.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.html5.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.html5.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.html5.min.js">
+      <DependentUpon>buttons.html5.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.print.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.print.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\buttons.print.min.js">
+      <DependentUpon>buttons.print.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\extensions\Buttons\js\dataTables.buttons.js" />
-    <Content Include="Scripts\DataTables\extensions\Buttons\js\dataTables.buttons.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Buttons\js\dataTables.buttons.min.js">
+      <DependentUpon>dataTables.buttons.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\extensions\Buttons\swf\flashExport.swf" />
+    <Content Include="Scripts\DataTables\extensions\FixedHeader\js\dataTables.fixedHeader.js" />
+    <Content Include="Scripts\DataTables\extensions\FixedHeader\js\dataTables.fixedHeader.min.js">
+      <DependentUpon>dataTables.fixedHeader.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\extensions\FixedHeader\js\fixedHeader.bootstrap4.js" />
-    <Content Include="Scripts\DataTables\extensions\FixedHeader\js\fixedHeader.bootstrap4.min.js" />
+    <Content Include="Scripts\DataTables\extensions\FixedHeader\js\fixedHeader.bootstrap4.min.js">
+      <DependentUpon>fixedHeader.bootstrap4.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\extensions\JSZip\jszip.js" />
     <Content Include="Scripts\DataTables\extensions\JSZip\jszip.min.js" />
     <Content Include="Scripts\DataTables\extensions\KeyTable\js\dataTables.keyTable.js" />
@@ -415,20 +433,18 @@
     <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.semanticui.js" />
     <Content Include="Scripts\DataTables\extensions\KeyTable\js\keyTable.semanticui.min.js" />
     <Content Include="Scripts\DataTables\extensions\pdfmake\pdfmake.js" />
-    <Content Include="Scripts\DataTables\extensions\pdfmake\pdfmake.min.js" />
     <Content Include="Scripts\DataTables\extensions\pdfmake\vfs_fonts.js" />
+    <Content Include="Scripts\DataTables\extensions\pdfmake\vfs_fonts.min.js">
+      <DependentUpon>vfs_fonts.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\extensions\Responsive\js\dataTables.responsive.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\dataTables.responsive.min.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.bootstrap.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\dataTables.responsive.min.js">
+      <DependentUpon>dataTables.responsive.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.bootstrap4.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.bootstrap4.min.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.foundation.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.foundation.min.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.jqueryui.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.jqueryui.min.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.semanticui.js" />
-    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\extensions\Responsive\js\responsive.bootstrap4.min.js">
+      <DependentUpon>responsive.bootstrap4.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\DataTables\media\js\dataTables.bootstrap4.js" />
     <Content Include="Scripts\DataTables\media\js\dataTables.bootstrap4.min.js" />
     <Content Include="Scripts\DataTables\media\js\jquery.dataTables.js" />
@@ -562,7 +578,6 @@
     <Content Include="Views\Cuentas\Transferencia.cshtml" />
     <Content Include="Views\Cuentas\Gasto.cshtml" />
     <Content Include="Views\Reporte\Cartera.cshtml" />
-    <Content Include="Views\Reporte\View.cshtml" />
     <Content Include="Views\Shared\_Graficos.cshtml" />
   </ItemGroup>
   <ItemGroup>
