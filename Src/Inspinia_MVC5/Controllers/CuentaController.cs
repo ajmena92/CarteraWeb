@@ -36,8 +36,7 @@ namespace MenuCenter.Controllers
         //
         // POST: /Account/Login
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]  
         public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)

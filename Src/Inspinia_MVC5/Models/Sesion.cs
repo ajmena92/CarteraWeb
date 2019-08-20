@@ -33,6 +33,11 @@ namespace WebCartera.Models
             get;
             set;          
         }
+        public List<TipoCuenta> TipoCuentas
+        {
+            get;
+            set;
+        }
 
         #region Metodos y Propiedades
 
@@ -51,13 +56,18 @@ namespace WebCartera.Models
                 CuentaFiltro = 0; // filtro todas las cuentas
                 RangoFiltro = 3; //filtro por mes
                 Cuentas = Usuario.tcuentas.Where(c=> c.Activo).ToList();
+                TipoCuentas = new List<TipoCuenta>
+                {
+                    new TipoCuenta{Id=0, Descripcion="Debito",Valor= true},
+                    new TipoCuenta{Id=1,Descripcion="Credito",Valor= false}
+                };
             }
             catch (Exception )
             {
                 Mantenimiento = 1;               
                 throw;
             }
-        }        
+        }  
             public static void CrearSesionPagina(seguridadusuario pUsuario)
         {
             try

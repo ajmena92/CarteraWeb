@@ -202,7 +202,7 @@
     <Compile Include="Models\tparametro.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Trasferencia.cs" />
+    <Compile Include="Models\PersonalClass.cs" />
     <Compile Include="Models\treportecartera.cs">
       <DependentUpon>CarteraModel.tt</DependentUpon>
     </Compile>
@@ -579,6 +579,8 @@
     <Content Include="Views\Cuentas\Gasto.cshtml" />
     <Content Include="Views\Reporte\Cartera.cshtml" />
     <Content Include="Views\Shared\_Graficos.cshtml" />
+    <Content Include="Views\Cuentas\EditarMovimiento.cshtml" />
+    <Content Include="Views\Cuentas\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

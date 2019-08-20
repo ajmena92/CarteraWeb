@@ -29,6 +29,7 @@ namespace WebCartera.Models
         public decimal SaldoActual { get; set; }
         public decimal SaldoAnterior { get; set; }
         public bool Activo { get; set; }
+        public bool CuentaCredito { get; set; }
     
         public virtual seguridadusuario seguridadusuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

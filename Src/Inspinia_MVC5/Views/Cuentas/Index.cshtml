@@ -59,36 +59,39 @@
                                     <th data-name="@Html.DisplayNameFor(model => model.Nombre)">@Html.DisplayNameFor(model => model.Nombre)</th>
                                     <th data-name="@Html.DisplayNameFor(model => model.Descripcion)">@Html.DisplayNameFor(model => model.Descripcion)</th>
                                     <th data-name="@Html.DisplayNameFor(model => model.SaldoActual)">@Html.DisplayNameFor(model => model.SaldoActual)</th>
-                                    <th data-name="@Html.DisplayNameFor(model => model.Activo)">@Html.DisplayNameFor(model => model.Activo)</th>
                                     <th data-name="@Html.DisplayNameFor(model => model.tmoneda.Descripcion)">@Html.DisplayNameFor(model => model.tmoneda.Descripcion)</th>
+                                    <th data-name="@Html.DisplayNameFor(model => model.CuentaCredito)">@Html.DisplayNameFor(model => model.CuentaCredito)</th>
+                                    <th data-name="@Html.DisplayNameFor(model => model.Activo)">@Html.DisplayNameFor(model => model.Activo)</th>
+
                                     <th data-name="Acciones" data-dynatable-no-sort="true">@Html.NoEncodeActionLink("<span class='glyphicon glyphicon-plus'></span>", "Nuevo", "Create", "Cuentas", htmlAttributes: new { @class = "btn btn-secondary pull-right" })</th>
                                 </tr>
                             </thead>
                             <tbody class="animated d-none">
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td>
-                                            <i class="fa text-success @item.Imagen  fa-2x " aria-hidden="true"></i>
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Nombre)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Descripcion)
-                                        </td>
-                                        <td>
-                                            @item.tmoneda.Simbolo  @Html.DisplayFor(modelItem => item.SaldoActual_Format)
-                                        </td>
-                                        <td class="text-center">@(item.Activo ? "Activo" : "Inactivo")</td>
-                                        <td>@Html.DisplayFor(modelItem => item.tmoneda.Descripcion)</td>
-                                        <td>
-                                            <div class="pull-right">
-                                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-pencil'></span> ", "Editar", "Edit", "Cuentas", routeValues: new { id = item.Id }, htmlAttributes: new { data_modal = "", @class = "btn btn-outline-secondary" })
-                                                @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-trash'></span>", "Eliminar", "Delete", "Cuentas", routeValues: new { id = item.Id }, htmlAttributes: new { data_modal = "", @class = "btn btn-outline-secondary" })
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fa text-success @item.Imagen  fa-2x " aria-hidden="true"></i>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Nombre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Descripcion)
+                                    </td>
+                                    <td>
+                                        @item.tmoneda.Simbolo  @Html.DisplayFor(modelItem => item.SaldoActual_Format)
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.tmoneda.Descripcion)</td>
+                                    <td>@(item.CuentaCredito ? "Credito" : "Debito")</td>
+                                    <td class="text-center">@(item.Activo ? "Activo" : "Inactivo")</td>
+                                    <td>
+                                        <div class="pull-right">
+                                            @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-pencil'></span> ", "Editar", "Edit", "Cuentas", routeValues: new { id = item.Id }, htmlAttributes: new { data_modal = "", @class = "btn btn-outline-secondary" })
+                                            @Html.NoEncodeActionLink("<span class='glyphicon glyphicon-trash'></span>", "Eliminar", "Delete", "Cuentas", routeValues: new { id = item.Id }, htmlAttributes: new { data_modal = "", @class = "btn btn-outline-secondary" })
+                                        </div>
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>

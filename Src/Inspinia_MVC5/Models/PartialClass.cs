@@ -18,9 +18,10 @@ namespace WebCartera.Models
     {
         public TipoMovimiento TipoMovimiento
         {
-            get;set;
-
-
+            get; set;
+        }    
+        public decimal MontoAnterior {
+            get; set;
         }
         public string Monto_Format
         {
@@ -39,15 +40,20 @@ namespace WebCartera.Models
         public partial class tmoneda
         {
         }
-        [MetadataType(typeof(MetaDatatcuenta))]
-        public partial class tcuenta
+    [MetadataType(typeof(MetaDatatcuenta))]
+    public partial class tcuenta
+    {
+        public string SaldoActual_Format
         {
-            public string SaldoActual_Format
+            get
             {
-                get
-                {
-                return string.Format("{0:0,0.00}", SaldoActual);                
-                }
+                return string.Format("{0:0,0.00}", SaldoActual);
             }
-        }   
+        }        
+        [Required(ErrorMessage = "Porfavor sellecione el tipo de cuenta")]
+        [Range(0, int.MaxValue)]
+        [Display(Name ="Tipo Cuenta")]
+        public int Id_TipoCuenta { get; set; }
+        public virtual TipoCuenta TipoCuentas { get; set; }
+     }   
     }

@@ -68,6 +68,7 @@
           <Property Name="SaldoActual" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="SaldoAnterior" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="CuentaCredito" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tmoneda">
           <Key>
@@ -474,6 +475,8 @@
             <End Role="tmoneda" EntitySet="tmonedas" />
             <End Role="tsaldoxcategoria" EntitySet="tsaldoxcategorias" />
           </AssociationSet>
+          <EntitySet Name="treportecarteras" EntityType="CarteraModel.treportecartera" />
+          <EntitySet Name="tversions" EntityType="CarteraModel.tversion" />
           <EntitySet Name="tcuentas" EntityType="CarteraModel.tcuenta" />
           <AssociationSet Name="FkUsuarioxCuenta" Association="CarteraModel.FkUsuarioxCuenta">
             <End Role="seguridadusuario" EntitySet="seguridadusuarios" />
@@ -487,8 +490,6 @@
             <End Role="tmoneda" EntitySet="tmonedas" />
             <End Role="tcuenta" EntitySet="tcuentas" />
           </AssociationSet>
-          <EntitySet Name="treportecarteras" EntityType="CarteraModel.treportecartera" />
-          <EntitySet Name="tversions" EntityType="CarteraModel.tversion" />
           </EntityContainer>
         <EntityType Name="seguridadmodulo">
           <Key>
@@ -660,6 +661,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="treportecartera">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="Double" Nullable="false" />
+          <Property Name="Reporte" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tversion">
+          <Key>
+            <PropertyRef Name="IdVersion" />
+          </Key>
+          <Property Name="IdVersion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VerBD" Type="Int32" />
+          <Property Name="Script" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Detalles" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="tcuenta">
           <Key>
             <PropertyRef Name="Id" />
@@ -673,6 +692,7 @@
           <Property Name="SaldoActual" Type="Decimal" Nullable="false" />
           <Property Name="SaldoAnterior" Type="Decimal" Nullable="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="CuentaCredito" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="seguridadusuario" Relationship="CarteraModel.FkUsuarioxCuenta" FromRole="tcuenta" ToRole="seguridadusuario" />
           <NavigationProperty Name="tmovimientoes" Relationship="CarteraModel.FkCuentaxMov" FromRole="tcuenta" ToRole="tmovimiento" />
           <NavigationProperty Name="tmoneda" Relationship="CarteraModel.FkMonedaxCuenta" FromRole="tcuenta" ToRole="tmoneda" />
@@ -713,24 +733,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="treportecartera">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Valor" Type="Double" Nullable="false" />
-          <Property Name="Reporte" Type="Int32" />
-        </EntityType>
-        <EntityType Name="tversion">
-          <Key>
-            <PropertyRef Name="IdVersion" />
-          </Key>
-          <Property Name="IdVersion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="VerBD" Type="Int32" />
-          <Property Name="Script" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Detalles" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -837,21 +839,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tcuentas">
-            <EntityTypeMapping TypeName="CarteraModel.tcuenta">
-              <MappingFragment StoreEntitySet="tcuenta">
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-                <ScalarProperty Name="SaldoAnterior" ColumnName="SaldoAnterior" />
-                <ScalarProperty Name="SaldoActual" ColumnName="SaldoActual" />
-                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Id_Moneda" ColumnName="Id_Moneda" />
-                <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="treportecarteras">
             <EntityTypeMapping TypeName="CarteraModel.treportecartera">
               <MappingFragment StoreEntitySet="treportecartera">
@@ -869,6 +856,22 @@
                 <ScalarProperty Name="Script" ColumnName="Script" />
                 <ScalarProperty Name="VerBD" ColumnName="VerBD" />
                 <ScalarProperty Name="IdVersion" ColumnName="IdVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tcuentas">
+            <EntityTypeMapping TypeName="CarteraModel.tcuenta">
+              <MappingFragment StoreEntitySet="tcuenta">
+                <ScalarProperty Name="CuentaCredito" ColumnName="CuentaCredito" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="SaldoAnterior" ColumnName="SaldoAnterior" />
+                <ScalarProperty Name="SaldoActual" ColumnName="SaldoActual" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Moneda" ColumnName="Id_Moneda" />
+                <ScalarProperty Name="Id_Usuario" ColumnName="Id_Usuario" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -17,11 +17,14 @@ namespace WebCartera.Models
         public string Descripcion;
     }
     public class MetaDatatmovimiento
-    {            
+    {        
         [Required]
         [StringLength(150, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud y maximo {1}.", MinimumLength = 0)]
         [Display(Name = "Descripción")]
         public string Descripcion;
+
+        [Display(Name = "Categoria")]
+        public int Id_Categoria;
 
         //[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required]
@@ -34,6 +37,8 @@ namespace WebCartera.Models
     }
         public class MetaDatatcuenta
     {
+        [Display(Name = "Tipo Cuenta")]
+        public bool CuentaCredito;
         [Required]
         [StringLength(45, ErrorMessage = "{0} debe tener al menos {2} caracteres de longitud y maximo {1}.", MinimumLength = 4)]
         public string Nombre;
